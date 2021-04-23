@@ -62,6 +62,15 @@ public class Schedule {
         this.listsSchedules = listsSchedules;
     }
 
+    public String getHexCode(){
+
+        int r = colourSchedule.getRed();
+        int g = colourSchedule.getGreen();
+        int b = colourSchedule.getBlue();
+
+        return String.format("#%02X%02X%02X", r, g, b);
+    }
+
     @Override
     public String toString() {
         return nameSchedule;

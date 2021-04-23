@@ -41,7 +41,7 @@ public class DashboardViewController implements Initializable {
         dateFormat = new SimpleDateFormat("MMM");
         tvMonth.setText(dateFormat.format(date).toUpperCase());
 
-        String userID = "39847598034659";
+        int userID = 5;
         Image image = new Image(new ImageTweakerTool(userID).getProfilePic(), rectangle.getWidth(), rectangle.getHeight(), false, true);
         ImagePattern imagePattern = new ImagePattern(image);
         rectangle.setFill(imagePattern);

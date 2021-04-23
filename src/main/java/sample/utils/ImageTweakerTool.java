@@ -23,14 +23,14 @@ import java.io.IOException;
 public class ImageTweakerTool {
 
     private File profilePicFile;
-    private String userID;
+    private int userID;
 
     public static void main(String[] args) {
-        ImageTweakerTool imageTweakerTool = new ImageTweakerTool("39847598034659");
+        ImageTweakerTool imageTweakerTool = new ImageTweakerTool(164648);
         File file = imageTweakerTool.importImage();
     }
 
-    public ImageTweakerTool(String userID){
+    public ImageTweakerTool(int userID){
         this.userID = userID;
     }
 
