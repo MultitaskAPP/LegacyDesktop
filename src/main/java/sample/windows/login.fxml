@@ -25,7 +25,7 @@
             <Image url="@res/mt_login_bg.jpg" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="loginPane" layoutX="37.0" layoutY="181.0" prefHeight="487.0" prefWidth="460.0" style="-fx-background-color: rgba(32, 32, 39, 0); -fx-background-radius: 90 90 0 0;" stylesheets="@css/login.css">
+      <AnchorPane fx:id="loginPane" layoutX="63.0" layoutY="181.0" prefHeight="487.0" prefWidth="460.0" style="-fx-background-color: rgba(32, 32, 39, 0); -fx-background-radius: 90 90 0 0;" stylesheets="@css/login.css" visible="false">
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="487.0" prefWidth="460.0" spacing="15.0">
                <children>
@@ -141,40 +141,51 @@
             </VBox>
          </children>
       </AnchorPane>
-      <HBox alignment="CENTER_RIGHT" layoutX="-2.0" onMouseDragged="#windowDrag" onMousePressed="#windowPressed" prefHeight="50.0" prefWidth="1280.0" spacing="10.0">
+      <AnchorPane fx:id="registerPane" layoutX="63.0" layoutY="181.0" prefHeight="511.0" prefWidth="460.0" style="-fx-background-color: rgba(32, 32, 39, 0); -fx-background-radius: 90 90 0 0;" stylesheets="@css/login.css">
          <children>
-            <FontAwesomeIcon fx:id="btnMinimize" fill="WHITE" iconName="CIRCLE" onMouseClicked="#minimize" size="1.2em" />
-            <FontAwesomeIcon fx:id="btnMaximize" fill="WHITE" iconName="CIRCLE" size="1.2em" />
-            <FontAwesomeIcon fx:id="btnClose" fill="WHITE" iconName="CIRCLE" onMouseClicked="#close" size="1.2em" />
-         </children>
-         <padding>
-            <Insets right="15.0" />
-         </padding>
-      </HBox>
-      <AnchorPane fx:id="registerPane" layoutX="10.0" layoutY="233.0" prefHeight="487.0" prefWidth="460.0" style="-fx-background-color: rgba(32, 32, 39, 0.5 ); -fx-background-radius: 90 90 0 0;" stylesheets="@css/login.css" visible="false">
-         <children>
-            <TextField fx:id="rTfEmail" layoutX="29.0" layoutY="195.0" prefHeight="50.0" prefWidth="400.0" style="-fx-background-radius: 30;" stylesheets="@css/login.css" />
-            <Label layoutX="58.0" layoutY="171.0" text="* Correo electrónico:" textFill="WHITE" />
-            <Label layoutX="58.0" layoutY="255.0" text="* Contraseña:" textFill="WHITE" />
-            <PasswordField fx:id="rPfPassword1" layoutX="29.0" layoutY="278.0" prefHeight="50.0" prefWidth="190.0" style="-fx-background-radius: 30;" />
-            <Button fx:id="btnRegister" layoutX="29.0" layoutY="356.0" mnemonicParsing="false" onAction="#checkRegister" prefHeight="60.0" prefWidth="400.0" style="-fx-background-color: #272730; -fx-background-radius: 30;" text="REGISTRATE" textFill="WHITE">
+            <TextField fx:id="rTfEmail" layoutX="29.0" layoutY="195.0" prefHeight="50.0" prefWidth="400.0" style="-fx-background-radius: 30; -fx-background-color: #E6E6E6;" stylesheets="@css/login.css" />
+            <Label layoutX="58.0" layoutY="171.0" text="* Correo electrónico:" />
+            <Label layoutX="58.0" layoutY="255.0" text="* Contraseña:" />
+            <PasswordField fx:id="rPfPassword1" layoutX="29.0" layoutY="278.0" prefHeight="50.0" prefWidth="190.0" style="-fx-background-radius: 30; -fx-background-color: #E6E6E6;" />
+            <Button fx:id="btnRegister" layoutX="34.0" layoutY="358.0" mnemonicParsing="false" onAction="#checkRegister" prefHeight="60.0" prefWidth="400.0" style="-fx-background-color: #E6E6E6; -fx-background-radius: 30;" text="¡REGISTRATE!">
                <font>
                   <Font name="Arial Bold" size="24.0" />
                </font>
             </Button>
-            <Label layoutX="142.0" layoutY="42.0" text="REGISTRATE" textFill="WHITE">
+            <Label layoutX="150.0" layoutY="30.0" text="REGISTRO">
                <font>
-                  <Font name="Arial Bold" size="28.0" />
+                  <Font name="Arial Bold" size="35.0" />
                </font>
             </Label>
-            <Label layoutX="262.0" layoutY="255.0" text="* Repetir contraseña:" textFill="WHITE" />
-            <PasswordField fx:id="rPfPassword2" layoutX="241.0" layoutY="278.0" prefHeight="50.0" prefWidth="190.0" style="-fx-background-radius: 30;" />
-            <TextField fx:id="rTfName" layoutX="29.0" layoutY="115.0" prefHeight="50.0" prefWidth="125.0" style="-fx-background-radius: 30;" stylesheets="@css/login.css" />
-            <Label layoutX="62.0" layoutY="90.0" text="* Nombre:" textFill="WHITE" />
-            <TextField fx:id="rTfSurname1" layoutX="169.0" layoutY="115.0" prefHeight="50.0" prefWidth="125.0" style="-fx-background-radius: 30;" stylesheets="@css/login.css" />
-            <Label layoutX="203.0" layoutY="90.0" text="1º Apellido:" textFill="WHITE" />
-            <TextField fx:id="rTfSurname2" layoutX="306.0" layoutY="115.0" prefHeight="50.0" prefWidth="125.0" style="-fx-background-radius: 30;" stylesheets="@css/login.css" />
-            <Label layoutX="339.0" layoutY="90.0" text="2º Apellido:" textFill="WHITE" />
+            <Label layoutX="262.0" layoutY="255.0" text="* Repetir contraseña:" />
+            <PasswordField fx:id="rPfPassword2" layoutX="241.0" layoutY="278.0" prefHeight="50.0" prefWidth="190.0" style="-fx-background-radius: 30; -fx-background-color: #E6E6E6;" />
+            <TextField fx:id="rTfName" layoutX="29.0" layoutY="115.0" prefHeight="50.0" prefWidth="125.0" style="-fx-background-radius: 30; -fx-background-color: #E6E6E6;" stylesheets="@css/login.css" />
+            <Label layoutX="62.0" layoutY="90.0" text="* Nombre:" />
+            <TextField fx:id="rTfSurname1" layoutX="169.0" layoutY="115.0" prefHeight="50.0" prefWidth="125.0" style="-fx-background-radius: 30; -fx-background-color: #E6E6E6;" stylesheets="@css/login.css" />
+            <Label layoutX="203.0" layoutY="90.0" text="1º Apellido:" />
+            <TextField fx:id="rTfSurname2" layoutX="306.0" layoutY="115.0" prefHeight="50.0" prefWidth="125.0" style="-fx-background-radius: 30; -fx-background-color: #E6E6E6;" stylesheets="@css/login.css" />
+            <Label layoutX="339.0" layoutY="90.0" text="2º Apellido:" />
+            <Label layoutX="126.0" layoutY="455.0" onMouseClicked="#gotoLogin" text="¿Ya estas registrado? ¡Inicia sesión!" textAlignment="CENTER">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.6380952380952382" endY="0.22857142857142854" startX="0.5952380952380951" startY="0.22857142857142856">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.0117647061124444" green="0.572549045085907" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="103.0" layoutY="61.0">
@@ -204,5 +215,15 @@
             </Label>
          </children>
       </AnchorPane>
+      <HBox alignment="CENTER_RIGHT" layoutX="-2.0" onMouseDragged="#windowDrag" onMousePressed="#windowPressed" prefHeight="50.0" prefWidth="1280.0" spacing="10.0">
+         <children>
+            <FontAwesomeIcon fx:id="btnMinimize" fill="WHITE" iconName="CIRCLE" onMouseClicked="#minimize" size="1.2em" />
+            <FontAwesomeIcon fx:id="btnMaximize" fill="WHITE" iconName="CIRCLE" size="1.2em" />
+            <FontAwesomeIcon fx:id="btnClose" fill="WHITE" iconName="CIRCLE" onMouseClicked="#close" size="1.2em" />
+         </children>
+         <padding>
+            <Insets right="15.0" />
+         </padding>
+      </HBox>
    </children>
 </AnchorPane>

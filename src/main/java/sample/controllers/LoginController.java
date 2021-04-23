@@ -1,6 +1,7 @@
 package sample.controllers;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -30,14 +33,22 @@ public class LoginController implements Initializable {
     public static double x, y;
 
     @FXML    private AnchorPane loginPane, registerPane;
-    @FXML    private Button btnGotoRegister, btnLogin, btnRegister;
+    @FXML    private Button btnLogin, btnRegister;
     @FXML    private TextField tfEmail, rTfName, rTfSurname1, rTfSurname2, rTfEmail;
     @FXML    private PasswordField pfPassword, rPfPassword1, rPfPassword2;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        // btnGotoLogin.fire();
+        gotoLogin(null);
+        pfPassword.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.ENTER))
+                    checkLogin(null);
+            }
+        });
 
     }
 
@@ -68,13 +79,13 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    void gotoLogin(ActionEvent event) {
+    void gotoLogin(MouseEvent  event) {
         registerPane.setVisible(false);
         loginPane.setVisible(true);
     }
 
     @FXML
-    void gotoRegister(ActionEvent event) {
+    void gotoRegister(MouseEvent  event) {
         registerPane.setVisible(true);
         loginPane.setVisible(false);
     }
@@ -93,7 +104,7 @@ public class LoginController implements Initializable {
             requestJSON.put("email", tfEmail.getText());
             requestJSON.put("pass", Encrypter.hashMD5(pfPassword.getText()));
 
-            ConnAPI connAPI = new ConnAPI("/api/login", "POST", true);
+            ConnAPI connAPI = new ConnAPI("/api/login", "POST", false);
             connAPI.setData(requestJSON);
             connAPI.establishConn();
 
@@ -154,7 +165,7 @@ public class LoginController implements Initializable {
             JSONObject requestJSON = new JSONObject();
             requestJSON.put("data", registerData);
 
-            ConnAPI connAPI = new ConnAPI("/api/register", "POST", true);
+            ConnAPI connAPI = new ConnAPI("/api/register", "POST", false);
             connAPI.setData(requestJSON);
             connAPI.establishConn();
 
