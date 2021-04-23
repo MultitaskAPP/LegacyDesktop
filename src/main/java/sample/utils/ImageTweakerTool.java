@@ -26,8 +26,9 @@ public class ImageTweakerTool {
     private int userID;
 
     public static void main(String[] args) {
-        ImageTweakerTool imageTweakerTool = new ImageTweakerTool(164648);
+        ImageTweakerTool imageTweakerTool = new ImageTweakerTool(0);
         File file = imageTweakerTool.importImage();
+        imageTweakerTool.transformImage(file, 0);
     }
 
     public ImageTweakerTool(int userID){
@@ -38,7 +39,7 @@ public class ImageTweakerTool {
      * Centers the selected image and transforms it to 256x256px & 1:1 ratio.
      * @param file The selected file from the JFileChooser
      */
-    public void transformImage(File file, String userID) {
+    public void transformImage(File file, int userID) {
         if (file != null){
             try {
                 BufferedImage originalImgage = ImageIO.read(file);
@@ -55,7 +56,7 @@ public class ImageTweakerTool {
                     }
                 }
                 subImage = Scalr.resize(subImage, 256, 256);
-                uploadImage(subImage, userID);
+                uploadImage(subImage, Integer.toString(userID));
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("[ERROR] - Failed to transform the selected image...");

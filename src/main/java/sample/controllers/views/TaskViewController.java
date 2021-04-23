@@ -12,6 +12,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import sample.models.Schedule;
+import sample.models.Task;
 import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
 
@@ -62,7 +63,8 @@ public class TaskViewController implements Initializable {
 
     private void getAllTasks(int scheduleID){
 
-        System.out.println(scheduleID);
+        List<Task> taskList = Data.taskManager.getAllTaksBySchedule(scheduleID);
+        System.out.println(taskList);
 
     }
 

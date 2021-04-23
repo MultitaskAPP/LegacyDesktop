@@ -1,4 +1,87 @@
 package sample.models;
 
+import java.util.Date;
+
 public class Task {
+
+    private int idTask;
+    private String textTask;
+    private int durationTask;
+    private int priorityTask;
+    private Date limitDateTask;
+    private int idSchedule;
+    private String listTask;
+
+    public Task(){}
+
+    public Task(int idTask, String textTask, int durationTask, int priorityTask, Date limitDateTask, int idSchedule, String listTask) {
+        this.idTask = idTask;
+        this.textTask = textTask;
+        this.durationTask = durationTask;
+        this.priorityTask = priorityTask;
+        this.limitDateTask = limitDateTask;
+        this.idSchedule = idSchedule;
+        this.listTask = listTask;
+    }
+
+    public int getIdTask() {
+        return idTask;
+    }
+
+    public void setIdTask(int idTask) {
+        this.idTask = idTask;
+    }
+
+    public String getTextTask() {
+        return textTask;
+    }
+
+    public void setTextTask(String textTask) {
+        this.textTask = textTask;
+    }
+
+    public int getDurationTask() {
+        return durationTask;
+    }
+
+    public void setDurationTask(int durationTask) {
+        this.durationTask = durationTask;
+    }
+
+    public int getPriorityTask() {
+        return priorityTask;
+    }
+
+    public void setPriorityTask(int priorityTask) {
+        this.priorityTask = priorityTask;
+    }
+
+    public Date getLimitDateTask() {
+        return limitDateTask;
+    }
+
+    public void setLimitDateTask(Date limitDateTask) {
+        this.limitDateTask = limitDateTask;
+    }
+
+    public int getIdSchedule() {
+        return idSchedule;
+    }
+
+    public void setIdSchedule(int idSchedule) {
+        this.idSchedule = idSchedule;
+    }
+
+    public String getListTask() {
+        return listTask;
+    }
+
+    public void setListTask(String listTask) {
+        this.listTask = listTask;
+    }
+
+    @Override
+    public String toString() {
+        return textTask;
+    }
 }

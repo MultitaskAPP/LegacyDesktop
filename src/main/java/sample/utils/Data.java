@@ -3,6 +3,7 @@ package sample.utils;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import sample.interfaces.impl.ScheduleImpl;
+import sample.interfaces.impl.TaskImpl;
 import sample.interfaces.impl.UserImpl;
 import sample.models.User;
 
@@ -29,6 +30,7 @@ public class Data {
 
     public static UserImpl userManager = new UserImpl();
     public static ScheduleImpl scheduleManager = new ScheduleImpl();
+    public static TaskImpl taskManager = new TaskImpl();
 
 
 }
