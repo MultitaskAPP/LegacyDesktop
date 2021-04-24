@@ -1,33 +1,42 @@
 package sample.controllers.views;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import sample.models.Schedule;
 import sample.models.Task;
 import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
-
+import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class TaskViewController implements Initializable {
 
     @FXML    private HBox hBoxSchedules;
+    @FXML    private AnchorPane viewPane;
+    @FXML    private Button btnScheduleView, btnListView;
+
+    public static List<Task> taskList = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         getAllSchedules();
+
 
     }
 
@@ -63,9 +72,28 @@ public class TaskViewController implements Initializable {
 
     private void getAllTasks(int scheduleID){
 
-        List<Task> taskList = Data.taskManager.getAllTaksBySchedule(scheduleID);
-        System.out.println(taskList);
+        taskList = Data.taskManager.getAllTaksBySchedule(scheduleID);
+    }
 
+    @FXML
+    void listView(ActionEvent event) {
+        try {
+            URL url = new File("src/main/java/sample/windows/views/listView.fxml").toURI().toURL();
+            viewPane.getChildren().add(FXMLLoader.load(url));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void scheduleView(ActionEvent event) {
+        try {
+            URL url = new File("src/main/java/sample/windows/views/scheduleView.fxml").toURI().toURL();
+            viewPane.getChildren().add(FXMLLoader.load(url));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
+

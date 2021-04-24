@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="940.0" style="-fx-background-color: #202027;" stylesheets="@../css/listview.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.views.TaskScheduleView">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="940.0" style="-fx-background-color: #202027;" stylesheets="@../css/listview.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.views.TaskListView">
    <content>
-      <VBox fx:id="vBoxTasks" spacing="15.0" stylesheets="@../css/dashboardView.css">
+      <VBox fx:id="vBoxTasks" alignment="TOP_CENTER" spacing="15.0" stylesheets="@../css/dashboardView.css">
          <children>
             <HBox minHeight="100.0" prefHeight="100.0" prefWidth="930.0" spacing="3.0" style="-fx-background-radius: 15;">
                <children>
