@@ -41,8 +41,7 @@
             </HBox>
          </content>
       </ScrollPane>
-      <AnchorPane fx:id="viewPane" layoutX="49.0" layoutY="234.0" prefHeight="425.0" prefWidth="940.0" />
-      <Button fx:id="btnListView" layoutX="939.0" layoutY="69.0" mnemonicParsing="false" onAction="#listView" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 15; -fx-background-color: #272730;">
+      <Button fx:id="btnListView" layoutX="939.0" layoutY="69.0" mnemonicParsing="false" onAction="#setListView" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 15; -fx-background-color: #272730;">
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -51,7 +50,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="btnScheduleView" layoutX="939.0" layoutY="141.0" mnemonicParsing="false" onAction="#scheduleView" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 15; -fx-background-color: #272730;">
+      <Button fx:id="btnScheduleView" layoutX="939.0" layoutY="141.0" mnemonicParsing="false" onAction="#setScheduleView" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 15; -fx-background-color: #272730;">
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -60,5 +59,32 @@
             </ImageView>
          </graphic>
       </Button>
+      <ScrollPane fx:id="listView" layoutX="50.0" layoutY="230.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="940.0" style="-fx-background-color: #202027;" stylesheets="@../css/listview.css" visible="false">
+         <content>
+            <VBox fx:id="vBoxList" spacing="15.0" stylesheets="@../css/dashboardView.css">
+               <children>
+                  <HBox fx:id="addTaskList" alignment="CENTER" maxHeight="50.0" maxWidth="875.0" minHeight="50.0" minWidth="875.0" prefHeight="50.0" prefWidth="875.0" spacing="3.0" style="-fx-background-color: #272730; -fx-background-radius: 15;">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../res/mt_add1_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Label opacity="0.5" text="Añadir una nueva tarea" textFill="WHITE">
+                           <font>
+                              <Font name="Arial" size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <ScrollPane fx:id="scheduleView" layoutX="50.0" layoutY="230.0" prefHeight="425.0" prefWidth="940.0" visible="false">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+        </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

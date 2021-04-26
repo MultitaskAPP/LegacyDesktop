@@ -8,4 +8,8 @@ public interface ITask {
 
     public List<Task> getAllTaksBySchedule(int scheduleID);
 
+    public Task insertTask(Task task);
+
+    public Task insertGroupTask(Task task);
+
 }

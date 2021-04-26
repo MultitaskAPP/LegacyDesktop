@@ -1,5 +1,7 @@
 package sample.models;
 
+import org.json.JSONObject;
+
 import java.util.Date;
 
 public class Task {
@@ -78,6 +80,20 @@ public class Task {
 
     public void setListTask(String listTask) {
         this.listTask = listTask;
+    }
+
+    public JSONObject toJSONObject(){
+
+        JSONObject taskJSON = new JSONObject();
+        taskJSON.put("textTask", textTask);
+        taskJSON.put("durationTask", durationTask);
+        taskJSON.put("priorityTask", priorityTask);
+        taskJSON.put("limitDateTask", limitDateTask);
+        taskJSON.put("idSchedule", idSchedule);
+        taskJSON.put("listTask", listTask);
+
+        return taskJSON;
+
     }
 
     @Override

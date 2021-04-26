@@ -39,4 +39,30 @@ public class TaskImpl implements ITask {
 
         return taskList;
     }
+
+    @Override
+    public Task insertTask(Task task) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("data", task.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/tasks/createOne", "POST", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        int status = connAPI.getStatus();
+        if (status == 200) {
+            JSONObject responseJSON = connAPI.getDataJSON();
+            task.setIdTask(responseJSON.getInt("data"));
+            return task;
+        }
+
+        return task;
+
+    }
+
+    @Override
+    public Task insertGroupTask(Task task) {
+        return task;
+    }
 }
