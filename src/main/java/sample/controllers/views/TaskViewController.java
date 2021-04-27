@@ -132,10 +132,18 @@ public class TaskViewController implements Initializable {
             vBox.setSpacing(10);
             vBox.setAlignment(Pos.TOP_CENTER);
 
-            Button btnOptions = new Button();
-            btnOptions.setPrefSize(40, 40);
-            btnOptions.setStyle("-fx-background-radius: 15; -fx-background-color:  #272730");
-            btnOptions.setOnMouseClicked(mouseEvent -> showTaskOptions(t.getIdTask()));
+            MenuItem miView = new MenuItem("Visualizar");
+            miView.setOnAction(actionEvent -> viewTask(t, s));
+
+            MenuItem miEdit = new MenuItem("Editar");
+            miEdit.setOnAction(actionEvent -> updateTask(t, s));
+
+            MenuItem miDelete = new MenuItem("Borrar");
+            miDelete.setOnAction(actionEvent -> deleteTask(t, s));
+
+            MenuButton mbOptions = new MenuButton(null, null, miView, miEdit, miDelete);
+            mbOptions.setPrefSize(40, 40);
+            mbOptions.setStyle("-fx-background-radius: 15; -fx-background-color:  #272730");
 
             try{
                 ImageView imageView = new ImageView();
@@ -144,12 +152,12 @@ public class TaskViewController implements Initializable {
                 imageView.setSmooth(true);
                 imageView.setFitHeight(25);
                 imageView.setFitWidth(25);
-                btnOptions.setGraphic(imageView);
+                mbOptions.setGraphic(imageView);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
 
-            vBox.getChildren().add(btnOptions);
+            vBox.getChildren().add(mbOptions);
             vBox.setPrefSize(52, 44);
             hBox.getChildren().add(vBox);
 
@@ -210,6 +218,41 @@ public class TaskViewController implements Initializable {
         }
 
     }
+
+    private void deleteTask(Task task, Schedule schedule){
+        boolean success = false;
+
+        if (task.isGroup())
+            success = Data.taskManager.deleteGroupTask(task);
+        else
+            success = Data.taskManager.deleteTask(task);
+
+        if (success){
+            System.out.println("[DEBUG] - TASK eliminada correctamente!");
+            taskList.remove(task);
+            listView(schedule);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Tarea eliminada correctamente!");
+            alert.showAndWait();
+        }else {
+            System.out.println("[DEBUG] - Error al eliminar la TASK...");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Error al eliminar la tarea...");
+            alert.showAndWait();
+        }
+    }
+
+    private void updateTask(Task task, Schedule schedule){
+
+    }
+
+    private void viewTask(Task task, Schedule schedule){
+
+
+    }
+
 
 }
 

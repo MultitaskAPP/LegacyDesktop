@@ -12,14 +12,17 @@ public class Schedule {
     private Color colourSchedule;
     private JSONArray listsSchedules;
 
+    private boolean isGroup;
+
     public Schedule() {}
 
-    public Schedule(int idSchedule, String nameSchedule, int idUser, Color colourSchedule, JSONArray listsSchedules) {
+    public Schedule(int idSchedule, String nameSchedule, int idUser, Color colourSchedule, JSONArray listsSchedules, boolean isGroup) {
         this.idSchedule = idSchedule;
         this.nameSchedule = nameSchedule;
         this.idUser = idUser;
         this.colourSchedule = colourSchedule;
         this.listsSchedules = listsSchedules;
+        this.isGroup = isGroup;
     }
 
     public int getIdSchedule() {
@@ -60,6 +63,14 @@ public class Schedule {
 
     public void setListsSchedules(JSONArray listsSchedules) {
         this.listsSchedules = listsSchedules;
+    }
+
+    public boolean isGroup() {
+        return isGroup;
+    }
+
+    public void setGroup(boolean group) {
+        isGroup = group;
     }
 
     public String getHexCode(){

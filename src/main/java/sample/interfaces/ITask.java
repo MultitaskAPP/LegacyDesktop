@@ -12,4 +12,8 @@ public interface ITask {
 
     public Task insertGroupTask(Task task);
 
+    public boolean deleteTask(Task task);
+
+    public boolean deleteGroupTask(Task task);
+
 }

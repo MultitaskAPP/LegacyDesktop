@@ -21,3 +21,13 @@
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
 }
+.menu-button > .arrow-button {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+
+.menu-button > .arrow-button > .arrow {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+
+}

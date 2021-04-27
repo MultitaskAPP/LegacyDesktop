@@ -46,7 +46,7 @@ public class TaskImpl implements ITask {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("data", task.toJSONObject());
 
-        ConnAPI connAPI = new ConnAPI("/api/tasks/createOne", "POST", true);
+        ConnAPI connAPI = new ConnAPI("/api/tasks/createOne", "POST", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -64,5 +64,33 @@ public class TaskImpl implements ITask {
     @Override
     public Task insertGroupTask(Task task) {
         return task;
+    }
+
+    @Override
+    public boolean deleteTask(Task task) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", task.getIdTask());
+
+        ConnAPI connAPI = new ConnAPI("/api/tasks/deleteOne", "DELETE", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        int status = connAPI.getStatus();
+        return status == 200;
+    }
+
+    @Override
+    public boolean deleteGroupTask(Task task) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", task.getIdTask());
+
+        ConnAPI connAPI = new ConnAPI("/api/tasks/group/deleteOne", "DELETE", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        int status = connAPI.getStatus();
+        return status == 200;
     }
 }

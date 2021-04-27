@@ -35,3 +35,14 @@
     -fx-alignment: center;
     -fx-font-size: 20;
 }
+
+.menu-button > .arrow-button {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+
+.menu-button > .arrow-button > .arrow {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+
+}

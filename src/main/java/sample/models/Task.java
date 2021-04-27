@@ -14,9 +14,11 @@ public class Task {
     private int idSchedule;
     private String listTask;
 
+    private boolean isGroup;
+
     public Task(){}
 
-    public Task(int idTask, String textTask, int durationTask, int priorityTask, Date limitDateTask, int idSchedule, String listTask) {
+    public Task(int idTask, String textTask, int durationTask, int priorityTask, Date limitDateTask, int idSchedule, String listTask, boolean isGroup) {
         this.idTask = idTask;
         this.textTask = textTask;
         this.durationTask = durationTask;
@@ -24,6 +26,7 @@ public class Task {
         this.limitDateTask = limitDateTask;
         this.idSchedule = idSchedule;
         this.listTask = listTask;
+        this.isGroup = isGroup;
     }
 
     public int getIdTask() {
@@ -80,6 +83,14 @@ public class Task {
 
     public void setListTask(String listTask) {
         this.listTask = listTask;
+    }
+
+    public boolean isGroup() {
+        return isGroup;
+    }
+
+    public void setGroup(boolean group) {
+        isGroup = group;
     }
 
     public JSONObject toJSONObject(){
