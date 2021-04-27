@@ -92,7 +92,7 @@ public class TaskViewController implements Initializable {
 
         if (taskList.size() >= 1)
             taskList.clear();
-        taskList = Data.taskManager.getAllTaksBySchedule(s.getIdSchedule());
+        taskList = Data.taskManager.getAllTaksBySchedule(s.getIdSchedule(), s.isGroup());
         if (selectedView){
             listView(s);
             addTaskList.setOnMouseClicked(mouseEvent ->    addTask(s));
@@ -163,10 +163,6 @@ public class TaskViewController implements Initializable {
 
             vBoxList.getChildren().add(hBox);
         }
-    }
-
-    private void showTaskOptions(int idTask){
-        System.out.println("[DEBUG] - Task: " + idTask);
     }
 
     private void scheduleView(Schedule s){
@@ -246,10 +242,49 @@ public class TaskViewController implements Initializable {
 
     private void updateTask(Task task, Schedule schedule){
 
+        try {
+            Stage stage = new Stage();
+            URL url = new File("src/main/java/sample/windows/dialogs/taskDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            TaskDialogController taskDialogController = loader.getController();
+            taskDialogController.setSelectedSchedule(schedule);
+            taskDialogController.setGroup(task.isGroup());
+            taskDialogController.setUpdateMode(true);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
+            stage.show();
+            taskDialogController.showTaskData(task);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void viewTask(Task task, Schedule schedule){
-
+        try {
+            Stage stage = new Stage();
+            URL url = new File("src/main/java/sample/windows/dialogs/taskDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            TaskDialogController taskDialogController = loader.getController();
+            taskDialogController.setSelectedSchedule(schedule);
+            taskDialogController.setGroup(task.isGroup());
+            taskDialogController.setUpdateMode(false);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
+            stage.show();
+            taskDialogController.showTaskData(task);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

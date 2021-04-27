@@ -31,8 +31,9 @@ public class TaskDialogController implements Initializable {
 
     private DatePicker datePicker = new DatePicker(LocalDate.now());
     private Schedule selectedSchedule;
-    private boolean isGroup;
+    private boolean isGroup, updateMode = false;
     private double x, y;
+    private int idTask = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -68,16 +69,66 @@ public class TaskDialogController implements Initializable {
         Node popupContent = datePickerSkin.getPopupContent();
         calendarPane.getChildren().add(popupContent);
 
+    }
 
+    public void showTaskData(Task task){
+
+        if (!updateMode){
+            btnAdd.setDisable(true);
+            textArea.setEditable(false);
+            tfDuration.setEditable(false);
+            tfSchedule.setEditable(false);
+            cbLists.setDisable(true);
+            cbPriority.setDisable(true);
+        }
+
+
+
+        idTask = task.getIdTask();
+
+        btnAdd.setText("EDITAR");
+        textArea.setText(task.getTextTask());
+
+        String[] priorityOptions = new String[]{"BAJA", "MEDIA", "ALTA"};
+        cbPriority.getItems().addAll(priorityOptions);
+        if (task.getPriorityTask() != 0)
+            cbPriority.getSelectionModel().select(task.getPriorityTask());
+
+        JSONArray scheduleListsJSON = selectedSchedule.getListsSchedules();
+        ArrayList<String> scheduleLists = new ArrayList<>();
+        for (int i = 0; i < scheduleListsJSON.length(); i++){
+            scheduleLists.add(scheduleListsJSON.getString(i));
+        }
+        cbLists.getItems().addAll(scheduleLists);
+        cbLists.getSelectionModel().select(scheduleLists.indexOf(task.getListTask()));
+
+        tfDuration.setText(Integer.toString(task.getDurationTask()));
+        tfDuration.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                tfDuration.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+
+        tfSchedule.setText(selectedSchedule.getNameSchedule());
+
+        try {
+            Date date = (Date) task.getLimitDateTask();
+            datePicker.valueProperty().setValue(date.toLocalDate());
+        }catch (Exception e){
+            System.out.println("[DEBUG] - Esta TASK no tiene fecha límite");
+        }
+        DatePickerSkin datePickerSkin = new DatePickerSkin(datePicker);
+        Node popupContent = datePickerSkin.getPopupContent();
+        calendarPane.getChildren().add(popupContent);
 
     }
 
     @FXML
     void checkTask(ActionEvent event) {
-
         if (!textArea.getText().isBlank()) {
             if(!cbLists.getSelectionModel().isEmpty()){
                 Task taskObj = new Task();
+                taskObj.setIdTask(idTask);
                 taskObj.setTextTask(textArea.getText().replaceAll("\"", "'"));
                 taskObj.setListTask(cbLists.getSelectionModel().getSelectedItem());
                 taskObj.setIdSchedule(selectedSchedule.getIdSchedule());
@@ -92,10 +143,17 @@ public class TaskDialogController implements Initializable {
                     System.out.println(taskObj.getLimitDateTask());
                 }
 
-                if (isGroup)
-                    insertGroupTask(taskObj);
-                else
-                    insertTask(taskObj);
+                if(updateMode){
+                    if (isGroup)
+                        updateGroupTask(taskObj);
+                    else
+                        updateTask(taskObj);
+                }else {
+                    if (isGroup)
+                        insertGroupTask(taskObj);
+                    else
+                        insertTask(taskObj);
+                }
 
             }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -133,7 +191,27 @@ public class TaskDialogController implements Initializable {
 
     }
 
+    private void updateTask(Task task){
 
+        boolean success = Data.taskManager.updateTask(task);
+        if (success){
+            System.out.println("[DEBUG] - TASK actualizada correctamente");
+            exit(null);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Tarea actualizada correctamente!");
+            alert.showAndWait();
+        }else {
+            System.out.println("[DEBUG] - Error al actualizar la TASK...");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Error al actualizar la tarea...");
+            alert.showAndWait();
+        }
+
+    }
+
+    private void updateGroupTask(Task task){}
 
     @FXML
     void exit(ActionEvent event) {
@@ -147,6 +225,10 @@ public class TaskDialogController implements Initializable {
 
     public void setGroup(boolean group) {
         isGroup = group;
+    }
+
+    public void setUpdateMode(boolean updateMode) {
+        this.updateMode = updateMode;
     }
 
     @FXML

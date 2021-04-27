@@ -1,5 +1,6 @@
 package sample.interfaces.impl;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sample.interfaces.ITask;
@@ -12,7 +13,7 @@ import java.util.List;
 public class TaskImpl implements ITask {
 
     @Override
-    public List<Task> getAllTaksBySchedule(int scheduleID) {
+    public List<Task> getAllTaksBySchedule(int scheduleID, boolean isGroup) {
 
         List<Task> taskList = new ArrayList();
 
@@ -34,6 +35,7 @@ public class TaskImpl implements ITask {
             taskObj.setPriorityTask(rawJSON.getInt("priorityTask"));
             taskObj.setIdSchedule(rawJSON.getInt("idSchedule"));
             taskObj.setListTask(rawJSON.getString("listTask"));
+            taskObj.setGroup(isGroup);
             taskList.add(taskObj);
         }
 
@@ -67,12 +69,31 @@ public class TaskImpl implements ITask {
     }
 
     @Override
+    public boolean updateTask(Task task) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("data", task.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/tasks/updateOne", "PUT", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        int status = connAPI.getStatus();
+        return status == 200;
+    }
+
+    @Override
+    public boolean updateGroupTask(Task task) {
+        return false;
+    }
+
+    @Override
     public boolean deleteTask(Task task) {
 
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("id", task.getIdTask());
 
-        ConnAPI connAPI = new ConnAPI("/api/tasks/deleteOne", "DELETE", true);
+        ConnAPI connAPI = new ConnAPI("/api/tasks/deleteOne", "DELETE", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -86,7 +107,7 @@ public class TaskImpl implements ITask {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("id", task.getIdTask());
 
-        ConnAPI connAPI = new ConnAPI("/api/tasks/group/deleteOne", "DELETE", true);
+        ConnAPI connAPI = new ConnAPI("/api/tasks/group/deleteOne", "DELETE", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 

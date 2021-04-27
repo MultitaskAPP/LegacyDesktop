@@ -96,6 +96,8 @@ public class Task {
     public JSONObject toJSONObject(){
 
         JSONObject taskJSON = new JSONObject();
+        taskJSON.put("idTask", idTask);
+        System.out.println(taskJSON.getInt("idTask"));
         taskJSON.put("textTask", textTask);
         taskJSON.put("durationTask", durationTask);
         taskJSON.put("priorityTask", priorityTask);

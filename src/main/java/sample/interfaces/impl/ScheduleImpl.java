@@ -34,6 +34,7 @@ public class ScheduleImpl implements ISchedule {
             scheduleObj.setIdUser(rawJSON.getInt("idUser"));
             scheduleObj.setColourSchedule(Color.decode(rawJSON.getString("colourSchedule")));
             scheduleObj.setListsSchedules(new JSONArray(rawJSON.getString("listsSchedule")));
+            scheduleObj.setGroup(false);
             listSchedules.add(scheduleObj);
         }
 
