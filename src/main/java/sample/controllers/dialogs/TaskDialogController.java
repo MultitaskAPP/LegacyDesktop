@@ -1,7 +1,6 @@
 package sample.controllers.dialogs;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import com.jfoenix.controls.JFXDatePicker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,16 +10,14 @@ import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 import org.json.JSONArray;
 import sample.models.Schedule;
 import sample.models.Task;
 import sample.utils.Data;
-
 import java.net.URL;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -32,7 +29,7 @@ public class TaskDialogController implements Initializable {
     @FXML    private AnchorPane calendarPane;
     @FXML    private Button btnCancel, btnAdd;
 
-    private DatePickerSkin datePickerSkin = new DatePickerSkin(new DatePicker(LocalDate.now()));
+    private DatePicker datePicker = new DatePicker(LocalDate.now());
     private Schedule selectedSchedule;
     private boolean isGroup;
     private double x, y;
@@ -57,9 +54,6 @@ public class TaskDialogController implements Initializable {
         }
         cbLists.getItems().addAll(scheduleLists);
 
-        // Calendario
-        Node popupContent = datePickerSkin.getPopupContent();
-        calendarPane.getChildren().add(popupContent);
 
         // tfDuration - SOLO NUMEROS
         tfDuration.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -69,6 +63,12 @@ public class TaskDialogController implements Initializable {
         });
 
         tfSchedule.setText(selectedSchedule.getNameSchedule());
+
+        DatePickerSkin datePickerSkin = new DatePickerSkin(datePicker);
+        Node popupContent = datePickerSkin.getPopupContent();
+        calendarPane.getChildren().add(popupContent);
+
+
 
     }
 
@@ -85,8 +85,12 @@ public class TaskDialogController implements Initializable {
                     taskObj.setDurationTask(Integer.parseInt(tfDuration.getText()));
                 if (!cbPriority.getSelectionModel().isEmpty())
                     taskObj.setPriorityTask(cbPriority.getSelectionModel().getSelectedIndex() + 1);
-                // if (limitDatePicker.getValue() != null)
-                //  taskObj.setLimitDateTask(Date.from(limitDatePicker.getValue().atStartOfDay().toInstant(ZoneOffset.UTC)));
+                if (datePicker.valueProperty().get() != null){
+                    LocalDate localDate = datePicker.getValue();
+                    Date date = Date.valueOf(localDate);
+                    taskObj.setLimitDateTask(date);
+                    System.out.println(taskObj.getLimitDateTask());
+                }
 
                 if (isGroup)
                     insertGroupTask(taskObj);

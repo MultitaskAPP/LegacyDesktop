@@ -95,7 +95,7 @@ public class TaskViewController implements Initializable {
         taskList = Data.taskManager.getAllTaksBySchedule(s.getIdSchedule());
         if (selectedView){
             listView(s);
-            addTaskList.setOnMouseClicked(mouseEvent -> addTask(s));
+            addTaskList.setOnMouseClicked(mouseEvent ->    addTask(s));
         }else {
             scheduleView(s);
         }
@@ -114,12 +114,13 @@ public class TaskViewController implements Initializable {
             textArea.setPrefWidth(880);
             textArea.setWrapText(true);
             textArea.setText(t.getTextTask());
+            textArea.setEditable(false);
 
             textArea.setPrefRowCount((textArea.getText().length() / 100) + 1);
             if (textArea.getPrefRowCount() <= 1){
                 textArea.setPrefHeight(50);
             }else {
-                textArea.setPrefHeight(textArea.getPrefRowCount() * 30);
+                textArea.setPrefHeight(textArea.getPrefRowCount() * 35);
             }
             textArea.setStyle("-fx-background-radius: 15; -fx-background-color: " + s.getHexCode() + "; -fx-text-fill: white; -fx-font-size: 20; -fx-font-family: Arial");
 
@@ -161,7 +162,6 @@ public class TaskViewController implements Initializable {
     }
 
     private void scheduleView(Schedule s){
-
     }
 
     @FXML
@@ -182,11 +182,9 @@ public class TaskViewController implements Initializable {
      * Elimina todos los items dentro del vBox menos el primero.
      */
     private void clearListView(){
-        System.out.println(vBoxList.getChildren().size());
-        for (int i = 1; i < vBoxList.getChildren().size(); i++){
+        for (int i = vBoxList.getChildren().size() - 1; i > 0; i--){
             vBoxList.getChildren().remove(i);
         }
-
     }
 
     private void addTask(Schedule s){
