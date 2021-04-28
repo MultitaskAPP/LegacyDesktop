@@ -7,12 +7,18 @@ import sample.interfaces.impl.TaskImpl;
 import sample.interfaces.impl.UserImpl;
 import sample.models.User;
 
-import java.security.PublicKey;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Properties;
 
 public class Data {
+
+    public static Properties properties = new Properties();
 
     public static String API_URL = "https://multitaskapp.herokuapp.com";
     public static String LOCALHOST = "http://localhost:5000";
@@ -32,5 +38,14 @@ public class Data {
     public static ScheduleImpl scheduleManager = new ScheduleImpl();
     public static TaskImpl taskManager = new TaskImpl();
 
+    public static void storeProperties(Properties properties){
+        try(OutputStream outputStream = new FileOutputStream("config.properties")){
+            properties.store(outputStream, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -19,7 +18,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Pair;
 import org.json.JSONArray;
 import sample.controllers.dialogs.TaskDialogController;
 import sample.models.Schedule;
@@ -44,12 +42,15 @@ public class TaskViewController implements Initializable {
     public List<Task> taskList = new ArrayList<>();
     private static boolean selectedView;
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         getAllSchedules();
-        selectedView = true;
+        selectedView = getSelectedView();
+        if (selectedView)
+            setListView(null);          // 0
+        else
+            setScheduleView(null);      // 1
 
     }
 
@@ -94,7 +95,7 @@ public class TaskViewController implements Initializable {
         listView(s);
         scheduleView(s);
 
-        addTaskList.setOnMouseClicked(mouseEvent ->    addTask(s));
+        addTaskList.setOnMouseClicked(mouseEvent ->    addTask(s, 0));
 
     }
 
@@ -239,7 +240,9 @@ public class TaskViewController implements Initializable {
             hBoxAdd.setSpacing(5);
             hBoxAdd.setAlignment(Pos.CENTER);
             hBoxAdd.setPrefSize(200, 30);
-            hBoxAdd.setOnMouseClicked(mouseEvent -> addTask(s));
+
+            int selectedList = i;
+            hBoxAdd.setOnMouseClicked(mouseEvent -> addTask(s, selectedList));
 
             try {
                 ImageView igAdd = new ImageView();
@@ -271,23 +274,6 @@ public class TaskViewController implements Initializable {
 
     }
 
-    @FXML
-    void setListView(ActionEvent event) {
-        selectedView = true;
-        listView.setVisible(true);
-        scheduleView.setVisible(false);
-    }
-
-    @FXML
-    void setScheduleView(ActionEvent event) {
-        selectedView = false;
-        listView.setVisible(false);
-        scheduleView.setVisible(true);
-    }
-
-    /**
-     * Elimina todos los items dentro del vBox menos el primero.
-     */
     private void clearListView(){
 
         hBoxScheduleView.getChildren().clear();
@@ -297,7 +283,7 @@ public class TaskViewController implements Initializable {
         }
     }
 
-    private void addTask(Schedule s){
+    private void addTask(Schedule s, int selectedList){
 
         try {
             Stage stage = new Stage();
@@ -307,6 +293,7 @@ public class TaskViewController implements Initializable {
             TaskDialogController taskDialogController = loader.getController();
             taskDialogController.setSelectedSchedule(s);
             taskDialogController.setGroup(false);
+            taskDialogController.setSelectedList(selectedList);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
@@ -399,6 +386,36 @@ public class TaskViewController implements Initializable {
     private void updateSchedule(Schedule schedule){}
 
     private void viewSchedule(Schedule schedule){}
+
+    private void storeSelectedView(int nView){
+        Data.properties.setProperty("taskView", Integer.toString(nView));
+        Data.storeProperties(Data.properties);
+    }
+
+    private boolean getSelectedView(){
+        try {
+            int selectedView = Integer.parseInt(Data.properties.getProperty("taskView"));
+            return selectedView == 0;
+        }catch (Exception e){
+            return true;
+        }
+    }
+
+    @FXML
+    void setListView(ActionEvent event) {
+        storeSelectedView(0);
+        selectedView = true;
+        listView.setVisible(true);
+        scheduleView.setVisible(false);
+    }
+
+    @FXML
+    void setScheduleView(ActionEvent event) {
+        storeSelectedView(1);
+        selectedView = false;
+        listView.setVisible(false);
+        scheduleView.setVisible(true);
+    }
 
 }
 

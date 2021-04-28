@@ -1,5 +1,7 @@
 package sample.controllers;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -8,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -118,7 +121,7 @@ public class LoginController implements Initializable {
                 case 200:
                     JSONArray arrayJSON = new JSONArray(responseJSON.getJSONArray("data"));
                     Data.userData = Data.userManager.getUserData(arrayJSON.getJSONObject(0));
-                    System.out.println("[DEBUG] - Login Ok! Obtenida información del usuario!");
+                    storeLoginStatus();
                     gotoMainWindow();
                     break;
 
@@ -126,10 +129,19 @@ public class LoginController implements Initializable {
                     String errorMSG = responseJSON.getString("message");
                     System.out.println("[ERROR] - " + errorMSG);
                     pfPassword.clear();
+
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("MultitaskAPP | DESKTOP");
+                    alert.setHeaderText("Login incorrecto...");
+                    alert.showAndWait();
                     break;
             }
         }else {
             System.out.println("[DEBUG] - Datos no válidos...");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Datos invalidos...");
+            alert.showAndWait();
         }
     }
 
@@ -214,7 +226,13 @@ public class LoginController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    private void storeLoginStatus(){
+        Algorithm algorithm = Algorithm.HMAC256("b568ef297c5755b85e7a0df8783ce04b");
+        String token = JWT.create().withSubject(Integer.toString(Data.userData.getIdUser())).sign(algorithm);
+        Data.properties.setProperty("tokenLogin", token);
+        Data.storeProperties(Data.properties);
     }
 
     @FXML

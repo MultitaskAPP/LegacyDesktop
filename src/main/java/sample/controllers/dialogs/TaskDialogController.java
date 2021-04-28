@@ -33,7 +33,7 @@ public class TaskDialogController implements Initializable {
     private Schedule selectedSchedule;
     private boolean isGroup, updateMode = false;
     private double x, y;
-    private int idTask = 0;
+    private int idTask = 0, selectedList = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -54,6 +54,7 @@ public class TaskDialogController implements Initializable {
             scheduleLists.add(scheduleListsJSON.getString(i));
         }
         cbLists.getItems().addAll(scheduleLists);
+        cbLists.getSelectionModel().select(selectedList);
 
 
         // tfDuration - SOLO NUMEROS
@@ -227,6 +228,10 @@ public class TaskDialogController implements Initializable {
 
     public void setUpdateMode(boolean updateMode) {
         this.updateMode = updateMode;
+    }
+
+    public void setSelectedList(int selectedList) {
+        this.selectedList = selectedList;
     }
 
     @FXML
