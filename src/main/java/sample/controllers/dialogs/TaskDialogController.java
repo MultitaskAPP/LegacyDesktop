@@ -82,8 +82,6 @@ public class TaskDialogController implements Initializable {
             cbPriority.setDisable(true);
         }
 
-
-
         idTask = task.getIdTask();
 
         btnAdd.setText("EDITAR");

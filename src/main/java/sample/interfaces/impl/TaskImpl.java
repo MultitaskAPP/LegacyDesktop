@@ -1,12 +1,10 @@
 package sample.interfaces.impl;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sample.interfaces.ITask;
 import sample.models.Task;
 import sample.utils.ConnAPI;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +72,7 @@ public class TaskImpl implements ITask {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("data", task.toJSONObject());
 
-        ConnAPI connAPI = new ConnAPI("/api/tasks/updateOne", "PUT", true);
+        ConnAPI connAPI = new ConnAPI("/api/tasks/updateOne", "PUT", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 

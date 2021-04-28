@@ -81,10 +81,10 @@
             </VBox>
          </content>
       </ScrollPane>
-      <ScrollPane fx:id="scheduleView" layoutX="50.0" layoutY="230.0" prefHeight="425.0" prefWidth="940.0" visible="false">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-        </content>
+      <ScrollPane fx:id="scheduleView" layoutX="50.0" layoutY="230.0" prefHeight="425.0" prefWidth="875.0" style="-fx-background-color: transparent;">
+         <content>
+            <HBox fx:id="hBoxScheduleView" spacing="24.0" />
+         </content>
       </ScrollPane>
    </children>
 </AnchorPane>

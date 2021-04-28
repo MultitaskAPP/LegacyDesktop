@@ -30,17 +30,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Date;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class TaskViewController implements Initializable {
 
-    @FXML    private HBox hBoxSchedules, addTaskList;
+    @FXML    private HBox hBoxSchedules, addTaskList, hBoxScheduleView;
     @FXML    private ScrollPane listView, scheduleView;
     @FXML    private Button btnScheduleView, btnListView;
     @FXML    private VBox vBoxList;
@@ -93,17 +89,16 @@ public class TaskViewController implements Initializable {
         if (taskList.size() >= 1)
             taskList.clear();
         taskList = Data.taskManager.getAllTaksBySchedule(s.getIdSchedule(), s.isGroup());
-        if (selectedView){
-            listView(s);
-            addTaskList.setOnMouseClicked(mouseEvent ->    addTask(s));
-        }else {
-            scheduleView(s);
-        }
+
+        clearListView();
+        listView(s);
+        scheduleView(s);
+
+        addTaskList.setOnMouseClicked(mouseEvent ->    addTask(s));
+
     }
 
     private void listView(Schedule s){
-
-        clearListView();
 
         for (Task t : taskList) {
             HBox hBox = new HBox();
@@ -166,6 +161,114 @@ public class TaskViewController implements Initializable {
     }
 
     private void scheduleView(Schedule s){
+
+        JSONArray listsSchedule = s.getListsSchedules();
+        for (int i = 0; i < listsSchedule.length(); i++){
+
+            int listSize = 50;
+
+            VBox vBoxScheduleList = new VBox();
+            vBoxScheduleList.setSpacing(10);
+            vBoxScheduleList.setPadding(new Insets(10));
+            vBoxScheduleList.setStyle("-fx-background-color:  #272730; -fx-background-radius: 20");
+
+            HBox hBoxScheduleHeader = new HBox();
+            hBoxScheduleHeader.setAlignment(Pos.CENTER);
+            hBoxScheduleHeader.setSpacing(50);
+            hBoxScheduleHeader.setPrefSize(200, 25);
+
+            // Label - SCHEDULE
+
+            Label tagListName = new Label(listsSchedule.getString(i));
+            tagListName.setStyle("-fx-text-fill: " + s.getHexCode() +"; -fx-font-size: 16; -fx-font-weight: bold");
+            hBoxScheduleHeader.getChildren().add(tagListName);
+
+            // MenuButton - SCHEDULE
+
+            MenuItem miView = new MenuItem("Visualizar");
+            miView.setOnAction(actionEvent -> viewSchedule(s));
+
+            MenuItem miEdit = new MenuItem("Editar");
+            miEdit.setOnAction(actionEvent -> updateSchedule(s));
+
+            MenuItem miDelete = new MenuItem("Borrar");
+            miDelete.setOnAction(actionEvent -> deleteSchedule(s));
+
+            MenuButton mbOptions = new MenuButton(null, null, miView, miEdit, miDelete);
+            mbOptions.setPrefSize(20, 20);
+            mbOptions.setStyle("-fx-background-color:  transparent");
+
+            try{
+                ImageView imageView = new ImageView();
+                URL url = new File("src/main/java/sample/windows/res/mt_options_icon.png").toURI().toURL();
+                imageView.setImage(new Image(String.valueOf(url)));
+                imageView.setSmooth(true);
+                imageView.setFitHeight(20);
+                imageView.setFitWidth(20);
+                mbOptions.setGraphic(imageView);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            hBoxScheduleHeader.getChildren().add(mbOptions);
+            vBoxScheduleList.getChildren().add(hBoxScheduleHeader);
+
+            for (Task t : taskList) {
+                if (t.getListTask().equals(listsSchedule.getString(i))){
+                    TextArea textArea = new TextArea(t.getTextTask());
+                    textArea.setEditable(false);
+                    textArea.setWrapText(true);
+                    textArea.setStyle("-fx-background-color:  #32323E; -fx-background-radius: 15");
+                    textArea.setPrefWidth(200);
+                    textArea.setPrefRowCount((textArea.getText().length() / 25) + 1);
+                    if (textArea.getPrefRowCount() <= 1){
+                        textArea.setPrefHeight(25);
+                    }else {
+                        textArea.setPrefHeight(textArea.getPrefRowCount() * 20);
+                    }
+
+                    textArea.setOnMouseClicked(mouseEvent -> updateTask(t, s));
+
+                    listSize += textArea.getPrefHeight() + 5;
+                    vBoxScheduleList.getChildren().add(textArea);
+
+                }
+            }
+
+            HBox hBoxAdd = new HBox();
+            hBoxAdd.setSpacing(5);
+            hBoxAdd.setAlignment(Pos.CENTER);
+            hBoxAdd.setPrefSize(200, 30);
+            hBoxAdd.setOnMouseClicked(mouseEvent -> addTask(s));
+
+            try {
+                ImageView igAdd = new ImageView();
+                URL url = new File("src/main/java/sample/windows/res/mt_add1_icon.png").toURI().toURL();
+                igAdd.setImage(new Image(String.valueOf(url)));
+                igAdd.setSmooth(true);
+                igAdd.setFitHeight(20);
+                igAdd.setFitWidth(20);
+
+                igAdd.setOpacity(0.5);
+                hBoxAdd.getChildren().add(igAdd);
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            Label tagAdd = new Label("Añadir una nueva tarea");
+            tagAdd.setStyle("-fx-text-fill: white; -fx-font-size: 12");
+            tagAdd.setOpacity(0.5);
+            hBoxAdd.getChildren().add(tagAdd);
+
+            vBoxScheduleList.getChildren().add(hBoxAdd);
+            vBoxScheduleList.setMaxSize(200, listSize + 40);
+            hBoxScheduleView.getChildren().add(vBoxScheduleList);
+
+        }
+
+
+
     }
 
     @FXML
@@ -186,6 +289,9 @@ public class TaskViewController implements Initializable {
      * Elimina todos los items dentro del vBox menos el primero.
      */
     private void clearListView(){
+
+        hBoxScheduleView.getChildren().clear();
+
         for (int i = vBoxList.getChildren().size() - 1; i > 0; i--){
             vBoxList.getChildren().remove(i);
         }
@@ -288,6 +394,11 @@ public class TaskViewController implements Initializable {
 
     }
 
+    private void deleteSchedule(Schedule schedule){}
+
+    private void updateSchedule(Schedule schedule){}
+
+    private void viewSchedule(Schedule schedule){}
 
 }
 
