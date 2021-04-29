@@ -60,7 +60,7 @@ public class MainClass extends Application {
             JSONObject requestJSON = new JSONObject();
             requestJSON.put("id", jwt.getSubject());
 
-            ConnAPI connAPI = new ConnAPI("/api/login/token", "POST", true);
+            ConnAPI connAPI = new ConnAPI("/api/login/token", "POST", false);
             connAPI.setData(requestJSON);
             connAPI.establishConn();
 

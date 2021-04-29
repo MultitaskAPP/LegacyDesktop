@@ -5,6 +5,7 @@ import com.cloudinary.utils.ObjectUtils;
 import sample.interfaces.impl.ScheduleImpl;
 import sample.interfaces.impl.TaskImpl;
 import sample.interfaces.impl.UserImpl;
+import sample.models.Group;
 import sample.models.User;
 
 import java.io.FileNotFoundException;
@@ -12,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
@@ -26,6 +28,7 @@ public class Data {
 
 
     public static User userData;
+    public static ArrayList<Group> arrayGroupsUser = new ArrayList<>();
 
     public static Date todayDate;
     public static Cloudinary cloudAPI = new Cloudinary(ObjectUtils.asMap(

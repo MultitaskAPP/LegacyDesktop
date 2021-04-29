@@ -67,7 +67,7 @@ public class TaskViewController implements Initializable {
             vBox.setStyle("-fx-background-color: " + s.getHexCode() + "; -fx-background-radius: 20px");
 
             Rectangle rectangle = new Rectangle(50, 50);
-            Image image = new Image(new ImageTweakerTool(Data.userData.getIdUser()).getProfilePic(), rectangle.getWidth(), rectangle.getHeight(), false, true);
+            Image image = new Image(new ImageTweakerTool(Data.userData.getIdUser()).getProfilePicUser(), rectangle.getWidth(), rectangle.getHeight(), false, true);
             ImagePattern imagePattern = new ImagePattern(image);
             rectangle.setArcHeight(360);
             rectangle.setArcWidth(360);

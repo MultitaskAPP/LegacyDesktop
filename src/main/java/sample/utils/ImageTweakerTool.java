@@ -56,7 +56,7 @@ public class ImageTweakerTool {
                     }
                 }
                 subImage = Scalr.resize(subImage, 256, 256);
-                uploadImage(subImage, Integer.toString(userID));
+                uploadImageUser(subImage, Integer.toString(userID));
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("[ERROR] - Failed to transform the selected image...");
@@ -71,19 +71,39 @@ public class ImageTweakerTool {
      * @param subImage Image to upload to Cloudinary
      * @param fileName Id of the user
      */
-    public void uploadImage(BufferedImage subImage, String fileName){
+    public void uploadImageUser(BufferedImage subImage, String fileName){
         try {
             File outputfile = new File(fileName + ".jpg");
             ImageIO.write(subImage, "JPG", outputfile);
             Data.cloudAPI.uploader().upload(outputfile, ObjectUtils.asMap(
                     "resource_type", "image",
-                    "public_id", "profilePics/" + fileName
+                    "public_id", "profilePics/users/" + fileName
             ));
             System.out.println("[INFO] - Success! Uploaded to Cloudinary!");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Converts the image to file and uploads image to Cloudinary via API
+     * @param subImage Image to upload to Cloudinary
+     * @param fileName Id of the user
+     */
+    public void uploadImageGroup(BufferedImage subImage, String fileName){
+        try {
+            File outputfile = new File(fileName + ".jpg");
+            ImageIO.write(subImage, "JPG", outputfile);
+            Data.cloudAPI.uploader().upload(outputfile, ObjectUtils.asMap(
+                    "resource_type", "image",
+                    "public_id", "profilePics/groups/" + fileName
+            ));
+            System.out.println("[INFO] - Success! Uploaded to Cloudinary!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Transforms and exports the image to the output folder
@@ -127,9 +147,9 @@ public class ImageTweakerTool {
      * In case of error returns a defualt profilePic
      * @return The URL of the profilePic stored on Cloudinary
      */
-    public String getProfilePic(){
+    public String getProfilePicUser(){
         try {
-            String imageURL = Data.cloudAPI.url().imageTag("profilePics/"+userID+".jpg");
+            String imageURL = Data.cloudAPI.url().imageTag("profilePics/users/"+userID+".jpg");
             String[] urlPic = imageURL.split("'");
             Image image = new Image(urlPic[1]);
             if (!image.isError()) {
@@ -140,4 +160,24 @@ public class ImageTweakerTool {
         }
         return "https://res.cloudinary.com/multitaskapp/image/upload/v1618085740/profilePics/default.jpg";
     }
+
+    /**
+     * In case of error returns a defualt profilePic
+     * @return The URL of the profilePic stored on Cloudinary
+     */
+    public String getProfilePicGroup(){
+        try {
+            int groupID = userID;
+            String imageURL = Data.cloudAPI.url().imageTag("profilePics/groups/"+groupID+".jpg");
+            String[] urlPic = imageURL.split("'");
+            Image image = new Image(urlPic[1]);
+            if (!image.isError()) {
+                return urlPic[1];
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "https://res.cloudinary.com/multitaskapp/image/upload/v1618085740/profilePics/default.jpg";
+    }
+
 }

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="750.0" style="-fx-background-radius: 30; -fx-background-color: #25252D;" stylesheets="@../css/scheduleDialog.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.dialogs.ScheduleDialogController">
+   <children>
+      <VBox prefHeight="525.0" prefWidth="750.0" spacing="15.0">
+         <children>
+            <Label text="AÑADE UN NUEVO TABLERO" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="23.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="442.0" prefWidth="690.0" spacing="25.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="345.0" spacing="15.0">
+                     <children>
+                        <TextField fx:id="tfName" prefHeight="55.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
+                        <ColorPicker fx:id="colourPicker" prefHeight="55.0" prefWidth="350.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </ColorPicker>
+                        <ChoiceBox fx:id="cbGroups" prefHeight="55.0" prefWidth="400.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding></ChoiceBox>
+                        <Label text="VISTA PREVIA:" textFill="WHITE">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <VBox fx:id="hBoxPreview" alignment="CENTER" prefHeight="192.0" prefWidth="333.0" spacing="10.0" style="-fx-background-color: #fFFFFF; -fx-background-radius: 20;">
+                           <children>
+                              <Ellipse fill="DODGERBLUE" radiusX="40.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Rectangle fx:id="rectanglePreview" arcHeight="360.0" arcWidth="360.0" fill="DODGERBLUE" height="75.0" stroke="BLACK" strokeType="INSIDE" width="75.0" />
+                              <Label fx:id="tagNamePreview" text="TABLERO">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Label>
+                           </children></VBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="345.0" spacing="15.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="200.0" style="-fx-background-radius: 30; -fx-background-color: #32323E;">
+                           <children>
+                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;">
+                                 <graphic>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../res/mt_add1_icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <TextField fx:id="tfTask" style="-fx-background-color: #393946; -fx-background-radius: 30;" />
+                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;">
+                                 <graphic>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../res/mt_cancel_icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                           <padding>
+                              <Insets left="5.0" right="5.0" />
+                           </padding>
+                        </HBox>
+                        <ListView fx:id="taskList" prefHeight="286.0" prefWidth="200.0" style="-fx-background-radius: 30; -fx-background-color: #32323E;" />
+                        <HBox alignment="TOP_RIGHT" prefHeight="55.0" prefWidth="200.0" spacing="18.0">
+                           <children>
+                              <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#checkSchedule" prefHeight="56.0" prefWidth="160.0" style="-fx-background-color: #39CE39; -fx-background-radius: 30;" text="AÑADIR" textFill="WHITE">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../res/mt_done_icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#exit" prefHeight="56.0" prefWidth="160.0" style="-fx-background-color: #CE3939; -fx-background-radius: 30;" text="CANCELAR" textFill="WHITE">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../res/mt_cancel_icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </padding>
+      </VBox>
+      <HBox alignment="CENTER_RIGHT" layoutX="-1.0" layoutY="-1.0" onMouseDragged="#windowDrag" onMousePressed="#windowPressed" prefHeight="50.0" prefWidth="757.0" spacing="10.0">
+         <children>
+            <FontAwesomeIcon fx:id="btnMinimize" fill="WHITE" iconName="CIRCLE" onMouseClicked="#minimize" size="1.2em" />
+            <FontAwesomeIcon fx:id="btnMaximize" fill="WHITE" iconName="CIRCLE" size="1.2em" />
+            <FontAwesomeIcon fx:id="btnClose" fill="WHITE" iconName="CIRCLE" onMouseClicked="#close" size="1.2em" />
+         </children>
+         <padding>
+            <Insets right="30.0" />
+         </padding>
+      </HBox>
+   </children>
+</AnchorPane>

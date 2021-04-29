@@ -4,13 +4,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
 
-import java.io.File;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,9 +22,7 @@ public class DashboardViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         getData();
-
 
     }
 
@@ -41,7 +37,7 @@ public class DashboardViewController implements Initializable {
         dateFormat = new SimpleDateFormat("MMM");
         tvMonth.setText(dateFormat.format(date).toUpperCase());
 
-        Image image = new Image(new ImageTweakerTool(Data.userData.getIdUser()).getProfilePic(), rectangle.getWidth(), rectangle.getHeight(), false, true);
+        Image image = new Image(new ImageTweakerTool(Data.userData.getIdUser()).getProfilePicUser(), rectangle.getWidth(), rectangle.getHeight(), false, true);
         ImagePattern imagePattern = new ImagePattern(image);
         rectangle.setFill(imagePattern);
 
