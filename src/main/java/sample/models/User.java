@@ -1,5 +1,8 @@
 package sample.models;
 
+import javafx.scene.image.Image;
+
+import java.awt.*;
 import java.util.Date;
 
 public class User {
@@ -8,11 +11,13 @@ public class User {
     private String email, name, firstSurname, lastSurname;
     private Date birthday;
     private int tlf;
-    private String colourUser, pass;
+    private String pass;
+    private Color colourUser;
+    private Image avatarUser;
 
     public User(){}
 
-    public User(int idUser, String email, String name, String firstSurname, String lastSurname, Date birthday, int tlf, String colourUser, String pass) {
+    public User(int idUser, String email, String name, String firstSurname, String lastSurname, Date birthday, int tlf, String pass, Color colourUser, Image avatarUser) {
         this.idUser = idUser;
         this.email = email;
         this.name = name;
@@ -20,8 +25,9 @@ public class User {
         this.lastSurname = lastSurname;
         this.birthday = birthday;
         this.tlf = tlf;
-        this.colourUser = colourUser;
         this.pass = pass;
+        this.colourUser = colourUser;
+        this.avatarUser = avatarUser;
     }
 
     public int getIdUser() {
@@ -80,11 +86,11 @@ public class User {
         this.tlf = tlf;
     }
 
-    public String getColourUser() {
+    public Color getColourUser() {
         return colourUser;
     }
 
-    public void setColourUser(String colourUser) {
+    public void setColourUser(Color colourUser) {
         this.colourUser = colourUser;
     }
 
@@ -94,6 +100,23 @@ public class User {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public Image getAvatarUser() {
+        return avatarUser;
+    }
+
+    public void setAvatarUser(Image avatarUser) {
+        this.avatarUser = avatarUser;
+    }
+
+    public String getHexCode(){
+
+        int r = colourUser.getRed();
+        int g = colourUser.getGreen();
+        int b = colourUser.getBlue();
+
+        return String.format("#%02X%02X%02X", r, g, b);
     }
 
     @Override

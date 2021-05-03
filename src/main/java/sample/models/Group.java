@@ -2,19 +2,21 @@ package sample.models;
 
 import javafx.scene.image.Image;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Group {
 
     private int idGroup;
-    private String nameGroup, descriptionGroup, colourGroup;
+    private String nameGroup, descriptionGroup;
+    private Color colourGroup;
     private Image avatarGroup;
-    private User ownerUser;
+    private int ownerUser;
     private ArrayList<User> arrayUsersGroup;
 
     public Group(){}
 
-    public Group(int idGroup, String nameGroup, String descriptionGroup, String colourGroup, Image avatarGroup, User ownerUser, ArrayList<User> arrayUsersGroup) {
+    public Group(int idGroup, String nameGroup, String descriptionGroup, Color colourGroup, Image avatarGroup, int ownerUser, ArrayList<User> arrayUsersGroup) {
         this.idGroup = idGroup;
         this.nameGroup = nameGroup;
         this.descriptionGroup = descriptionGroup;
@@ -56,11 +58,11 @@ public class Group {
         this.avatarGroup = avatarGroup;
     }
 
-    public User getOwnerUser() {
+    public int getOwnerUser() {
         return ownerUser;
     }
 
-    public void setOwnerUser(User ownerUser) {
+    public void setOwnerUser(int ownerUser) {
         this.ownerUser = ownerUser;
     }
 
@@ -72,12 +74,21 @@ public class Group {
         this.arrayUsersGroup = arrayUsersGroup;
     }
 
-    public String getColourGroup() {
+    public Color getColourGroup() {
         return colourGroup;
     }
 
-    public void setColourGroup(String colourGroup) {
+    public void setColourGroup(Color colourGroup) {
         this.colourGroup = colourGroup;
+    }
+
+    public String getHexCode(){
+
+        int r = colourGroup.getRed();
+        int g = colourGroup.getGreen();
+        int b = colourGroup.getBlue();
+
+        return String.format("#%02X%02X%02X", r, g, b);
     }
 
     @Override

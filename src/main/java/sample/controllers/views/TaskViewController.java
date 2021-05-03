@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -19,6 +20,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.json.JSONArray;
+import sample.controllers.dialogs.ScheduleDialogController;
 import sample.controllers.dialogs.TaskDialogController;
 import sample.models.Schedule;
 import sample.models.Task;
@@ -398,6 +400,27 @@ public class TaskViewController implements Initializable {
             return selectedView == 0;
         }catch (Exception e){
             return true;
+        }
+    }
+
+    @FXML
+    void addSchedule(MouseEvent event) {
+        try {
+            Stage stage = new Stage();
+            URL url = new File("src/main/java/sample/windows/dialogs/scheduleDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            ScheduleDialogController scheduleDialogController = loader.getController();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
+            stage.show();
+            scheduleDialogController.preloadData();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

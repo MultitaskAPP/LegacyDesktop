@@ -2,6 +2,7 @@ package sample.utils;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import sample.interfaces.impl.GroupImpl;
 import sample.interfaces.impl.ScheduleImpl;
 import sample.interfaces.impl.TaskImpl;
 import sample.interfaces.impl.UserImpl;
@@ -38,6 +39,7 @@ public class Data {
     ));
 
     public static UserImpl userManager = new UserImpl();
+    public static GroupImpl groupManager = new GroupImpl();
     public static ScheduleImpl scheduleManager = new ScheduleImpl();
     public static TaskImpl taskManager = new TaskImpl();
 

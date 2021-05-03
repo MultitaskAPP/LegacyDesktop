@@ -30,6 +30,8 @@ public class DashboardViewController implements Initializable {
 
         // Llamadas a la API para obtener datos del servidor.
 
+        System.out.println(Data.arrayGroupsUser.toString());
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
         Date date = new Date();
         tvDay.setText(dateFormat.format(date));
@@ -37,7 +39,7 @@ public class DashboardViewController implements Initializable {
         dateFormat = new SimpleDateFormat("MMM");
         tvMonth.setText(dateFormat.format(date).toUpperCase());
 
-        Image image = new Image(new ImageTweakerTool(Data.userData.getIdUser()).getProfilePicUser(), rectangle.getWidth(), rectangle.getHeight(), false, true);
+        Image image = new Image(Data.userData.getAvatarUser().getUrl(), rectangle.getWidth(), rectangle.getHeight(), false, true);
         ImagePattern imagePattern = new ImagePattern(image);
         rectangle.setFill(imagePattern);
 

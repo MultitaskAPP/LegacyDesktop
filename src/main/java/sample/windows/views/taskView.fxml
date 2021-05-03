@@ -17,7 +17,7 @@
          <content>
             <HBox fx:id="hBoxSchedules" spacing="15.0">
                <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: #32323E; -fx-background-radius: 20;">
+                  <VBox alignment="TOP_CENTER" onMouseClicked="#addSchedule" prefHeight="100.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: #32323E; -fx-background-radius: 20;">
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>

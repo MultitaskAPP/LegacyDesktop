@@ -121,6 +121,7 @@ public class LoginController implements Initializable {
                 case 200:
                     JSONArray arrayJSON = new JSONArray(responseJSON.getJSONArray("data"));
                     Data.userData = Data.userManager.getUserData(arrayJSON.getJSONObject(0));
+                    Data.arrayGroupsUser = Data.groupManager.getAllGroups(Data.userData.getIdUser());
                     storeLoginStatus();
                     gotoMainWindow();
                     break;

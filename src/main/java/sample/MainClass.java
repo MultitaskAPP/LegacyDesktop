@@ -34,6 +34,7 @@ public class MainClass extends Application {
             url = new File("src/main/java/sample/windows/login.fxml").toURI().toURL();
         }else{
             Data.userData = decodeToken(Data.properties.getProperty("tokenLogin"));
+            Data.arrayGroupsUser = Data.groupManager.getAllGroups(Data.userData.getIdUser());
             url = new File("src/main/java/sample/windows/mainWindow.fxml").toURI().toURL();
 
         }
