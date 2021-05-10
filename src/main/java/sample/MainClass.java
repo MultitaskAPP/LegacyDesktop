@@ -5,11 +5,14 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.json.JSONArray;
@@ -17,39 +20,85 @@ import org.json.JSONObject;
 import sample.models.User;
 import sample.utils.ConnAPI;
 import sample.utils.Data;
-
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainClass extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        getProperties();
+        try {
 
-        URL url;
-        if (Data.properties.getProperty("tokenLogin") == null){
-            url = new File("src/main/java/sample/windows/login.fxml").toURI().toURL();
-        }else{
-            Data.userData = decodeToken(Data.properties.getProperty("tokenLogin"));
-            Data.arrayGroupsUser = Data.groupManager.getAllGroups(Data.userData.getIdUser());
-            url = new File("src/main/java/sample/windows/mainWindow.fxml").toURI().toURL();
+            URL url = new File("src/main/java/sample/windows/splashScreen.fxml").toURI().toURL();
+            AtomicReference<Parent> root = new AtomicReference<>(FXMLLoader.load(url));
+            primaryStage.setTitle("MultitaskAPP | DESKTOP");
+            primaryStage.initStyle(StageStyle.UNDECORATED);
+            primaryStage.setScene(new Scene(root.get(), 400, 480));
+            primaryStage.show();
 
+            url = new File("src/main/java/sample/windows/res/multitask_icon.png").toURI().toURL();
+            Image icon = new Image(String.valueOf(url));
+            primaryStage.getIcons().add(icon);
+
+            Task task = new Task<URL>() {
+
+                @Override
+                protected URL call() throws Exception {
+
+                    getProperties();
+                    URL url = null;
+
+                    try {
+                        if (Data.properties.getProperty("tokenLogin") == null){
+                            url = new File("src/main/java/sample/windows/login.fxml").toURI().toURL();
+                        }else {
+                            Data.userData = decodeToken(Data.properties.getProperty("tokenLogin"));
+                            Data.arrayGroupsUser = Data.groupManager.getAllGroups(Data.userData.getIdUser());
+                            url = new File("src/main/java/sample/windows/mainWindow.fxml").toURI().toURL();
+                        }
+
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    return url;
+                }
+            };
+
+            task.setOnSucceeded(workerStateEvent -> {
+                URL finalUrl = (URL) task.getValue();
+
+                try {
+                    root.set(FXMLLoader.load(finalUrl));
+                    root.get().setEffect(new DropShadow());
+                    primaryStage.setScene(new Scene(root.get(), 1280, 720));
+
+                    Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+                    primaryStage.setX((screenBounds.getWidth() - 1280) / 2);
+                    primaryStage.setY((screenBounds.getHeight() - 720) / 2);
+
+                    primaryStage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            });
+
+            Thread th = new Thread(task);
+            th.setDaemon(true);
+            th.start();
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 
-        Parent root = FXMLLoader.load(url);
-        root.setEffect(new DropShadow());
-        primaryStage.setTitle("MultitaskAPP | DESKTOP");
-        primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.setScene(new Scene(root, 1280, 720));
-
-        url = new File("src/main/java/sample/windows/res/multitask_icon.png").toURI().toURL();
-        Image icon = new Image(String.valueOf(url));
-        primaryStage.getIcons().add(icon);
-
-        primaryStage.show();
+    public static void main(String[] args) {
+        launch(args);
     }
 
     private User decodeToken(String tokenLogin) {
@@ -96,9 +145,5 @@ public class MainClass extends Application {
 
     private void setProperties(){
         Data.storeProperties(Data.properties);
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

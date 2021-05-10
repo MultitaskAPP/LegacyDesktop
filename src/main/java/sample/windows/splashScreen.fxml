@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="480.0" prefWidth="400.0" style="-fx-background-color: #121214;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" >
+   <children>
+      <ImageView fitHeight="196.0" fitWidth="200.0" layoutX="103.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@res/multitask_icon.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="131.0" layoutY="262.0" text="MULTITASK" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="25.0" />
+         </font>
+      </Label>
+      <ProgressIndicator layoutX="175.0" layoutY="356.0" prefHeight="72.0" prefWidth="71.0" scaleX="1.3" scaleY="1.3" scaleZ="1.3">
+         <effect>
+            <ColorAdjust brightness="1.0" />
+         </effect>
+      </ProgressIndicator>
+   </children>
+</AnchorPane>
