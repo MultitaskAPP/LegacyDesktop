@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -35,8 +36,10 @@ public class MainClass extends Application {
             URL url = new File("src/main/java/sample/windows/splashScreen.fxml").toURI().toURL();
             AtomicReference<Parent> root = new AtomicReference<>(FXMLLoader.load(url));
             primaryStage.setTitle("MultitaskAPP | DESKTOP");
-            primaryStage.initStyle(StageStyle.UNDECORATED);
-            primaryStage.setScene(new Scene(root.get(), 400, 480));
+            primaryStage.initStyle(StageStyle.TRANSPARENT);
+            Scene scene = new Scene(root.get(), 400, 480);
+            scene.setFill(Color.TRANSPARENT);
+            primaryStage.setScene(scene);
             primaryStage.show();
 
             url = new File("src/main/java/sample/windows/res/multitask_icon.png").toURI().toURL();

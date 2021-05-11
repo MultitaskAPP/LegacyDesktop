@@ -122,7 +122,7 @@ public class ScheduleDialogController implements Initializable {
         if (cbGroups.getSelectionModel().getSelectedIndex() != 0){
             colourPicker.setDisable(true);
             Group selectedGroup = cbGroups.getValue();
-            hBoxPreview.setStyle("-fx-background-radius: 30; -fx-background-color: " + selectedGroup.getHexCode());
+            hBoxPreview.setStyle("-fx-background-radius: 20; -fx-background-color: " + selectedGroup.getHexCode());
             ImagePattern imagePattern = new ImagePattern(selectedGroup.getAvatarGroup());
             rectanglePreview.setFill(imagePattern);
         }else {
