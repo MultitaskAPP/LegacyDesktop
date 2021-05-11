@@ -6,11 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -58,6 +60,12 @@ public class TaskViewController implements Initializable {
 
     private void getAllSchedules(){
 
+        if (hBoxSchedules.getChildren().size() > 1){
+            for (int i = hBoxSchedules.getChildren().size() - 1; i > 0; i--){
+                hBoxSchedules.getChildren().remove(i);
+            }
+        }
+
         List<Schedule> scheduleList = Data.scheduleManager.getAllSchedulesByUser(Data.userData.getIdUser());
 
         for (Schedule s : scheduleList) {
@@ -67,6 +75,15 @@ public class TaskViewController implements Initializable {
             vBox.setPadding(new Insets(10));
             vBox.setAlignment(Pos.TOP_CENTER);
             vBox.setStyle("-fx-background-color: " + s.getHexCode() + "; -fx-background-radius: 20px");
+
+            MenuItem miView = new MenuItem("Visualizar");
+            miView.setOnAction(actionEvent -> viewSchedule(s));
+            MenuItem miEdit = new MenuItem("Editar");
+            miEdit.setOnAction(actionEvent -> updateSchedule(s));
+            MenuItem miDelete = new MenuItem("Borrar");
+            miDelete.setOnAction(actionEvent -> deleteSchedule(s));
+            ContextMenu contextMenu = new ContextMenu(miView, miEdit, miDelete);
+            vBox.setOnContextMenuRequested(contextMenuEvent -> contextMenu.show(vBox, Side.BOTTOM, 0, 0));
 
             Rectangle rectangle = new Rectangle(50, 50);
             Image image = new Image(new ImageTweakerTool(Data.userData.getIdUser()).getProfilePicUser(), rectangle.getWidth(), rectangle.getHeight(), false, true);
@@ -80,7 +97,11 @@ public class TaskViewController implements Initializable {
             label.setStyle("-fx-text-fill: white; -fx-font-size: 18px; -fx-font-family: Arial");
             vBox.getChildren().add(label);
 
-            vBox.setOnMouseClicked(mouseEvent -> getAllTasks(s));
+            vBox.setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    getAllTasks(s);
+                }
+            });
 
             hBoxSchedules.getChildren().add(vBox);
         }
@@ -383,7 +404,31 @@ public class TaskViewController implements Initializable {
 
     }
 
-    private void deleteSchedule(Schedule schedule){}
+    private void deleteSchedule(Schedule schedule){
+
+        boolean success = false;
+        if (schedule.isGroup()){
+            success = Data.scheduleManager.deleteGroupSchedule(schedule);
+        }else{
+            success = Data.scheduleManager.deleteSchedule(schedule);
+        }
+
+        if (success){
+            System.out.println("[DEBUG] - SCHEDULE eliminado correctamente!");
+            getAllSchedules();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Tablero eliminado correctamente!");
+            alert.showAndWait();
+        }else {
+            System.out.println("[DEBUG] - Error al eliminar el SCHEDULE...");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Error al eliminar el tablero...");
+            alert.showAndWait();
+        }
+
+    }
 
     private void updateSchedule(Schedule schedule){}
 

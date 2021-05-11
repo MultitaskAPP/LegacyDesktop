@@ -8,4 +8,8 @@ public interface ISchedule {
 
     public List<Schedule> getAllSchedulesByUser(int userID);
 
+    public boolean deleteSchedule(Schedule s);
+
+    public boolean deleteGroupSchedule(Schedule s);
+
 }

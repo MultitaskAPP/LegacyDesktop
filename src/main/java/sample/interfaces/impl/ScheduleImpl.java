@@ -40,4 +40,32 @@ public class ScheduleImpl implements ISchedule {
 
         return listSchedules;
     }
+
+    @Override
+    public boolean deleteSchedule(Schedule s) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", s.getIdSchedule());
+
+        ConnAPI connAPI = new ConnAPI("/api/schedules/deleteOne", "DELETE", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        int status = connAPI.getStatus();
+        return status == 200;
+    }
+
+    @Override
+    public boolean deleteGroupSchedule(Schedule s) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", s.getIdSchedule());
+
+        ConnAPI connAPI = new ConnAPI("/api/schedules/group/deleteOne", "DELETE", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        int status = connAPI.getStatus();
+        return status == 200;
+    }
 }

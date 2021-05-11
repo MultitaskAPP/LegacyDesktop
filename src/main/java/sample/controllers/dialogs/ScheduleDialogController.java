@@ -62,14 +62,10 @@ public class ScheduleDialogController implements Initializable {
     }
 
     private void createMode(){
-
         btnAddList.setOnMouseClicked(mouseEvent -> {
             if (!tfList.getText().isBlank())
                 taskList.getItems().add(tfList.getText());
         });
-
-
-
     }
 
     private void editMode(){}
