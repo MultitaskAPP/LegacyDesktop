@@ -8,7 +8,7 @@ public class Schedule {
 
     private int idSchedule;
     private String nameSchedule;
-    private int idUser;
+    private int idUser, idGroup;
     private Color colourSchedule;
     private JSONArray listsSchedules;
 
@@ -16,13 +16,14 @@ public class Schedule {
 
     public Schedule() {}
 
-    public Schedule(int idSchedule, String nameSchedule, int idUser, Color colourSchedule, JSONArray listsSchedules, boolean isGroup) {
+    public Schedule(int idSchedule, String nameSchedule, int idUser, Color colourSchedule, JSONArray listsSchedules, boolean isGroup, int idGroup) {
         this.idSchedule = idSchedule;
         this.nameSchedule = nameSchedule;
         this.idUser = idUser;
         this.colourSchedule = colourSchedule;
         this.listsSchedules = listsSchedules;
         this.isGroup = isGroup;
+        this.idGroup = idGroup;
     }
 
     public int getIdSchedule() {
@@ -71,6 +72,14 @@ public class Schedule {
 
     public void setGroup(boolean group) {
         isGroup = group;
+    }
+
+    public int getIdGroup() {
+        return idGroup;
+    }
+
+    public void setIdGroup(int idGroup) {
+        this.idGroup = idGroup;
     }
 
     public String getHexCode(){

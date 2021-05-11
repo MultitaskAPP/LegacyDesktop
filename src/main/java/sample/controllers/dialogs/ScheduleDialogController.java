@@ -11,10 +11,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import org.json.JSONArray;
 import sample.models.Group;
 import sample.models.Schedule;
 import sample.utils.Data;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ScheduleDialogController implements Initializable {
@@ -49,9 +51,7 @@ public class ScheduleDialogController implements Initializable {
 
         colourPicker.valueProperty().addListener((observableValue, color, t1) -> updatePreview(null));
 
-        if (selectedSchedule == null){
-            createMode();
-        }else {
+        if (selectedSchedule != null){
             if (updateMode){
                 editMode();
             }else {
@@ -59,20 +59,92 @@ public class ScheduleDialogController implements Initializable {
             }
         }
 
-    }
-
-    private void createMode(){
         btnAddList.setOnMouseClicked(mouseEvent -> {
-            if (!tfList.getText().isBlank())
+            if (!tfList.getText().isBlank()){
                 taskList.getItems().add(tfList.getText());
+                tfList.clear();
+            }
         });
+
+        btnDeleteList.setOnMouseClicked(mouseEvent -> {
+            if (taskList.getSelectionModel().getSelectedItem() != null){
+                taskList.getItems().remove(taskList.getSelectionModel().getSelectedIndex());
+            }
+        });
+
+        btnAdd.setOnMouseClicked(mouseEvent -> addSchedule());
+
+
     }
 
-    private void editMode(){}
+    private void editMode(){
 
-    private void viewMode(){}
+        tfName.setText(selectedSchedule.getNameSchedule());
+        colourPicker.valueProperty().setValue(Color.valueOf(selectedSchedule.getHexCode()));
+        hBoxPreview.setStyle("-fx-background-radius: 20; -fx-background-color: " + selectedSchedule.getHexCode());
+        tagNamePreview.setText(selectedSchedule.getNameSchedule());
 
-    private void addSchedule(){}
+        JSONArray listSchedules = selectedSchedule.getListsSchedules();
+        for (int i = 0; i < listSchedules.length(); i++){
+            taskList.getItems().add(listSchedules.getString(i));
+        }
+
+        if (selectedSchedule.isGroup()){
+            for (Group g: cbGroups.getItems()) {
+                if (g.getIdGroup() == selectedSchedule.getIdGroup()){
+                    ImagePattern imagePattern = new ImagePattern(g.getAvatarGroup());
+                    rectanglePreview.setFill(imagePattern);
+                    cbGroups.getSelectionModel().select(g);
+                }
+            }
+        }else{
+            cbGroups.getSelectionModel().selectFirst();
+            ImagePattern imagePattern = new ImagePattern(Data.userData.getAvatarUser());
+            rectanglePreview.setFill(imagePattern);
+        }
+
+        btnAdd.setText("EDITAR");
+        btnAdd.setOnMouseClicked(mouseEvent -> updateSchedule());
+
+    }
+
+    private void viewMode(){
+
+        btnAddList.setDisable(true);
+        btnDeleteList.setDisable(true);
+        tfList.setEditable(false);
+        tfName.setEditable(false);
+        cbGroups.setDisable(true);
+        colourPicker.setDisable(true);
+        btnAdd.setDisable(true);
+
+        editMode();
+
+    }
+
+    private void addSchedule(){
+
+        Schedule s = new Schedule();
+        s.setNameSchedule(tfName.getText());
+
+        JSONArray listsSchedules = new JSONArray();
+        for (int i = 0; i < taskList.getItems().size(); i++){
+            listsSchedules.put(taskList.getItems().get(i));
+        }
+
+        s.setListsSchedules(listsSchedules);
+
+        if (cbGroups.getSelectionModel().getSelectedIndex() != 0){
+            s.setColourSchedule(cbGroups.getSelectionModel().getSelectedItem().getColourGroup());
+            s.setIdGroup(cbGroups.getSelectionModel().getSelectedItem().getIdGroup());
+            s.setGroup(true);
+        }else{
+            s.setIdUser(Data.userData.getIdUser());
+            s.setGroup(false);
+            s.setColourSchedule(getSelectedColour(colourPicker.getValue()));
+        }
+
+    }
 
     private void updateSchedule(){}
 
@@ -139,6 +211,17 @@ public class ScheduleDialogController implements Initializable {
         int b = awtColor.getBlue();
 
         return String.format("#%02X%02X%02X", r, g, b);
+    }
+
+    private java.awt.Color getSelectedColour(Color sc){
+
+        java.awt.Color awtColor = new java.awt.Color((float) sc.getRed(), (float) sc.getGreen(), (float) sc.getBlue(), (float) sc.getOpacity());
+
+        int r = awtColor.getRed();
+        int g = awtColor.getGreen();
+        int b = awtColor.getBlue();
+
+        return awtColor;
     }
 
     public void setGroup(boolean group) {

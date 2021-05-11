@@ -430,9 +430,51 @@ public class TaskViewController implements Initializable {
 
     }
 
-    private void updateSchedule(Schedule schedule){}
+    private void updateSchedule(Schedule schedule){
+        try {
+            Stage stage = new Stage();
+            URL url = new File("src/main/java/sample/windows/dialogs/scheduleDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            ScheduleDialogController scheduleDialogController = loader.getController();
+            scheduleDialogController.setSelectedSchedule(schedule);
+            scheduleDialogController.setGroup(schedule.isGroup());
+            scheduleDialogController.setUpdateMode(true);
+            scheduleDialogController.preloadData();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
+            stage.show();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-    private void viewSchedule(Schedule schedule){}
+    private void viewSchedule(Schedule schedule){
+        try {
+            Stage stage = new Stage();
+            URL url = new File("src/main/java/sample/windows/dialogs/scheduleDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            ScheduleDialogController scheduleDialogController = loader.getController();
+            scheduleDialogController.setSelectedSchedule(schedule);
+            scheduleDialogController.setGroup(schedule.isGroup());
+            scheduleDialogController.setUpdateMode(false);
+            scheduleDialogController.preloadData();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
+            stage.show();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void storeSelectedView(int nView){
         Data.properties.setProperty("taskView", Integer.toString(nView));
