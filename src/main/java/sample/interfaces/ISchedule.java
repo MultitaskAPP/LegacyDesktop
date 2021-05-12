@@ -15,6 +15,10 @@ public interface ISchedule {
 
     public boolean insertGroupSchedule(Schedule schedule);
 
+    public boolean updateSchedule(Schedule schedule);
+
+    public boolean updateGroupSchedule(Schedule schedule);
+
     public boolean deleteSchedule(Schedule s);
 
     public boolean deleteGroupSchedule(Schedule s);

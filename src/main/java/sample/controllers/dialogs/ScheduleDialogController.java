@@ -74,7 +74,8 @@ public class ScheduleDialogController implements Initializable {
             }
         });
 
-        btnAdd.setOnMouseClicked(mouseEvent -> addSchedule());
+        if (!updateMode)
+            btnAdd.setOnMouseClicked(mouseEvent -> addSchedule());
 
 
     }
@@ -93,10 +94,12 @@ public class ScheduleDialogController implements Initializable {
 
         if (selectedSchedule.isGroup()){
             for (Group g: cbGroups.getItems()) {
-                if (g.getIdGroup() == selectedSchedule.getIdGroup()){
-                    ImagePattern imagePattern = new ImagePattern(g.getAvatarGroup());
-                    rectanglePreview.setFill(imagePattern);
-                    cbGroups.getSelectionModel().select(g);
+                if (g != null){
+                    if (g.getIdGroup() == selectedSchedule.getIdGroup()){
+                        ImagePattern imagePattern = new ImagePattern(g.getAvatarGroup());
+                        rectanglePreview.setFill(imagePattern);
+                        cbGroups.getSelectionModel().select(g);
+                    }
                 }
             }
         }else{
@@ -189,6 +192,27 @@ public class ScheduleDialogController implements Initializable {
     private void updateSchedule(){
 
         Schedule updateSchedule = getData();
+        boolean success = false;
+
+        if (updateSchedule.isGroup())
+            success = Data.scheduleManager.updateGroupSchedule(updateSchedule);
+        else
+            success = Data.scheduleManager.updateSchedule(updateSchedule);
+
+        if (success){
+            System.out.println("[DEBUG] - TASK actualizada correctamente");
+            exit(null);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Tarea actualizada correctamente!");
+            alert.showAndWait();
+        }else {
+            System.out.println("[DEBUG] - Error al actualizar la TASK...");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Error al actualizar la tarea...");
+            alert.showAndWait();
+        }
 
     }
 

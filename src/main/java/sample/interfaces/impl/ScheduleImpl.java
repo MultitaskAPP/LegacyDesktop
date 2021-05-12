@@ -64,7 +64,6 @@ public class ScheduleImpl implements ISchedule {
         List<Schedule> scheduleGroupList = new ArrayList<>();
 
         String parsedIDs = allGroupIDs.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
-        System.out.println(parsedIDs);
 
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("id", parsedIDs);
@@ -104,7 +103,6 @@ public class ScheduleImpl implements ISchedule {
             }
         }
 
-        System.out.println(scheduleGroupList);
         return scheduleGroupList;
 
     }
@@ -130,6 +128,34 @@ public class ScheduleImpl implements ISchedule {
         requestJSON.put("data", schedule.toJSONObject());
 
         ConnAPI connAPI = new ConnAPI("/api/schedules/group/createOne", "POST", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        int status = connAPI.getStatus();
+        return status == 200;
+    }
+
+    @Override
+    public boolean updateSchedule(Schedule schedule) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("data", schedule.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/schedules/updateOne", "PUT", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        int status = connAPI.getStatus();
+        return status == 200;
+    }
+
+    @Override
+    public boolean updateGroupSchedule(Schedule schedule) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("data", schedule.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/schedules/group/updateOne", "PUT", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 

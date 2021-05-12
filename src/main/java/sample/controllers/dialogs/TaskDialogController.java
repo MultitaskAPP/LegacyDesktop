@@ -37,8 +37,52 @@ public class TaskDialogController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
 
+    @FXML
+    void checkTask(ActionEvent event) {
+        if (!textArea.getText().isBlank()) {
+            if(!cbLists.getSelectionModel().isEmpty()){
+                Task taskObj = new Task();
+                taskObj.setIdTask(idTask);
+                taskObj.setTextTask(textArea.getText().replaceAll("\"", "'"));
+                taskObj.setListTask(cbLists.getSelectionModel().getSelectedItem());
+                taskObj.setIdSchedule(selectedSchedule.getIdSchedule());
+                if (!tfDuration.getText().isBlank())
+                    taskObj.setDurationTask(Integer.parseInt(tfDuration.getText()));
+                if (!cbPriority.getSelectionModel().isEmpty())
+                    taskObj.setPriorityTask(cbPriority.getSelectionModel().getSelectedIndex() + 1);
+                if (datePicker.valueProperty().get() != null){
+                    LocalDate localDate = datePicker.getValue();
+                    Date date = Date.valueOf(localDate);
+                    taskObj.setLimitDateTask(date);
+                    System.out.println(taskObj.getLimitDateTask());
+                }
 
+                if(updateMode){
+                    if (isGroup)
+                        updateGroupTask(taskObj);
+                    else
+                        updateTask(taskObj);
+                }else {
+                    if (isGroup)
+                        insertGroupTask(taskObj);
+                    else
+                        insertTask(taskObj);
+                }
+
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("MultitaskAPP | DESKTOP");
+                alert.setHeaderText("Debes seleccionar una lista...");
+                alert.showAndWait();
+            }
+        }else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("La tarea no puede estar en blanco...");
+            alert.showAndWait();
+        }
     }
 
     public void preloadData(){
@@ -122,52 +166,6 @@ public class TaskDialogController implements Initializable {
 
     }
 
-    @FXML
-    void checkTask(ActionEvent event) {
-        if (!textArea.getText().isBlank()) {
-            if(!cbLists.getSelectionModel().isEmpty()){
-                Task taskObj = new Task();
-                taskObj.setIdTask(idTask);
-                taskObj.setTextTask(textArea.getText().replaceAll("\"", "'"));
-                taskObj.setListTask(cbLists.getSelectionModel().getSelectedItem());
-                taskObj.setIdSchedule(selectedSchedule.getIdSchedule());
-                if (!tfDuration.getText().isBlank())
-                    taskObj.setDurationTask(Integer.parseInt(tfDuration.getText()));
-                if (!cbPriority.getSelectionModel().isEmpty())
-                    taskObj.setPriorityTask(cbPriority.getSelectionModel().getSelectedIndex() + 1);
-                if (datePicker.valueProperty().get() != null){
-                    LocalDate localDate = datePicker.getValue();
-                    Date date = Date.valueOf(localDate);
-                    taskObj.setLimitDateTask(date);
-                    System.out.println(taskObj.getLimitDateTask());
-                }
-
-                if(updateMode){
-                    if (isGroup)
-                        updateGroupTask(taskObj);
-                    else
-                        updateTask(taskObj);
-                }else {
-                    if (isGroup)
-                        insertGroupTask(taskObj);
-                    else
-                        insertTask(taskObj);
-                }
-
-            }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("MultitaskAPP | DESKTOP");
-                alert.setHeaderText("Debes seleccionar una lista...");
-                alert.showAndWait();
-            }
-        }else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("MultitaskAPP | DESKTOP");
-            alert.setHeaderText("La tarea no puede estar en blanco...");
-            alert.showAndWait();
-        }
-    }
-
     private void insertTask(Task task){
         task = Data.taskManager.insertTask(task);
         if (task.getIdTask() != 0){
@@ -226,12 +224,22 @@ public class TaskDialogController implements Initializable {
 
     }
 
-    private void updateGroupTask(Task task){}
-
-    @FXML
-    void exit(ActionEvent event) {
-        Stage stage = (Stage) btnAdd.getScene().getWindow();
-        stage.close();
+    private void updateGroupTask(Task task){
+        boolean success = Data.taskManager.updateGroupTask(task);
+        if (success){
+            System.out.println("[DEBUG] - TASK actualizada correctamente");
+            exit(null);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Tarea actualizada correctamente!");
+            alert.showAndWait();
+        }else {
+            System.out.println("[DEBUG] - Error al actualizar la TASK...");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Error al actualizar la tarea...");
+            alert.showAndWait();
+        }
     }
 
     public void setSelectedSchedule(Schedule selectedSchedule) {
@@ -248,6 +256,12 @@ public class TaskDialogController implements Initializable {
 
     public void setSelectedList(int selectedList) {
         this.selectedList = selectedList;
+    }
+
+    @FXML
+    void exit(ActionEvent event) {
+        Stage stage = (Stage) btnAdd.getScene().getWindow();
+        stage.close();
     }
 
     @FXML

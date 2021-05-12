@@ -141,7 +141,16 @@ public class TaskImpl implements ITask {
 
     @Override
     public boolean updateGroupTask(Task task) {
-        return false;
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("data", task.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/tasks/group/updateOne", "PUT", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        int status = connAPI.getStatus();
+        return status == 200;
     }
 
     @Override
