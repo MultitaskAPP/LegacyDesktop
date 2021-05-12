@@ -24,6 +24,7 @@ import javafx.stage.StageStyle;
 import org.json.JSONArray;
 import sample.controllers.dialogs.ScheduleDialogController;
 import sample.controllers.dialogs.TaskDialogController;
+import sample.models.Group;
 import sample.models.Schedule;
 import sample.models.Task;
 import sample.utils.Data;
@@ -68,6 +69,13 @@ public class TaskViewController implements Initializable {
 
         List<Schedule> scheduleList = Data.scheduleManager.getAllSchedulesByUser(Data.userData.getIdUser());
 
+        ArrayList<String> arrayGroupIDs = new ArrayList<>();
+        for (Group g : Data.arrayGroupsUser) {
+            arrayGroupIDs.add(Integer.toString(g.getIdGroup()));
+        }
+
+        scheduleList.addAll(Data.scheduleManager.getAllSchedulesByGroup(arrayGroupIDs));
+
         for (Schedule s : scheduleList) {
             VBox vBox = new VBox();
             vBox.setPrefSize(200, 100);
@@ -86,8 +94,16 @@ public class TaskViewController implements Initializable {
             vBox.setOnContextMenuRequested(contextMenuEvent -> contextMenu.show(vBox, Side.BOTTOM, 0, 0));
 
             Rectangle rectangle = new Rectangle(50, 50);
-            Image image = new Image(new ImageTweakerTool(Data.userData.getIdUser()).getProfilePicUser(), rectangle.getWidth(), rectangle.getHeight(), false, true);
-            ImagePattern imagePattern = new ImagePattern(image);
+
+            ImagePattern imagePattern;
+            if (s.isGroup()){
+                Group sGroup = Data.groupManager.getGroupByID(s.getIdGroup());
+                imagePattern = new ImagePattern(sGroup.getAvatarGroup());
+            }else{
+                Image image = new Image(new ImageTweakerTool(Data.userData.getIdUser()).getProfilePicUser(), rectangle.getWidth(), rectangle.getHeight(), false, true);
+                imagePattern = new ImagePattern(image);
+            }
+
             rectangle.setArcHeight(360);
             rectangle.setArcWidth(360);
             rectangle.setFill(imagePattern);
@@ -315,7 +331,7 @@ public class TaskViewController implements Initializable {
             Parent root = loader.load();
             TaskDialogController taskDialogController = loader.getController();
             taskDialogController.setSelectedSchedule(s);
-            taskDialogController.setGroup(false);
+            taskDialogController.setGroup(s.isGroup());
             taskDialogController.setSelectedList(selectedList);
             Scene scene = new Scene(root);
             stage.setScene(scene);

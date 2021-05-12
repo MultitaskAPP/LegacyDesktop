@@ -2,11 +2,14 @@ package sample.interfaces;
 
 import sample.models.Schedule;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface ISchedule {
 
     public List<Schedule> getAllSchedulesByUser(int userID);
+
+    public List<Schedule> getAllSchedulesByGroup(ArrayList<String> allGroupIDs);
 
     public boolean insertSchedule(Schedule schedule);
 

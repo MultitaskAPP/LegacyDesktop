@@ -1,5 +1,6 @@
 package sample.interfaces.impl;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sample.interfaces.ISchedule;
@@ -7,7 +8,11 @@ import sample.models.Schedule;
 import sample.utils.ConnAPI;
 
 import java.awt.*;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ScheduleImpl implements ISchedule {
@@ -20,7 +25,7 @@ public class ScheduleImpl implements ISchedule {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("id", userID);
 
-        ConnAPI connAPI = new ConnAPI("/api/schedules/readAllByUser", "POST", false);
+        ConnAPI connAPI = new ConnAPI("/api/schedules/readAll", "POST", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -34,6 +39,19 @@ public class ScheduleImpl implements ISchedule {
             scheduleObj.setIdUser(rawJSON.getInt("idUser"));
             scheduleObj.setColourSchedule(Color.decode(rawJSON.getString("colourSchedule")));
             scheduleObj.setListsSchedules(new JSONArray(rawJSON.getString("listsSchedule")));
+
+            try {
+                if (!(rawJSON.isNull("creationDate"))){
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    java.util.Date dateParsed = simpleDateFormat.parse(rawJSON.getString("creationDate"));
+                    scheduleObj.setCreationDate(new Date(dateParsed.getTime()));
+                }else{
+                    scheduleObj.setCreationDate(new Date(Calendar.getInstance().getTime().getTime()));
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             scheduleObj.setGroup(false);
             listSchedules.add(scheduleObj);
         }
@@ -42,12 +60,62 @@ public class ScheduleImpl implements ISchedule {
     }
 
     @Override
+    public List<Schedule> getAllSchedulesByGroup(ArrayList<String> allGroupIDs) {
+        List<Schedule> scheduleGroupList = new ArrayList<>();
+
+        String parsedIDs = allGroupIDs.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
+        System.out.println(parsedIDs);
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", parsedIDs);
+
+        ConnAPI connAPI = new ConnAPI("/api/schedules/groups/readAll", "POST", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        if (connAPI.getStatus() == 200){
+            JSONObject responseJSON = connAPI.getDataJSON();
+            JSONArray arrayJSON = responseJSON.getJSONArray("data");
+
+            for (int i = 0; i < arrayJSON.length(); i++){
+                JSONObject rawJSON = arrayJSON.getJSONObject(i);
+                Schedule schedule = new Schedule();
+                schedule.setIdSchedule(rawJSON.getInt("idGroupSchedule"));
+                schedule.setNameSchedule(rawJSON.getString("nameGroupSchedule"));
+                schedule.setIdGroup(rawJSON.getInt("idGroup"));
+                schedule.setColourSchedule(Color.decode(rawJSON.getString("colourSchedule")));
+                schedule.setListsSchedules(new JSONArray(rawJSON.getString("listsSchedule")));
+
+                try {
+                    if (!(rawJSON.isNull("creationDate"))){
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        java.util.Date dateParsed = simpleDateFormat.parse(rawJSON.getString("creationDate"));
+                        schedule.setCreationDate(new Date(dateParsed.getTime()));
+                    }else{
+                        schedule.setCreationDate(new Date(Calendar.getInstance().getTime().getTime()));
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                schedule.setGroup(true);
+                scheduleGroupList.add(schedule);
+
+            }
+        }
+
+        System.out.println(scheduleGroupList);
+        return scheduleGroupList;
+
+    }
+
+    @Override
     public boolean insertSchedule(Schedule schedule) {
 
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("data", schedule.toJSONObject());
 
-        ConnAPI connAPI = new ConnAPI("/api/schedules/createOne", "POST", true);
+        ConnAPI connAPI = new ConnAPI("/api/schedules/createOne", "POST", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -61,7 +129,7 @@ public class ScheduleImpl implements ISchedule {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("data", schedule.toJSONObject());
 
-        ConnAPI connAPI = new ConnAPI("/api/schedules/group/createOne", "POST", true);
+        ConnAPI connAPI = new ConnAPI("/api/schedules/group/createOne", "POST", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 

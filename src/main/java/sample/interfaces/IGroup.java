@@ -8,4 +8,6 @@ public interface IGroup {
 
     public ArrayList<Group> getAllGroups(int userID);
 
+    public Group getGroupByID(int idGroup);
+
 }

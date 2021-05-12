@@ -7,6 +7,7 @@ import sample.interfaces.IGroup;
 import sample.models.Group;
 import sample.models.User;
 import sample.utils.ConnAPI;
+import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
 
 import java.awt.*;
@@ -60,5 +61,15 @@ public class GroupImpl implements IGroup {
         }
 
         return arrayGroups;
+    }
+
+    @Override
+    public Group getGroupByID(int idGroup) {
+        for (Group g : Data.arrayGroupsUser) {
+            if (g.getIdGroup() == idGroup)
+                return g;
+        }
+
+        return null;
     }
 }

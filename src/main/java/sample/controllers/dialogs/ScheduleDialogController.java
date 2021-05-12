@@ -128,7 +128,13 @@ public class ScheduleDialogController implements Initializable {
 
         Schedule s = new Schedule();
         s.setNameSchedule(tfName.getText());
-        s.setCreationDate(new Date(Calendar.getInstance().getTime().getTime()));
+
+        if (selectedSchedule != null){
+            s.setIdSchedule(selectedSchedule.getIdSchedule());
+            s.setCreationDate(selectedSchedule.getCreationDate());
+        }else {
+            s.setCreationDate(new Date(Calendar.getInstance().getTime().getTime()));
+        }
 
         JSONArray listsSchedules = new JSONArray();
         for (int i = 0; i < taskList.getItems().size(); i++){
@@ -180,7 +186,11 @@ public class ScheduleDialogController implements Initializable {
 
     }
 
-    private void updateSchedule(){}
+    private void updateSchedule(){
+
+        Schedule updateSchedule = getData();
+
+    }
 
     @FXML
     void checkSchedule(ActionEvent event) {

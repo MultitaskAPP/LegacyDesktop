@@ -5,7 +5,11 @@ import org.json.JSONObject;
 import sample.interfaces.ITask;
 import sample.models.Task;
 import sample.utils.ConnAPI;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TaskImpl implements ITask {
@@ -18,23 +22,62 @@ public class TaskImpl implements ITask {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("id", scheduleID);
 
-        ConnAPI connAPI = new ConnAPI("/api/tasks/readAllBySchedule", "POST", false);
-        connAPI.setData(requestJSON);
-        connAPI.establishConn();
+        if (!isGroup){
+            ConnAPI connAPI = new ConnAPI("/api/tasks/readAll", "POST", false);
+            connAPI.setData(requestJSON);
+            connAPI.establishConn();
 
-        JSONObject responseJSON = connAPI.getDataJSON();
-        JSONArray dataJSON = responseJSON.getJSONArray("data");
-        for (int i = 0; i < dataJSON.length(); i++){
-            JSONObject rawJSON = dataJSON.getJSONObject(i);
-            Task taskObj = new Task();
-            taskObj.setIdTask(rawJSON.getInt("idTask"));
-            taskObj.setTextTask(rawJSON.getString("textTask"));
-            taskObj.setDurationTask(rawJSON.getInt("durationTask"));
-            taskObj.setPriorityTask(rawJSON.getInt("priorityTask"));
-            taskObj.setIdSchedule(rawJSON.getInt("idSchedule"));
-            taskObj.setListTask(rawJSON.getString("listTask"));
-            taskObj.setGroup(isGroup);
-            taskList.add(taskObj);
+            JSONObject responseJSON = connAPI.getDataJSON();
+            JSONArray dataJSON = responseJSON.getJSONArray("data");
+            for (int i = 0; i < dataJSON.length(); i++){
+                JSONObject rawJSON = dataJSON.getJSONObject(i);
+                Task taskObj = new Task();
+                taskObj.setIdTask(rawJSON.getInt("idTask"));
+                taskObj.setTextTask(rawJSON.getString("textTask"));
+                taskObj.setDurationTask(rawJSON.getInt("durationTask"));
+                taskObj.setPriorityTask(rawJSON.getInt("priorityTask"));
+                taskObj.setIdSchedule(rawJSON.getInt("idSchedule"));
+                taskObj.setListTask(rawJSON.getString("listTask"));
+
+                try {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Date dateParsed = simpleDateFormat.parse(rawJSON.getString("limitDateTask"));
+                    taskObj.setLimitDateTask(dateParsed);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                taskObj.setGroup(isGroup);
+                taskList.add(taskObj);
+            }
+        }else{
+            ConnAPI connAPI = new ConnAPI("/api/tasks/group/readAll", "POST", true);
+            connAPI.setData(requestJSON);
+            connAPI.establishConn();
+
+            JSONObject responseJSON = connAPI.getDataJSON();
+            JSONArray dataJSON = responseJSON.getJSONArray("data");
+            for (int i = 0; i < dataJSON.length(); i++){
+                JSONObject rawJSON = dataJSON.getJSONObject(i);
+                Task taskObj = new Task();
+                taskObj.setIdTask(rawJSON.getInt("idGroupsTasks"));
+                taskObj.setTextTask(rawJSON.getString("textTask"));
+                taskObj.setDurationTask(rawJSON.getInt("durationTask"));
+                taskObj.setPriorityTask(rawJSON.getInt("priorityTask"));
+                taskObj.setIdSchedule(rawJSON.getInt("idGroupSchedule"));
+                taskObj.setListTask(rawJSON.getString("listTask"));
+                taskObj.setGroup(isGroup);
+
+                try {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Date dateParsed = simpleDateFormat.parse(rawJSON.getString("limitDateTask"));
+                    taskObj.setLimitDateTask(dateParsed);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                taskList.add(taskObj);
+            }
         }
 
         return taskList;
