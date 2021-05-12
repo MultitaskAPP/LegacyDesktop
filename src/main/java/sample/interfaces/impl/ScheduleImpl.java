@@ -42,6 +42,34 @@ public class ScheduleImpl implements ISchedule {
     }
 
     @Override
+    public boolean insertSchedule(Schedule schedule) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("data", schedule.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/schedules/createOne", "POST", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        int status = connAPI.getStatus();
+        return status == 200;
+    }
+
+    @Override
+    public boolean insertGroupSchedule(Schedule schedule) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("data", schedule.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/schedules/group/createOne", "POST", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        int status = connAPI.getStatus();
+        return status == 200;
+    }
+
+    @Override
     public boolean deleteSchedule(Schedule s) {
 
         JSONObject requestJSON = new JSONObject();

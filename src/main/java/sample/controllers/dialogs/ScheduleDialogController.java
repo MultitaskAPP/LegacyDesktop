@@ -16,7 +16,9 @@ import sample.models.Group;
 import sample.models.Schedule;
 import sample.utils.Data;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 
 public class ScheduleDialogController implements Initializable {
@@ -24,7 +26,7 @@ public class ScheduleDialogController implements Initializable {
     @FXML    private TextField tfName, tfList;
     @FXML    private ColorPicker colourPicker;
     @FXML    private ComboBox<Group> cbGroups;
-    @FXML    private VBox hBoxPreview;
+    @FXML    private VBox hBoxPreview, vBoxLeft;
     @FXML    private Rectangle rectanglePreview;
     @FXML    private Label tagNamePreview;
     @FXML    private ListView<String> taskList;
@@ -115,17 +117,18 @@ public class ScheduleDialogController implements Initializable {
         tfList.setEditable(false);
         tfName.setEditable(false);
         cbGroups.setDisable(true);
-        colourPicker.setDisable(true);
+        vBoxLeft.getChildren().remove(colourPicker);
         btnAdd.setDisable(true);
 
         editMode();
 
     }
 
-    private void addSchedule(){
+    private Schedule getData(){
 
         Schedule s = new Schedule();
         s.setNameSchedule(tfName.getText());
+        s.setCreationDate(new Date(Calendar.getInstance().getTime().getTime()));
 
         JSONArray listsSchedules = new JSONArray();
         for (int i = 0; i < taskList.getItems().size(); i++){
@@ -143,6 +146,37 @@ public class ScheduleDialogController implements Initializable {
             s.setGroup(false);
             s.setColourSchedule(getSelectedColour(colourPicker.getValue()));
         }
+
+        return s;
+    }
+
+    private void addSchedule(){
+
+        Schedule newSchedule = getData();
+
+        boolean success = false;
+        if (newSchedule.isGroup()){
+            success = Data.scheduleManager.insertGroupSchedule(newSchedule);
+
+        }else{
+            success = Data.scheduleManager.insertSchedule(newSchedule);
+        }
+
+        if (success){
+            System.out.println("[DEBUG] - SCHEDULE añadido correctamente");
+            exit(null);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Tablero añadido correctamente!");
+            alert.showAndWait();
+        }else {
+            System.out.println("[DEBUG] - Error al añadir la SCHEDULE...");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Error al añadir la tablero...");
+            alert.showAndWait();
+        }
+
 
     }
 

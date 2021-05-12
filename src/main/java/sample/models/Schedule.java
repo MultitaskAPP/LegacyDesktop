@@ -1,8 +1,10 @@
 package sample.models;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.awt.*;
+import java.sql.Date;
 
 public class Schedule {
 
@@ -11,12 +13,13 @@ public class Schedule {
     private int idUser, idGroup;
     private Color colourSchedule;
     private JSONArray listsSchedules;
+    private Date creationDate;
 
     private boolean isGroup;
 
     public Schedule() {}
 
-    public Schedule(int idSchedule, String nameSchedule, int idUser, Color colourSchedule, JSONArray listsSchedules, boolean isGroup, int idGroup) {
+    public Schedule(int idSchedule, String nameSchedule, int idUser, Color colourSchedule, JSONArray listsSchedules, boolean isGroup, int idGroup, Date creationDate) {
         this.idSchedule = idSchedule;
         this.nameSchedule = nameSchedule;
         this.idUser = idUser;
@@ -24,6 +27,7 @@ public class Schedule {
         this.listsSchedules = listsSchedules;
         this.isGroup = isGroup;
         this.idGroup = idGroup;
+        this.creationDate = creationDate;
     }
 
     public int getIdSchedule() {
@@ -82,6 +86,14 @@ public class Schedule {
         this.idGroup = idGroup;
     }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
     public String getHexCode(){
 
         int r = colourSchedule.getRed();
@@ -89,6 +101,21 @@ public class Schedule {
         int b = colourSchedule.getBlue();
 
         return String.format("#%02X%02X%02X", r, g, b);
+    }
+
+    public JSONObject toJSONObject(){
+
+        JSONObject scheduleJSON = new JSONObject();
+        scheduleJSON.put("idSchedule", idSchedule);
+        scheduleJSON.put("nameSchedule", nameSchedule);
+        scheduleJSON.put("idUser", idUser);
+        scheduleJSON.put("idGroup", idGroup);
+        scheduleJSON.put("colourSchedule", getHexCode());
+        scheduleJSON.put("listsSchedule", listsSchedules.toString());
+        scheduleJSON.put("creationDate", creationDate);
+
+        return scheduleJSON;
+
     }
 
     @Override
