@@ -188,6 +188,22 @@ public class TaskDialogController implements Initializable {
 
     private void insertGroupTask(Task task){
 
+        task = Data.taskManager.insertGroupTask(task);
+        if (task.getIdTask() != 0){
+            System.out.println("[DEBUG] - TASK añadida correctamente");
+            exit(null);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Tarea añadida correctamente!");
+            alert.showAndWait();
+        }else {
+            System.out.println("[DEBUG] - Error al añadir la TASK...");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Error al añadir la tarea...");
+            alert.showAndWait();
+        }
+
     }
 
     private void updateTask(Task task){
