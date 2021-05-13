@@ -1,12 +1,10 @@
 package sample.interfaces.impl;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sample.interfaces.ISchedule;
 import sample.models.Schedule;
 import sample.utils.ConnAPI;
-
 import java.awt.*;
 import java.sql.Date;
 import java.text.ParseException;

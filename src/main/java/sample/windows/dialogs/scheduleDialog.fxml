@@ -85,7 +85,7 @@
                         <ListView fx:id="taskList" prefHeight="286.0" prefWidth="200.0" style="-fx-background-radius: 30; -fx-background-color: #32323E;" />
                         <HBox alignment="TOP_RIGHT" prefHeight="55.0" prefWidth="200.0" spacing="18.0">
                            <children>
-                              <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#checkSchedule" prefHeight="56.0" prefWidth="160.0" style="-fx-background-color: #39CE39; -fx-background-radius: 30;" text="AÑADIR" textFill="WHITE">
+                              <Button fx:id="btnAdd" mnemonicParsing="false" prefHeight="56.0" prefWidth="160.0" style="-fx-background-color: #39CE39; -fx-background-radius: 30;" text="AÑADIR" textFill="WHITE">
                                  <graphic>
                                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                        <image>

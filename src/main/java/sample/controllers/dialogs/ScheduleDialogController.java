@@ -17,7 +17,6 @@ import sample.models.Schedule;
 import sample.utils.Data;
 import java.net.URL;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
@@ -51,6 +50,7 @@ public class ScheduleDialogController implements Initializable {
         cbGroups.getItems().addAll(Data.arrayGroupsUser);
         cbGroups.getSelectionModel().selectFirst();
 
+        colourPicker.setValue(Color.valueOf("#32323E"));
         colourPicker.valueProperty().addListener((observableValue, color, t1) -> updatePreview(null));
 
         if (selectedSchedule != null){
@@ -129,64 +129,73 @@ public class ScheduleDialogController implements Initializable {
 
     private Schedule getData(){
 
-        Schedule s = new Schedule();
-        s.setNameSchedule(tfName.getText());
+        if (!tfName.getText().isBlank()){
+            Schedule s = new Schedule();
+            s.setNameSchedule(tfName.getText());
 
-        if (selectedSchedule != null){
-            s.setIdSchedule(selectedSchedule.getIdSchedule());
-            s.setCreationDate(selectedSchedule.getCreationDate());
-        }else {
-            s.setCreationDate(new Date(Calendar.getInstance().getTime().getTime()));
-        }
+            if (selectedSchedule != null){
+                s.setIdSchedule(selectedSchedule.getIdSchedule());
+                s.setCreationDate(selectedSchedule.getCreationDate());
+            }else {
+                s.setCreationDate(new Date(Calendar.getInstance().getTime().getTime()));
+            }
 
-        JSONArray listsSchedules = new JSONArray();
-        for (int i = 0; i < taskList.getItems().size(); i++){
-            listsSchedules.put(taskList.getItems().get(i));
-        }
+            JSONArray listsSchedules = new JSONArray();
+            for (int i = 0; i < taskList.getItems().size(); i++){
+                listsSchedules.put(taskList.getItems().get(i));
+            }
 
-        s.setListsSchedules(listsSchedules);
+            s.setListsSchedules(listsSchedules);
 
-        if (cbGroups.getSelectionModel().getSelectedIndex() != 0){
-            s.setColourSchedule(cbGroups.getSelectionModel().getSelectedItem().getColourGroup());
-            s.setIdGroup(cbGroups.getSelectionModel().getSelectedItem().getIdGroup());
-            s.setGroup(true);
+            if (cbGroups.getSelectionModel().getSelectedIndex() != 0){
+                s.setColourSchedule(cbGroups.getSelectionModel().getSelectedItem().getColourGroup());
+                s.setIdGroup(cbGroups.getSelectionModel().getSelectedItem().getIdGroup());
+                s.setGroup(true);
+            }else{
+                s.setIdUser(Data.userData.getIdUser());
+                s.setGroup(false);
+                s.setColourSchedule(getSelectedColour(colourPicker.getValue()));
+            }
+
+            return s;
         }else{
-            s.setIdUser(Data.userData.getIdUser());
-            s.setGroup(false);
-            s.setColourSchedule(getSelectedColour(colourPicker.getValue()));
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("El tablero debe tener nombre...");
+            alert.showAndWait();
         }
 
-        return s;
+        return null;
+
     }
 
     private void addSchedule(){
 
         Schedule newSchedule = getData();
+        if (newSchedule != null){
+            boolean success = false;
+            if (newSchedule.isGroup()){
+                success = Data.scheduleManager.insertGroupSchedule(newSchedule);
 
-        boolean success = false;
-        if (newSchedule.isGroup()){
-            success = Data.scheduleManager.insertGroupSchedule(newSchedule);
+            }else{
+                success = Data.scheduleManager.insertSchedule(newSchedule);
+            }
 
-        }else{
-            success = Data.scheduleManager.insertSchedule(newSchedule);
+            if (success){
+                System.out.println("[DEBUG] - SCHEDULE añadido correctamente");
+                exit(null);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("MultitaskAPP | DESKTOP");
+                alert.setHeaderText("Tablero añadido correctamente!");
+                alert.showAndWait();
+            }else {
+                System.out.println("[DEBUG] - Error al añadir la SCHEDULE...");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("MultitaskAPP | DESKTOP");
+                alert.setHeaderText("Error al añadir la tablero...");
+                alert.showAndWait();
+            }
         }
-
-        if (success){
-            System.out.println("[DEBUG] - SCHEDULE añadido correctamente");
-            exit(null);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("MultitaskAPP | DESKTOP");
-            alert.setHeaderText("Tablero añadido correctamente!");
-            alert.showAndWait();
-        }else {
-            System.out.println("[DEBUG] - Error al añadir la SCHEDULE...");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("MultitaskAPP | DESKTOP");
-            alert.setHeaderText("Error al añadir la tablero...");
-            alert.showAndWait();
-        }
-
-
     }
 
     private void updateSchedule(){
@@ -213,11 +222,6 @@ public class ScheduleDialogController implements Initializable {
             alert.setHeaderText("Error al actualizar la tarea...");
             alert.showAndWait();
         }
-
-    }
-
-    @FXML
-    void checkSchedule(ActionEvent event) {
 
     }
 
