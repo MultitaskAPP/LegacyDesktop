@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 public class DashboardViewController implements Initializable {
 
-    @FXML    private Label tvDay;
+    @FXML    private Label tvDay, tagSummary;
     @FXML    private Label tvMonth;
     @FXML    private Rectangle rectangle;
 
@@ -30,7 +30,7 @@ public class DashboardViewController implements Initializable {
 
         // Llamadas a la API para obtener datos del servidor.
 
-        System.out.println(Data.arrayGroupsUser.toString());
+        tagSummary.setText("¡Hola, " + Data.userData.getName() + "!");
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
         Date date = new Date();

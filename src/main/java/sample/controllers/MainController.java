@@ -6,14 +6,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sample.utils.Data;
+import sample.utils.ImageTweakerTool;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,14 +30,25 @@ public class MainController implements Initializable {
     @FXML    private AnchorPane scenePane;
 
     @FXML    private HBox btnDashboard, btnTasks, btnEvents, btnNotes, btnChats;
+    @FXML    private HBox btnProfile, btnOptions;
     @FXML    private VBox vBoxButtons;
+    @FXML    private Rectangle rectAvatar;
 
     public static double x, y;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        preloadMenu();
         gotoDashboard(null);
+
+    }
+
+    private void preloadMenu(){
+
+        Image image = new Image(new ImageTweakerTool(Data.userData.getIdUser()).getProfilePicUser(), rectAvatar.getWidth(), rectAvatar.getHeight(), false, true);
+        ImagePattern imagePattern = new ImagePattern(image);
+        rectAvatar.setFill(imagePattern);
 
     }
 

@@ -4,9 +4,12 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #121214;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.MainController">
@@ -33,7 +36,7 @@
             <Point3D />
          </rotationAxis>
       </AnchorPane>
-      <VBox fx:id="vBoxButtons" alignment="TOP_CENTER" layoutY="163.0" prefHeight="465.0" prefWidth="238.0" spacing="30.0">
+      <VBox fx:id="vBoxButtons" alignment="TOP_CENTER" layoutY="163.0" prefHeight="422.0" prefWidth="238.0" spacing="30.0">
          <children>
             <HBox fx:id="btnDashboard" alignment="CENTER_LEFT" onMouseClicked="#gotoDashboard" prefHeight="50.0" prefWidth="200.0" spacing="15.0">
                <children>
@@ -100,5 +103,31 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </VBox>
+      <HBox alignment="CENTER_LEFT" layoutX="19.0" layoutY="627.0" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <HBox fx:id="btnOptions" alignment="CENTER" prefHeight="100.0" prefWidth="115.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@res/mt_add1_icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox fx:id="btnProfile" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
+               <children>
+                  <Rectangle fx:id="rectAvatar" arcHeight="360.0" arcWidth="360.0" fill="#272730" height="40.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="40.0" />
+                  <Label text="TU PERFIL" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
