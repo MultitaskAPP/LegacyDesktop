@@ -1,6 +1,5 @@
 package sample.controllers.dialogs;
 
-import com.jfoenix.controls.JFXDatePicker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

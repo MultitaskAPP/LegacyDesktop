@@ -1,15 +1,20 @@
 package sample.controllers;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.animation.FadeTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import sample.utils.Data;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +25,9 @@ public class MainController implements Initializable {
     @FXML    private AnchorPane mainPane;
     @FXML    private AnchorPane scenePane;
 
+    @FXML    private HBox btnDashboard, btnTasks, btnEvents, btnNotes, btnChats;
+    @FXML    private VBox vBoxButtons;
+
     public static double x, y;
 
     @Override
@@ -27,6 +35,21 @@ public class MainController implements Initializable {
 
         gotoDashboard(null);
 
+    }
+
+    private void resetButtonStyles(){
+        for (int i = 0; i < vBoxButtons.getChildren().size(); i++){
+            HBox hBox = (HBox) vBoxButtons.getChildren().get(i);
+            hBox.setStyle("-fx-background-color: transparent; -fx-background-radius: 0");
+            FontAwesomeIcon icon = (FontAwesomeIcon) hBox.getChildren().get(0);
+            icon.setFill(Paint.valueOf("#FFFFFF"));
+        }
+    }
+
+    private void setStyleButton(HBox selectedButton){
+        selectedButton.setStyle("-fx-background-color: #202027; -fx-background-radius: 30");
+        FontAwesomeIcon selectedIcon = (FontAwesomeIcon) selectedButton.getChildren().get(0);
+        selectedIcon.setFill(Paint.valueOf(Data.userData.getHexCode()));
     }
 
     @FXML
@@ -57,22 +80,65 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void gotoDashboard(ActionEvent event) {
+    void gotoDashboard(MouseEvent event) {
         try {
-            transitionEffect();
             URL url = new File("src/main/java/sample/windows/views/dashboardView.fxml").toURI().toURL();
             scenePane.getChildren().add(FXMLLoader.load(url));
+            resetButtonStyles();
+            setStyleButton(btnDashboard);
+            transitionEffect();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    void gotoTasks(ActionEvent event) {
+    void gotoTasks(MouseEvent event) {
         try {
-            transitionEffect();
             URL url = new File("src/main/java/sample/windows/views/taskView.fxml").toURI().toURL();
             scenePane.getChildren().add(FXMLLoader.load(url));
+            resetButtonStyles();
+            setStyleButton(btnTasks);
+            transitionEffect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void gotoEvents(MouseEvent event) {
+        try {
+            URL url = new File("src/main/java/sample/windows/views/eventView.fxml").toURI().toURL();
+            scenePane.getChildren().add(FXMLLoader.load(url));
+            resetButtonStyles();
+            setStyleButton(btnEvents);
+            transitionEffect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void gotoNotes(MouseEvent event) {
+        try {
+            URL url = new File("src/main/java/sample/windows/views/noteView.fxml").toURI().toURL();
+            scenePane.getChildren().add(FXMLLoader.load(url));
+            resetButtonStyles();
+            setStyleButton(btnNotes);
+            transitionEffect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void gotoChats(MouseEvent event) {
+        try {
+            URL url = new File("src/main/java/sample/windows/views/chatView.fxml").toURI().toURL();
+            scenePane.getChildren().add(FXMLLoader.load(url));
+            resetButtonStyles();
+            setStyleButton(btnChats);
+            transitionEffect();
         } catch (IOException e) {
             e.printStackTrace();
         }
