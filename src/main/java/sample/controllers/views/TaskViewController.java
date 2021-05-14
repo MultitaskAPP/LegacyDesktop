@@ -1,5 +1,6 @@
 package sample.controllers.views;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -43,6 +45,7 @@ public class TaskViewController implements Initializable {
     @FXML    private ScrollPane listView, scheduleView;
     @FXML    private Button btnScheduleView, btnListView;
     @FXML    private VBox vBoxList;
+    @FXML    private FontAwesomeIcon fxList, fxSchedule;
 
     public List<Task> taskList = new ArrayList<>();
     private static boolean selectedView;
@@ -59,7 +62,7 @@ public class TaskViewController implements Initializable {
 
     }
 
-    private void getAllSchedules(){
+    public void getAllSchedules(){
 
         if (hBoxSchedules.getChildren().size() > 1){
             for (int i = hBoxSchedules.getChildren().size() - 1; i > 0; i--){
@@ -124,7 +127,7 @@ public class TaskViewController implements Initializable {
 
     }
 
-    private void getAllTasks(Schedule s){
+    public void getAllTasks(Schedule s){
 
         if (taskList.size() >= 1)
             taskList.clear();
@@ -330,6 +333,7 @@ public class TaskViewController implements Initializable {
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
             TaskDialogController taskDialogController = loader.getController();
+            taskDialogController.setTaskViewController(this);
             taskDialogController.setSelectedSchedule(s);
             taskDialogController.setGroup(s.isGroup());
             taskDialogController.setSelectedList(selectedList);
@@ -380,6 +384,7 @@ public class TaskViewController implements Initializable {
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
             TaskDialogController taskDialogController = loader.getController();
+            taskDialogController.setTaskViewController(this);
             taskDialogController.setSelectedSchedule(schedule);
             taskDialogController.setGroup(task.isGroup());
             taskDialogController.setUpdateMode(true);
@@ -403,6 +408,7 @@ public class TaskViewController implements Initializable {
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
             TaskDialogController taskDialogController = loader.getController();
+            taskDialogController.setTaskViewController(this);
             taskDialogController.setSelectedSchedule(schedule);
             taskDialogController.setGroup(task.isGroup());
             taskDialogController.setUpdateMode(false);
@@ -453,6 +459,7 @@ public class TaskViewController implements Initializable {
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
             ScheduleDialogController scheduleDialogController = loader.getController();
+            scheduleDialogController.setTaskViewController(this);
             scheduleDialogController.setSelectedSchedule(schedule);
             scheduleDialogController.setGroup(schedule.isGroup());
             scheduleDialogController.setUpdateMode(true);
@@ -476,6 +483,7 @@ public class TaskViewController implements Initializable {
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
             ScheduleDialogController scheduleDialogController = loader.getController();
+            scheduleDialogController.setTaskViewController(this);
             scheduleDialogController.setSelectedSchedule(schedule);
             scheduleDialogController.setGroup(schedule.isGroup());
             scheduleDialogController.setUpdateMode(false);
@@ -514,6 +522,7 @@ public class TaskViewController implements Initializable {
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
             ScheduleDialogController scheduleDialogController = loader.getController();
+            scheduleDialogController.setTaskViewController(this);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
@@ -533,6 +542,8 @@ public class TaskViewController implements Initializable {
         selectedView = true;
         listView.setVisible(true);
         scheduleView.setVisible(false);
+        fxList.setFill(Paint.valueOf(Data.userData.getHexCode()));
+        fxSchedule.setFill(Paint.valueOf("#FFFFFF"));
     }
 
     @FXML
@@ -541,6 +552,8 @@ public class TaskViewController implements Initializable {
         selectedView = false;
         listView.setVisible(false);
         scheduleView.setVisible(true);
+        fxSchedule.setFill(Paint.valueOf(Data.userData.getHexCode()));
+        fxList.setFill(Paint.valueOf("#FFFFFF"));
     }
 
 }

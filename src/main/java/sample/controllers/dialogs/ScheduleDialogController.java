@@ -2,6 +2,7 @@ package sample.controllers.dialogs;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -12,9 +13,14 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.json.JSONArray;
+import sample.controllers.views.TaskViewController;
 import sample.models.Group;
 import sample.models.Schedule;
 import sample.utils.Data;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.Calendar;
@@ -31,6 +37,7 @@ public class ScheduleDialogController implements Initializable {
     @FXML    private ListView<String> taskList;
     @FXML    private Button btnAdd, btnCancel, btnAddList, btnDeleteList;
 
+    private TaskViewController taskViewController;
     private boolean isGroup, updateMode = false;
     private Schedule selectedSchedule = null;
     private double x, y;
@@ -227,6 +234,7 @@ public class ScheduleDialogController implements Initializable {
 
     @FXML
     void exit(ActionEvent event) {
+        updateView();
         Stage stage = (Stage) btnAdd.getScene().getWindow();
         stage.close();
     }
@@ -306,5 +314,17 @@ public class ScheduleDialogController implements Initializable {
 
     public void setSelectedSchedule(Schedule selectedSchedule) {
         this.selectedSchedule = selectedSchedule;
+    }
+
+    public TaskViewController getTaskViewController() {
+        return taskViewController;
+    }
+
+    public void setTaskViewController(TaskViewController taskViewController) {
+        this.taskViewController = taskViewController;
+    }
+
+    private void updateView(){
+        taskViewController.getAllSchedules();
     }
 }

@@ -45,11 +45,9 @@ public class MainController implements Initializable {
     }
 
     private void preloadMenu(){
-
         Image image = new Image(new ImageTweakerTool(Data.userData.getIdUser()).getProfilePicUser(), rectAvatar.getWidth(), rectAvatar.getHeight(), false, true);
         ImagePattern imagePattern = new ImagePattern(image);
         rectAvatar.setFill(imagePattern);
-
     }
 
     private void resetButtonStyles(){

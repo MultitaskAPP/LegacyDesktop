@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.json.JSONArray;
+import sample.controllers.views.TaskViewController;
 import sample.models.Schedule;
 import sample.models.Task;
 import sample.utils.Data;
@@ -28,6 +29,7 @@ public class TaskDialogController implements Initializable {
     @FXML    private AnchorPane calendarPane;
     @FXML    private Button btnCancel, btnAdd;
 
+    private TaskViewController taskViewController;
     private DatePicker datePicker = new DatePicker(LocalDate.now());
     private Schedule selectedSchedule;
     private boolean isGroup, updateMode = false;
@@ -257,8 +259,22 @@ public class TaskDialogController implements Initializable {
         this.selectedList = selectedList;
     }
 
+    public TaskViewController getTaskViewController() {
+        return taskViewController;
+    }
+
+    public void setTaskViewController(TaskViewController taskViewController) {
+        this.taskViewController = taskViewController;
+    }
+
+    private void updateView(){
+        if (selectedSchedule != null)
+            taskViewController.getAllTasks(selectedSchedule);
+    }
+
     @FXML
     void exit(ActionEvent event) {
+        updateView();
         Stage stage = (Stage) btnAdd.getScene().getWindow();
         stage.close();
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -43,20 +44,12 @@
       </ScrollPane>
       <Button fx:id="btnListView" layoutX="939.0" layoutY="69.0" mnemonicParsing="false" onAction="#setListView" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 15; -fx-background-color: #272730;">
          <graphic>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../res/mt_listView_icon.png" />
-               </image>
-            </ImageView>
+            <FontAwesomeIcon fx:id="fxList" fill="WHITE" iconName="LIST_UL" size="2.5em" />
          </graphic>
       </Button>
       <Button fx:id="btnScheduleView" layoutX="939.0" layoutY="141.0" mnemonicParsing="false" onAction="#setScheduleView" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 15; -fx-background-color: #272730;">
          <graphic>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../res/mt_sceduleView_icon.png" />
-               </image>
-            </ImageView>
+            <FontAwesomeIcon fx:id="fxSchedule" fill="WHITE" iconName="TH_LARGE" size="2.5em" />
          </graphic>
       </Button>
       <ScrollPane fx:id="listView" layoutX="50.0" layoutY="230.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="940.0" style="-fx-background-color: #202027;" stylesheets="@../css/listview.css" visible="false">
