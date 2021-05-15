@@ -26,9 +26,9 @@ public class ImageTweakerTool {
     private int userID;
 
     public static void main(String[] args) {
-        ImageTweakerTool imageTweakerTool = new ImageTweakerTool(0);
+        ImageTweakerTool imageTweakerTool = new ImageTweakerTool(65);
         File file = imageTweakerTool.importImage();
-        imageTweakerTool.transformImage(file, 0);
+        imageTweakerTool.transformImage(file, 65);
     }
 
     public ImageTweakerTool(int userID){
@@ -150,6 +150,7 @@ public class ImageTweakerTool {
     public String getProfilePicUser(){
         try {
             String imageURL = Data.cloudAPI.url().imageTag("profilePics/users/"+userID+".jpg");
+            System.out.println(imageURL);
             String[] urlPic = imageURL.split("'");
             Image image = new Image(urlPic[1]);
             if (!image.isError()) {

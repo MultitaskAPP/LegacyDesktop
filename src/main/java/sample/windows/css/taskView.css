@@ -1,0 +1,24 @@
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+}
+
+#scrollPaneSchedules {
+    -fx-border-width: 5px;
+    -fx-border-color:  #272730;
+    -fx-border-radius: 20px;
+}
+
+#scrollPaneSchedules .scroll-bar,
+#listView .scroll-bar {
+    -fx-background-color : #32323E;
+    -fx-border-color :transparent;
+    -fx-background-radius: 30px;
+    -fx-background-insets: 2 15 2 15;
+}
+
+#scrollPaneSchedules .scroll-bar .thumb,
+#listView .scroll-bar .thumb{
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 30px;
+}

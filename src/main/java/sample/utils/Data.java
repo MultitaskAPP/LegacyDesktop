@@ -2,10 +2,7 @@ package sample.utils;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import sample.interfaces.impl.GroupImpl;
-import sample.interfaces.impl.ScheduleImpl;
-import sample.interfaces.impl.TaskImpl;
-import sample.interfaces.impl.UserImpl;
+import sample.interfaces.impl.*;
 import sample.models.Group;
 import sample.models.User;
 
@@ -42,6 +39,7 @@ public class Data {
     public static GroupImpl groupManager = new GroupImpl();
     public static ScheduleImpl scheduleManager = new ScheduleImpl();
     public static TaskImpl taskManager = new TaskImpl();
+    public static NoteImpl noteManager = new NoteImpl();
 
     public static void storeProperties(Properties properties){
         try(OutputStream outputStream = new FileOutputStream("config.properties")){

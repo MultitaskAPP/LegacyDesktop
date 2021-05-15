@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="1040.0" style="-fx-background-color: #202027; -fx-background-radius: 50 0 0 50;" stylesheets="@../css/listview.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.views.TaskViewController">
    <children>
-      <ScrollPane layoutX="49.0" layoutY="52.0" prefHeight="155.0" prefWidth="875.0" style="-fx-background-color: #272730; -fx-background-radius: 15;" stylesheets="@../css/dashboardView.css">
+      <ScrollPane fx:id="scrollPaneSchedules" layoutX="49.0" layoutY="52.0" prefHeight="155.0" prefWidth="875.0" style="-fx-background-color: #272730; -fx-background-radius: 15;" stylesheets="@../css/taskView.css">
          <content>
             <HBox fx:id="hBoxSchedules" spacing="15.0">
                <children>
@@ -37,10 +37,13 @@
                   </VBox>
                </children>
                <padding>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
          </content>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
       </ScrollPane>
       <Button fx:id="btnListView" layoutX="939.0" layoutY="69.0" mnemonicParsing="false" onAction="#setListView" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 15; -fx-background-color: #272730;">
          <graphic>
@@ -52,9 +55,9 @@
             <FontAwesomeIcon fx:id="fxSchedule" fill="WHITE" iconName="TH_LARGE" size="2.5em" />
          </graphic>
       </Button>
-      <ScrollPane fx:id="listView" layoutX="50.0" layoutY="230.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="940.0" style="-fx-background-color: #202027;" stylesheets="@../css/listview.css" visible="false">
+      <ScrollPane fx:id="listView" layoutX="50.0" layoutY="230.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="417.0" prefWidth="961.0" style="-fx-background-color: #202027;" stylesheets="@../css/taskView.css" visible="false">
          <content>
-            <VBox fx:id="vBoxList" spacing="15.0" stylesheets="@../css/dashboardView.css">
+            <VBox fx:id="vBoxList" spacing="15.0" stylesheets="@../css/taskView.css">
                <children>
                   <HBox fx:id="addTaskList" alignment="CENTER" maxHeight="50.0" maxWidth="875.0" minHeight="50.0" minWidth="875.0" prefHeight="50.0" prefWidth="875.0" spacing="3.0" style="-fx-background-color: #272730; -fx-background-radius: 15;">
                      <children>

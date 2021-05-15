@@ -216,17 +216,17 @@ public class ScheduleDialogController implements Initializable {
             success = Data.scheduleManager.updateSchedule(updateSchedule);
 
         if (success){
-            System.out.println("[DEBUG] - TASK actualizada correctamente");
+            System.out.println("[DEBUG] - SCHEDULE actualizado correctamente");
             exit(null);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("MultitaskAPP | DESKTOP");
-            alert.setHeaderText("Tarea actualizada correctamente!");
+            alert.setHeaderText("Tablero actualizado correctamente!");
             alert.showAndWait();
         }else {
-            System.out.println("[DEBUG] - Error al actualizar la TASK...");
+            System.out.println("[DEBUG] - Error al actualizar el SCHEDULE...");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("MultitaskAPP | DESKTOP");
-            alert.setHeaderText("Error al actualizar la tarea...");
+            alert.setHeaderText("Error al actualizar el tablero...");
             alert.showAndWait();
         }
 

@@ -29,11 +29,21 @@
     -fx-font-size: 20;
 }
 
-.choice-box > .label{
+.combo-box > .label{
     -fx-text-fill: white;
     -fx-font-family: Arial;
     -fx-alignment: center;
     -fx-font-size: 20;
+}
+
+.combo-box .arrow{
+    -fx-background-color: white;
+}
+
+.combo-box .cell:selected {
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
 }
 
 .menu-button > .arrow-button {
