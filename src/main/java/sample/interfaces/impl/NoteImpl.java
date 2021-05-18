@@ -104,7 +104,7 @@ public class NoteImpl implements INote {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("data", note.toJSONObject());
 
-        ConnAPI connAPI = new ConnAPI("/api/notes/createOne", "POST", true);
+        ConnAPI connAPI = new ConnAPI("/api/notes/createOne", "POST", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -118,7 +118,7 @@ public class NoteImpl implements INote {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("data", note.toJSONObject());
 
-        ConnAPI connAPI = new ConnAPI("/api/notes/group/createOne", "POST", true);
+        ConnAPI connAPI = new ConnAPI("/api/notes/group/createOne", "POST", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -131,7 +131,7 @@ public class NoteImpl implements INote {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("data", note.toJSONObject());
 
-        ConnAPI connAPI = new ConnAPI("/api/notes/updateOne", "PUT", true);
+        ConnAPI connAPI = new ConnAPI("/api/notes/updateOne", "PUT", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -144,7 +144,7 @@ public class NoteImpl implements INote {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("data", note.toJSONObject());
 
-        ConnAPI connAPI = new ConnAPI("/api/notes/group/updateOne", "PUT", true);
+        ConnAPI connAPI = new ConnAPI("/api/notes/group/updateOne", "PUT", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -157,7 +157,7 @@ public class NoteImpl implements INote {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("id", note.getIdNote());
 
-        ConnAPI connAPI = new ConnAPI("/api/notes/deleteOne", "DELETE", true);
+        ConnAPI connAPI = new ConnAPI("/api/notes/deleteOne", "DELETE", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -170,7 +170,7 @@ public class NoteImpl implements INote {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("id", note.getIdNote());
 
-        ConnAPI connAPI = new ConnAPI("/api/notes/group/deleteOne", "DELETE", true);
+        ConnAPI connAPI = new ConnAPI("/api/notes/group/deleteOne", "DELETE", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
