@@ -112,7 +112,7 @@ public class NoteViewController implements Initializable {
     }
 
     public void clearView(){
-
+        notesList.clear();
         for (int i = flNotes.getChildren().size() - 1; i > 0; i--){
             flNotes.getChildren().remove(i);
         }
@@ -120,11 +120,51 @@ public class NoteViewController implements Initializable {
     }
 
     private void viewNote(Note n){
-
+        try {
+            Stage stage = new Stage();
+            URL url = new File("src/main/java/sample/windows/dialogs/noteDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            NoteDialogController noteDialogController = loader.getController();
+            noteDialogController.setNoteViewController(this);
+            noteDialogController.setUpdateMode(false);
+            noteDialogController.setSelectedNote(n);
+            noteDialogController.setGroup(n.isGroup());
+            noteDialogController.preloadData();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
+            stage.show();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateNote(Note n){
-
+        try {
+            Stage stage = new Stage();
+            URL url = new File("src/main/java/sample/windows/dialogs/noteDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            NoteDialogController noteDialogController = loader.getController();
+            noteDialogController.setNoteViewController(this);
+            noteDialogController.setUpdateMode(true);
+            noteDialogController.setSelectedNote(n);
+            noteDialogController.setGroup(n.isGroup());
+            noteDialogController.preloadData();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
+            stage.show();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void deleteNote(Note n){
@@ -161,12 +201,12 @@ public class NoteViewController implements Initializable {
             Parent root = loader.load();
             NoteDialogController noteDialogController = loader.getController();
             noteDialogController.setNoteViewController(this);
+            noteDialogController.preloadData();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
             stage.show();
-            noteDialogController.preloadData();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

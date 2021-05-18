@@ -1,5 +1,7 @@
 package sample.models;
 
+import org.json.JSONObject;
+
 import java.sql.Date;
 
 public class Note {
@@ -75,6 +77,20 @@ public class Note {
 
     public void setGroup(boolean group) {
         isGroup = group;
+    }
+
+    public JSONObject toJSONObject(){
+
+        JSONObject noteJSON = new JSONObject();
+        noteJSON.put("idNote", idNote);
+        noteJSON.put("idGroup", idGroup);
+        noteJSON.put("idUser", idUser);
+        noteJSON.put("titleNote", title);
+        noteJSON.put("textNote", content);
+        noteJSON.put("creationDate", creationDate);
+
+        return  noteJSON;
+
     }
 
     @Override

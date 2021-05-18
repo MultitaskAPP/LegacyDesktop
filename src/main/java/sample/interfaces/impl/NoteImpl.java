@@ -74,7 +74,8 @@ public class NoteImpl implements INote {
                 JSONObject rawJSON = arrayData.getJSONObject(i);
 
                 Note note = new Note();
-                note.setIdGroup(rawJSON.getInt("idGroupNote"));
+                note.setIdNote(rawJSON.getInt("idGroupNote"));
+                note.setIdGroup(rawJSON.getInt("idGroup"));
                 note.setTitle(rawJSON.getString("titleNote"));
                 note.setContent(rawJSON.getString("textNote"));
                 note.setIdGroup(rawJSON.getInt("idGroup"));
@@ -99,31 +100,80 @@ public class NoteImpl implements INote {
 
     @Override
     public boolean insertNote(Note note) {
-        return false;
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("data", note.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/notes/createOne", "POST", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+
     }
 
     @Override
     public boolean insertGroupNote(Note note) {
-        return false;
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("data", note.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/notes/group/createOne", "POST", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
     }
 
     @Override
     public boolean updateNote(Note note) {
-        return false;
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("data", note.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/notes/updateOne", "PUT", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
     }
 
     @Override
     public boolean updateGroupNote(Note note) {
-        return false;
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("data", note.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/notes/group/updateOne", "PUT", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
     }
 
     @Override
     public boolean deleteNote(Note note) {
-        return false;
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", note.getIdNote());
+
+        ConnAPI connAPI = new ConnAPI("/api/notes/deleteOne", "DELETE", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
     }
 
     @Override
     public boolean deleteGroupNote(Note note) {
-        return false;
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", note.getIdNote());
+
+        ConnAPI connAPI = new ConnAPI("/api/notes/group/deleteOne", "DELETE", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
     }
 }

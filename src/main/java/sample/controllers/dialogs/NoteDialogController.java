@@ -30,7 +30,6 @@ public class NoteDialogController implements Initializable {
     private Note selectedNote;
     private double x, y;
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -65,6 +64,7 @@ public class NoteDialogController implements Initializable {
                 if (g != null){
                     if (g.getIdGroup() == selectedNote.getIdGroup()){
                         cbGroups.getSelectionModel().select(g);
+                        changeStyleComboBox(null);
                     }
                 }
             }
@@ -89,7 +89,7 @@ public class NoteDialogController implements Initializable {
 
     private Note getData(){
 
-        if (tfTitle.getText().isBlank()){
+        if (!tfTitle.getText().isBlank()){
             Note n = new Note();
             n.setTitle(tfTitle.getText());
             if (!taContent.getText().isBlank())
@@ -123,14 +123,14 @@ public class NoteDialogController implements Initializable {
     }
 
     private void addNote(){
+
         Note newNote = getData();
         if (newNote != null){
-
             boolean success = false;
             if (newNote.isGroup()){
-                success = Data.noteManager.insertNote(newNote);
-            }else {
                 success = Data.noteManager.insertGroupNote(newNote);
+            }else {
+                success = Data.noteManager.insertNote(newNote);
             }
 
             if (success){
@@ -213,7 +213,7 @@ public class NoteDialogController implements Initializable {
     @FXML
     void close(MouseEvent event) {
         updateView();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) btnAdd.getScene().getWindow();
         stage.close();
     }
 
