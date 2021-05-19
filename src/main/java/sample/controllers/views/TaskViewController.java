@@ -103,7 +103,7 @@ public class TaskViewController implements Initializable {
                 Group sGroup = Data.groupManager.getGroupByID(s.getIdGroup());
                 imagePattern = new ImagePattern(sGroup.getAvatarGroup());
             }else{
-                Image image = new Image(new ImageTweakerTool(Data.userData.getIdUser()).getProfilePicUser(), rectangle.getWidth(), rectangle.getHeight(), false, true);
+                Image image = new Image(Data.userData.getAvatarUser().getUrl(), rectangle.getWidth(), rectangle.getHeight(), false, true);
                 imagePattern = new ImagePattern(image);
             }
 

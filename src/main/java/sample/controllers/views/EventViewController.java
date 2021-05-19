@@ -9,9 +9,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.geometry.Side;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -46,17 +47,14 @@ public class EventViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        preloadCalendar();
-    }
-
-    private void preloadCalendar(){
-
-        tagDayNumber.setText(Integer.toString(datePicker.getValue().getDayOfMonth()));
-        tagDayText.setText(datePicker.getValue().getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES")).toUpperCase());
+        datePicker.setShowWeekNumbers(false);
+        DatePickerSkin datePickerSkin = new DatePickerSkin(datePicker);
+        Node popupContent = datePickerSkin.getPopupContent();
+        paneCalendar.getChildren().add(popupContent);
+        datePickerSkin.getPopupContent().setOnMouseClicked(mouseEvent -> getThisDayEvents(datePickerSkin.getSkinnable().getValue()));
 
         getEvents();
         getThisDayEvents(LocalDate.of(2021, 5, 19));
-
     }
 
     private void getEvents(){
@@ -79,6 +77,12 @@ public class EventViewController implements Initializable {
     }
 
     private void getThisDayEvents(LocalDate selectedDate){
+
+        vBoxEvents.getChildren().clear();
+        hBoxPages.getChildren().clear();
+
+        tagDayNumber.setText(Integer.toString(selectedDate.getDayOfMonth()));
+        tagDayText.setText(selectedDate.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES")).toUpperCase());
 
         List<Event> thisDayEvents = new ArrayList<>();
         for (Event e : eventList) {
@@ -119,8 +123,9 @@ public class EventViewController implements Initializable {
             vBoxEvents.getChildren().add(createEventView(thisDayEvents.get(0)));
         }else{
             for (int i = (page * 2) - 1; i < (page * 2) + 1; i++){
-                System.out.println(i);
-                vBoxEvents.getChildren().add(createEventView(thisDayEvents.get(i)));
+                if (thisDayEvents.size() > i){
+                    vBoxEvents.getChildren().add(createEventView(thisDayEvents.get(i)));
+                }
             }
         }
 
@@ -181,11 +186,10 @@ public class EventViewController implements Initializable {
         Label tagTime = null;
 
         if (e.getHourStart().toString().equals("00:00:00") && e.getHourFinish().toString().equals("23:59:59")){
+            tagTime = new Label("TODO EL DIA");
+        }else{
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             tagTime = new Label(sdf.format(e.getHourStart()) + " - " +sdf.format(e.getHourFinish()));
-        }else{
-            tagTime = new Label("TODO EL DIA");
-
         }
 
         tagTime.setStyle("-fx-text-fill: white; -fx-font-size: 20; -fx-font-weight: bold");
@@ -193,6 +197,15 @@ public class EventViewController implements Initializable {
         hBoxTime.getChildren().add(ivTime);
         hBoxTime.getChildren().add(tagTime);
         vBoxEvent.getChildren().add(hBoxTime);
+
+        MenuItem miView = new MenuItem("Visualizar");
+        miView.setOnAction(actionEvent -> viewEvent(e));
+        MenuItem miEdit = new MenuItem("Editar");
+        miEdit.setOnAction(actionEvent -> updateEvent(e));
+        MenuItem miDelete = new MenuItem("Borrar");
+        miDelete.setOnAction(actionEvent -> deleteEvent(e));
+        ContextMenu contextMenu = new ContextMenu(miView, miEdit, miDelete);
+        vBoxEvent.setOnContextMenuRequested(contextMenuEvent -> contextMenu.show(vBoxEvent, Side.BOTTOM, vBoxEvent.getWidth() - 25, 0));
 
         return vBoxEvent;
 
@@ -223,7 +236,15 @@ public class EventViewController implements Initializable {
 
     }
 
-    private void deleteEvent(){
+    private void viewEvent(Event e){
+
+    }
+
+    private void updateEvent(Event e){
+
+    }
+
+    private void deleteEvent(Event e){
 
     }
 }
