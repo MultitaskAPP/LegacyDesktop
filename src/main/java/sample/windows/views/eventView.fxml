@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="sample.controllers.views.EventViewController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="720.0" prefWidth="1040.0" style="-fx-background-color: #202027; -fx-background-radius: 50 0 0 50;" stylesheets="@../css/eventView.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.views.EventViewController">
+   <children>
+      <VBox layoutX="65.0" layoutY="60.0" prefWidth="275.0" spacing="25.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
+               <children>
+                  <Label fx:id="tagDayNumber" text="00" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="65.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="tagDayText" text="MIERCOLES" textFill="WHITE">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <VBox fx:id="vBoxEvents" alignment="TOP_CENTER" prefHeight="425.0" prefWidth="275.0" spacing="25.0" />
+            <HBox fx:id="hBoxPages" alignment="CENTER" prefHeight="25.0" prefWidth="275.0" spacing="15.0" />
+         </children>
+      </VBox>
+      <AnchorPane fx:id="paneCalendar" layoutX="371.0" layoutY="60.0" prefHeight="600.0" prefWidth="609.0" />
+   </children>
 </AnchorPane>
