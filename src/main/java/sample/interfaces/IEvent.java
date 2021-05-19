@@ -10,5 +10,17 @@ public interface IEvent {
 
     public List<Event> getAllEventsByGroup(ArrayList<String> allGroupIDs);
 
+    public boolean insertEvent(Event e);
+
+    public boolean insertGroupEvent(Event e);
+
+    public boolean updateEvent(Event e);
+
+    public boolean updateGroupEvent(Event e);
+
+    public boolean deleteEvent(Event e);
+
+    public boolean deleteGroupEvent(Event e);
+
 
 }
