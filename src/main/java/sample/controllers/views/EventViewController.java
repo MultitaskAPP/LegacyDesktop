@@ -79,24 +79,29 @@ public class EventViewController implements Initializable {
         eventList.addAll(eventsUser);
         eventList.addAll(eventsGroup);
 
-        Collections.sort(eventList, Comparator.comparing(Event::getDateStart).reversed());
+        Collections.sort(eventList, Comparator.comparing(Event::isGroup));
 
         final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
             public DateCell call(final DatePicker datePicker) {
                 return new DateCell() {
                     @Override public void updateItem(LocalDate item, boolean empty) {
                         super.updateItem(item, empty);
-
                         for (Event e : eventList) {
                             if (e.getTypeEvent() == 0){
-                                if (item.equals(e.getDateStart().toLocalDate())){
-                                    if (e.isGroup()){
+                                if (item.equals(e.getDateStart().toLocalDate())) {
+                                    if (e.isGroup()) {
                                         Group g = Data.groupManager.getGroupByID(e.getIdGroup());
                                         setStyle("-fx-background-color: " + g.getHexCode());
-                                    }else{
+                                    } else {
                                         setStyle("-fx-background-color: " + Data.userData.getHexCode());
                                     }
-
+                                } else if(item.isAfter(e.getDateStart().toLocalDate()) && item.isBefore(e.getDateFinish().toLocalDate().plusDays(1))){
+                                    if (e.isGroup()) {
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    } else {
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
                                 }
                             }else if (e.getTypeEvent() == 1){
                                 if (item.getDayOfWeek().equals(e.getDateStart().toLocalDate().getDayOfWeek())){
@@ -104,6 +109,13 @@ public class EventViewController implements Initializable {
                                         Group g = Data.groupManager.getGroupByID(e.getIdGroup());
                                         setStyle("-fx-background-color: " + g.getHexCode());
                                     }else{
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+                                } else if(item.isAfter(e.getDateStart().toLocalDate()) && item.isBefore(e.getDateFinish().toLocalDate().plusDays(1))){
+                                    if (e.isGroup()) {
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    } else {
                                         setStyle("-fx-background-color: " + Data.userData.getHexCode());
                                     }
                                 }
@@ -115,6 +127,13 @@ public class EventViewController implements Initializable {
                                     }else{
                                         setStyle("-fx-background-color: " + Data.userData.getHexCode());
                                     }
+                                } else if(item.isAfter(e.getDateStart().toLocalDate()) && item.isBefore(e.getDateFinish().toLocalDate().plusDays(1))){
+                                    if (e.isGroup()) {
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    } else {
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
                                 }
                             }else if (e.getTypeEvent() == 3){
                                 if (MonthDay.from(item).equals(MonthDay.of(e.getDateStart().toLocalDate().getMonth(), e.getDateStart().toLocalDate().getDayOfMonth()))){
@@ -122,6 +141,13 @@ public class EventViewController implements Initializable {
                                         Group g = Data.groupManager.getGroupByID(e.getIdGroup());
                                         setStyle("-fx-background-color: " + g.getHexCode());
                                     }else{
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+                                } else if(item.isAfter(e.getDateStart().toLocalDate()) && item.isBefore(e.getDateFinish().toLocalDate().plusDays(1))){
+                                    if (e.isGroup()) {
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    } else {
                                         setStyle("-fx-background-color: " + Data.userData.getHexCode());
                                     }
                                 }
@@ -160,6 +186,8 @@ public class EventViewController implements Initializable {
         for (Event e : eventList) {
             if (e.getDateStart().toLocalDate().equals(selectedDate))
                 thisDayEvents.add(e);
+            else if(selectedDate.isAfter(e.getDateStart().toLocalDate()) && selectedDate.isBefore(e.getDateFinish().toLocalDate().plusDays(1)))
+                thisDayEvents.add(e);
         }
 
         totalPages = thisDayEvents.size() / 2;
@@ -170,11 +198,13 @@ public class EventViewController implements Initializable {
                 int finalI = i;
                 FontAwesomeIcon icon = new FontAwesomeIcon();
                 icon.setIcon(FontAwesomeIconName.CIRCLE);
-                icon.setFill(Color.WHITE);
+                icon.setFill(Color.GRAY);
                 icon.setSize("20px");
-                icon.setOnMouseClicked(mouseEvent -> viewEvents(finalI, thisDayEvents));
+                icon.setOnMouseClicked(mouseEvent -> viewEvents(icon, finalI, thisDayEvents));
                 hBoxPages.getChildren().add(icon);
             }
+            FontAwesomeIcon icon = (FontAwesomeIcon) hBoxPages.getChildren().get(0);
+            icon.setFill(Color.WHITE);
         }
 
         if (thisDayEvents.size() == 0){
@@ -186,8 +216,9 @@ public class EventViewController implements Initializable {
 
     }
 
-    private void viewEvents(int page, List<Event> thisDayEvents){
+    private void viewEvents(FontAwesomeIcon selectedPage, int page, List<Event> thisDayEvents){
 
+        updatePages(selectedPage);
         vBoxEvents.getChildren().clear();
 
         if (page == 0){
@@ -232,7 +263,19 @@ public class EventViewController implements Initializable {
         ImagePattern imagePattern = new ImagePattern(avatarImage);
         rectangle.setFill(imagePattern);
 
-        Label tagTitle = new Label(e.getDateStart().toLocalDate().getDayOfMonth() + " " + e.getDateStart().toLocalDate().getMonth().getDisplayName(TextStyle.SHORT, new Locale("es", "ES")).toUpperCase());
+        Label tagTitle = new Label();
+
+        if (e.getDateStart().equals(e.getDateFinish()))
+            tagTitle.setText(e.getDateStart().toLocalDate().getDayOfMonth() + " " + e.getDateStart().toLocalDate().getMonth().getDisplayName(TextStyle.SHORT, new Locale("es", "ES")).toUpperCase());
+        else{
+            if (e.getDateStart().toLocalDate().getMonth().equals(e.getDateFinish().toLocalDate().getMonth()))
+                tagTitle.setText(e.getDateStart().toLocalDate().getDayOfMonth() + "-" + e.getDateFinish().toLocalDate().getDayOfMonth() + " " + e.getDateStart().toLocalDate().getMonth().getDisplayName(TextStyle.SHORT, new Locale("es", "ES")).toUpperCase());
+            else
+                tagTitle.setText(e.getDateStart().toLocalDate().getDayOfMonth() + "-" + e.getDateFinish().toLocalDate().getDayOfMonth() + " "
+                        + e.getDateStart().toLocalDate().getMonth().getDisplayName(TextStyle.NARROW, new Locale("es", "ES")).toUpperCase() + "-"
+                        + e.getDateFinish().toLocalDate().getMonth().getDisplayName(TextStyle.NARROW, new Locale("es", "ES")).toUpperCase());
+        }
+
         tagTitle.setStyle("-fx-font-size: 30; -fx-text-fill: white; -fx-font-weight: bold");
 
         hBoxTitle.getChildren().add(rectangle);
@@ -403,6 +446,14 @@ public class EventViewController implements Initializable {
             alert.setTitle("MultitaskAPP | DESKTOP");
             alert.setHeaderText("Error al eliminar el evento...");
             alert.showAndWait();
+        }
+    }
+
+    private void updatePages(FontAwesomeIcon selectedPage){
+        for (int i = 0; i < hBoxPages.getChildren().size(); i++){
+            FontAwesomeIcon icon = (FontAwesomeIcon) hBoxPages.getChildren().get(i);
+            icon.setFill(Color.GRAY);
+            selectedPage.setFill(Color.WHITE);
         }
     }
 
