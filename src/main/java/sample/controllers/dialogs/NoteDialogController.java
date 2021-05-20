@@ -56,6 +56,8 @@ public class NoteDialogController implements Initializable {
 
     private void editMode(){
 
+        cbGroups.setDisable(true);
+
         tfTitle.setText(selectedNote.getTitle());
         taContent.setText(selectedNote.getContent());
 
@@ -147,8 +149,6 @@ public class NoteDialogController implements Initializable {
                 alert.setHeaderText("Error al añadir la nota...");
                 alert.showAndWait();
             }
-
-
         }
 
     }

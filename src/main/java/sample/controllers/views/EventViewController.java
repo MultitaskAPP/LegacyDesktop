@@ -1,16 +1,16 @@
 package sample.controllers.views;
 
-import de.jensd.fx.glyphs.GlyphIcon;
-import de.jensd.fx.glyphs.GlyphIconName;
-import de.jensd.fx.glyphs.GlyphsStyle;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.image.Image;
@@ -21,16 +21,19 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import sample.controllers.dialogs.EventDialogController;
+import sample.controllers.dialogs.NoteDialogController;
 import sample.models.Event;
 import sample.models.Group;
 import sample.utils.Data;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.*;
 
@@ -44,6 +47,7 @@ public class EventViewController implements Initializable {
     private List<Event> eventList = new ArrayList<>();
     private DatePicker datePicker = new DatePicker(LocalDate.now());
     private int totalPages;
+    private LocalDate selectedDate;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -54,10 +58,10 @@ public class EventViewController implements Initializable {
         datePickerSkin.getPopupContent().setOnMouseClicked(mouseEvent -> getThisDayEvents(datePickerSkin.getSkinnable().getValue()));
 
         getEvents();
-        getThisDayEvents(LocalDate.of(2021, 5, 19));
+        getThisDayEvents(LocalDate.now());
     }
 
-    private void getEvents(){
+    public void getEvents(){
 
         eventList.clear();
 
@@ -72,7 +76,10 @@ public class EventViewController implements Initializable {
         eventList.addAll(eventsUser);
         // eventList.addAll(eventsGroup);
 
-        Collections.sort(eventList, Comparator.comparing(Event::getDateEvent).reversed());
+        Collections.sort(eventList, Comparator.comparing(Event::getDateStart).reversed());
+
+        if (selectedDate != null)
+            getThisDayEvents(selectedDate);
 
     }
 
@@ -86,7 +93,7 @@ public class EventViewController implements Initializable {
 
         List<Event> thisDayEvents = new ArrayList<>();
         for (Event e : eventList) {
-            if (e.getDateEvent().toLocalDate().equals(selectedDate))
+            if (e.getDateStart().toLocalDate().equals(selectedDate))
                 thisDayEvents.add(e);
         }
 
@@ -152,7 +159,7 @@ public class EventViewController implements Initializable {
         ImagePattern imagePattern = new ImagePattern(avatarImage);
         rectangle.setFill(imagePattern);
 
-        Label tagTitle = new Label(e.getDateEvent().toLocalDate().getDayOfMonth() + " " + e.getDateEvent().toLocalDate().getMonth().getDisplayName(TextStyle.SHORT, new Locale("es", "ES")).toUpperCase());
+        Label tagTitle = new Label(e.getDateStart().toLocalDate().getDayOfMonth() + " " + e.getDateStart().toLocalDate().getMonth().getDisplayName(TextStyle.SHORT, new Locale("es", "ES")).toUpperCase());
         tagTitle.setStyle("-fx-font-size: 30; -fx-text-fill: white; -fx-font-weight: bold");
 
         hBoxTitle.getChildren().add(rectangle);
@@ -233,18 +240,99 @@ public class EventViewController implements Initializable {
     }
 
     private void addEvent(){
-
+        try {
+            Stage stage = new Stage();
+            URL url = new File("src/main/java/sample/windows/dialogs/eventDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            EventDialogController eventDialogController = loader.getController();
+            eventDialogController.setEventViewController(this);
+            eventDialogController.preloadData();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
+            stage.show();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void viewEvent(Event e){
-
+        try {
+            Stage stage = new Stage();
+            URL url = new File("src/main/java/sample/windows/dialogs/eventDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            EventDialogController eventDialogController = loader.getController();
+            eventDialogController.setEventViewController(this);
+            eventDialogController.setUpdateMode(false);
+            eventDialogController.setSelectedEvent(e);
+            eventDialogController.setGroup(e.isGroup());
+            eventDialogController.preloadData();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
+            stage.show();
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void updateEvent(Event e){
-
+        try {
+            Stage stage = new Stage();
+            URL url = new File("src/main/java/sample/windows/dialogs/eventDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            EventDialogController eventDialogController = loader.getController();
+            eventDialogController.setEventViewController(this);
+            eventDialogController.setUpdateMode(true);
+            eventDialogController.setSelectedEvent(e);
+            eventDialogController.setGroup(e.isGroup());
+            eventDialogController.preloadData();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
+            stage.show();
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void deleteEvent(Event e){
 
+        boolean success = false;
+        if (e.isGroup())
+            success = Data.eventManager.deleteGroupEvent(e);
+        else
+            success = Data.eventManager.deleteEvent(e);
+
+        if (success){
+            System.out.println("[DEBUG] - EVENT eliminado correctamente!");
+            getEvents();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Evento eliminado correctamente!");
+            alert.showAndWait();
+        }else {
+            System.out.println("[DEBUG] - Error al eliminar el EVENT...");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Error al eliminar el evento...");
+            alert.showAndWait();
+        }
+    }
+
+    public void setSelectedDate(LocalDate selectedDate) {
+        this.selectedDate = selectedDate;
     }
 }

@@ -45,8 +45,11 @@ public class EventImpl implements IEvent {
 
                 try {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    java.util.Date dateParsed = simpleDateFormat.parse(rawJSON.getString("dateEvent"));
-                    event.setDateEvent(new Date(dateParsed.getTime()));
+                    java.util.Date dateStartParsed = simpleDateFormat.parse(rawJSON.getString("dateStart"));
+                    java.util.Date dateFinishParsed = simpleDateFormat.parse(rawJSON.getString("dateFinish"));
+                    event.setDateStart(new Date(dateStartParsed.getTime()));
+                    event.setDateFinish(new Date(dateFinishParsed.getTime()));
+
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -82,7 +85,7 @@ public class EventImpl implements IEvent {
                 Event event = new Event();
 
                 event.setIdEvent(rawJSON.getInt("idGroupsEvents"));
-                event.setTextEvent(rawJSON.getString("textGroupEvent"));
+                event.setTextEvent(rawJSON.getString("textEvent"));
                 event.setTypeEvent(rawJSON.getInt("typeEvent"));
                 event.setIdGroup(rawJSON.getInt("idGroup"));
                 event.setHourStart(Time.valueOf(rawJSON.getString("hourStart")));
@@ -91,8 +94,10 @@ public class EventImpl implements IEvent {
 
                 try {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    java.util.Date dateParsed = simpleDateFormat.parse(rawJSON.getString("dateGroupEvent"));
-                    event.setDateEvent(new Date(dateParsed.getTime()));
+                    java.util.Date dateStartParsed = simpleDateFormat.parse(rawJSON.getString("dateStart"));
+                    java.util.Date dateFinishParsed = simpleDateFormat.parse(rawJSON.getString("dateFinish"));
+                    event.setDateStart(new Date(dateStartParsed.getTime()));
+                    event.setDateFinish(new Date(dateFinishParsed.getTime()));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

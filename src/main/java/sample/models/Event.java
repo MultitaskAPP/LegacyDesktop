@@ -9,19 +9,20 @@ public class Event {
 
     private int idEvent, idUser, idGroup;
     private String textEvent;
-    private Date dateEvent;
+    private Date dateStart, dateFinish;
     private Time hourStart, hourFinish;
     private int typeEvent;
     private boolean isGroup;
 
     public Event() {}
 
-    public Event(int idEvent, int idUser, int idGroup, String textEvent, Date dateEvent, Time hourStart, Time hourFinish, int typeEvent, boolean isGroup) {
+    public Event(int idEvent, int idUser, int idGroup, String textEvent, Date dateStart, Date dateFinish, Time hourStart, Time hourFinish, int typeEvent, boolean isGroup) {
         this.idEvent = idEvent;
         this.idUser = idUser;
         this.idGroup = idGroup;
         this.textEvent = textEvent;
-        this.dateEvent = dateEvent;
+        this.dateStart = dateStart;
+        this.dateFinish = dateFinish;
         this.hourStart = hourStart;
         this.hourFinish = hourFinish;
         this.typeEvent = typeEvent;
@@ -60,16 +61,24 @@ public class Event {
         this.textEvent = textEvent;
     }
 
-    public Date getDateEvent() {
-        return dateEvent;
+    public Date getDateStart() {
+        return dateStart;
     }
 
-    public void setDateEvent(Date dateEvent) {
-        this.dateEvent = dateEvent;
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
     }
 
     public Time getHourStart() {
         return hourStart;
+    }
+
+    public Date getDateFinish() {
+        return dateFinish;
+    }
+
+    public void setDateFinish(Date dateFinish) {
+        this.dateFinish = dateFinish;
     }
 
     public void setHourStart(Time hourStart) {
@@ -105,7 +114,8 @@ public class Event {
         JSONObject eventJSON = new JSONObject();
         eventJSON.put("idEvent", idEvent);
         eventJSON.put("textEvent", textEvent);
-        eventJSON.put("dateEvent", dateEvent);
+        eventJSON.put("dateStart", dateStart);
+        eventJSON.put("dateFinish", dateFinish);
         eventJSON.put("hourStart", hourStart);
         eventJSON.put("hourFinish", hourFinish);
         eventJSON.put("typeEvent", typeEvent);
@@ -118,6 +128,6 @@ public class Event {
 
     @Override
     public String toString() {
-        return "[" + dateEvent + "] - " + textEvent;
+        return "[" + dateStart + "] - " + textEvent;
     }
 }
