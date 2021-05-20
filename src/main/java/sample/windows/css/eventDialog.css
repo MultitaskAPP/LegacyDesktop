@@ -23,9 +23,19 @@
 }
 
 .date-picker > .text-field {
+    -fx-text-fill: white;
     -fx-background-color: transparent;
     -fx-background-insets: 1 0 1 1;
     -fx-background-radius: 2 0 0 2;
+}
+
+.combo-box .list-cell{
+    -fx-text-fill: white;
+}
+
+.combo-box .list-view {
+    -fx-background-color:  #32323E;
+    -fx-border-radius: 30;
 }
 
 .date-picker > .arrow-button {

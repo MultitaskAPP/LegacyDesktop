@@ -17,6 +17,7 @@ import sample.utils.Data;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,13 +28,14 @@ public class EventDialogController implements Initializable {
     @FXML    private TextArea textArea;
     @FXML    private ComboBox<Group> cbGroups;
     @FXML    private DatePicker dateStartPicker, dateFinishPicker;
-    @FXML    private ChoiceBox<Integer> startHour, startMinutes, finishHour, finishMinutes;
+    @FXML    private ComboBox<Integer> startHour, startMinutes, finishHour, finishMinutes;
     @FXML    private CheckBox ckbNoRepeat, ckbWeekly, ckbMonthly, ckbYearly, ckbAllDay;
     @FXML    private Button btnAdd, btnCancel;
 
     private EventViewController eventViewController;
     private boolean isGroup, updateMode = false;
     private Event selectedEvent;
+    private LocalDate selectedDate;
     private double x, y;
 
     @Override
@@ -43,11 +45,26 @@ public class EventDialogController implements Initializable {
 
     public void preloadData(){
 
+        dateStartPicker.setValue(selectedDate);
+
         cbGroups.getItems().add(null);
         cbGroups.getItems().addAll(Data.arrayGroupsUser);
         cbGroups.getSelectionModel().selectFirst();
 
         ckbNoRepeat.selectedProperty().setValue(true);
+        ckbAllDay.setOnAction(actionEvent -> {
+            if (ckbAllDay.selectedProperty().getValue()){
+                startHour.setDisable(true);
+                startMinutes.setDisable(true);
+                finishHour.setDisable(true);
+                finishMinutes.setDisable(true);
+            }else{
+                startHour.setDisable(false);
+                startMinutes.setDisable(false);
+                finishHour.setDisable(false);
+                finishMinutes.setDisable(false);
+            }
+        });
 
         List<CheckBox> checkBoxList = new ArrayList<>();
         checkBoxList.add(ckbNoRepeat);
@@ -192,6 +209,8 @@ public class EventDialogController implements Initializable {
                 e.setDateStart(Date.valueOf(dateStartPicker.getValue()));
                 if (dateFinishPicker.getValue() != null){
                     e.setDateFinish(Date.valueOf(dateFinishPicker.getValue()));
+                }else{
+                    e.setDateFinish(Date.valueOf(dateStartPicker.getValue()));
                 }
 
                 if (ckbAllDay.selectedProperty().getValue()){
@@ -308,6 +327,10 @@ public class EventDialogController implements Initializable {
 
     public void setSelectedEvent(Event selectedEvent) {
         this.selectedEvent = selectedEvent;
+    }
+
+    public void setSelectedDate(LocalDate selectedDate) {
+        this.selectedDate = selectedDate;
     }
 
     @FXML

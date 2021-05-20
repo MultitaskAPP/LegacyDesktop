@@ -23,6 +23,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import sample.controllers.dialogs.EventDialogController;
 import sample.controllers.dialogs.NoteDialogController;
 import sample.models.Event;
@@ -34,6 +35,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.MonthDay;
 import java.time.format.TextStyle;
 import java.util.*;
 
@@ -64,6 +66,7 @@ public class EventViewController implements Initializable {
     public void getEvents(){
 
         eventList.clear();
+        paneCalendar.getChildren().clear();
 
         ArrayList<String> arrayGroupIDs = new ArrayList<>();
         for (Group g : Data.arrayGroupsUser) {
@@ -71,12 +74,74 @@ public class EventViewController implements Initializable {
         }
 
         List<Event> eventsUser = Data.eventManager.getAllEventsByUser(Data.userData.getIdUser());
-        // List<Event> eventsGroup = Data.eventManager.getAllEventsByGroup(arrayGroupIDs);
+        List<Event> eventsGroup = Data.eventManager.getAllEventsByGroup(arrayGroupIDs);
 
         eventList.addAll(eventsUser);
-        // eventList.addAll(eventsGroup);
+        eventList.addAll(eventsGroup);
 
         Collections.sort(eventList, Comparator.comparing(Event::getDateStart).reversed());
+
+        final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        for (Event e : eventList) {
+                            if (e.getTypeEvent() == 0){
+                                if (item.equals(e.getDateStart().toLocalDate())){
+                                    if (e.isGroup()){
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    }else{
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+
+                                }
+                            }else if (e.getTypeEvent() == 1){
+                                if (item.getDayOfWeek().equals(e.getDateStart().toLocalDate().getDayOfWeek())){
+                                    if (e.isGroup()){
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    }else{
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+                                }
+                            }else if (e.getTypeEvent() == 2){
+                                if (item.getDayOfMonth() == e.getDateStart().toLocalDate().getDayOfMonth()){
+                                    if (e.isGroup()){
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    }else{
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+                                }
+                            }else if (e.getTypeEvent() == 3){
+                                if (MonthDay.from(item).equals(MonthDay.of(e.getDateStart().toLocalDate().getMonth(), e.getDateStart().toLocalDate().getDayOfMonth()))){
+                                    if (e.isGroup()){
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    }else{
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                };
+            }
+        };
+
+        datePicker.setDayCellFactory(dayCellFactory);
+
+        DatePickerSkin datePickerSkin = new DatePickerSkin(datePicker);
+        Node popupContent = datePickerSkin.getPopupContent();
+        paneCalendar.getChildren().add(popupContent);
+        datePickerSkin.getPopupContent().setOnMouseClicked(mouseEvent -> {
+            selectedDate = datePickerSkin.getSkinnable().getValue();;
+            getThisDayEvents(selectedDate);
+        });
 
         if (selectedDate != null)
             getThisDayEvents(selectedDate);
@@ -155,7 +220,15 @@ public class EventViewController implements Initializable {
         rectangle.setStrokeWidth(0);
         rectangle.setArcWidth(30);
         rectangle.setArcHeight(30);
-        Image avatarImage = new Image(Data.userData.getAvatarUser().getUrl(), rectangle.getWidth(), rectangle.getHeight(), false, true);
+        Image avatarImage;
+
+        if (e.isGroup()){
+            Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+            avatarImage = new Image(g.getAvatarGroup().getUrl(), rectangle.getWidth(), rectangle.getHeight(), false, true);
+        }else{
+            avatarImage = new Image(Data.userData.getAvatarUser().getUrl(), rectangle.getWidth(), rectangle.getHeight(), false, true);
+        }
+
         ImagePattern imagePattern = new ImagePattern(avatarImage);
         rectangle.setFill(imagePattern);
 
@@ -246,6 +319,7 @@ public class EventViewController implements Initializable {
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
             EventDialogController eventDialogController = loader.getController();
+            eventDialogController.setSelectedDate(selectedDate);
             eventDialogController.setEventViewController(this);
             eventDialogController.preloadData();
             Scene scene = new Scene(root);

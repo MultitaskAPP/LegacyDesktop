@@ -4,7 +4,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -69,8 +68,8 @@
                            <children>
                               <HBox prefHeight="50.0" prefWidth="200.0" spacing="10.0">
                                  <children>
-                                    <ChoiceBox fx:id="startHour" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
-                                    <ChoiceBox fx:id="startMinutes" minHeight="50.0" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
+                                    <ComboBox fx:id="startHour" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" visibleRowCount="8" />
+                                    <ComboBox fx:id="startMinutes" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" visibleRowCount="8" />
                                  </children>
                               </HBox>
                               <Label text="A" textFill="WHITE">
@@ -80,8 +79,8 @@
                               </Label>
                               <HBox prefHeight="71.0" prefWidth="168.0" spacing="10.0">
                                  <children>
-                                    <ChoiceBox fx:id="finishHour" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
-                                    <ChoiceBox fx:id="finishMinutes" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
+                                    <ComboBox fx:id="finishHour" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" visibleRowCount="8" />
+                                    <ComboBox fx:id="finishMinutes" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" visibleRowCount="8" />
                                  </children>
                               </HBox>
                               <CheckBox fx:id="ckbAllDay" mnemonicParsing="false" text="TODO EL DIA" textFill="WHITE" />
