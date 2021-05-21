@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -42,7 +43,7 @@ public class MainClass extends Application {
             primaryStage.setScene(scene);
             primaryStage.show();
 
-            url = new File("src/main/java/sample/windows/res/multitask_icon.png").toURI().toURL();
+            url = new File("src/main/java/sample/windows/res/icons/multitask_icon.png").toURI().toURL();
             Image icon = new Image(String.valueOf(url));
             primaryStage.getIcons().add(icon);
 
@@ -148,5 +149,9 @@ public class MainClass extends Application {
 
     private void setProperties(){
         Data.storeProperties(Data.properties);
+    }
+
+    private void loadResources(){
+        Font.loadFont(getClass().getResource("src/main/java/sample/windows/res").toExternalForm(), 10);
     }
 }

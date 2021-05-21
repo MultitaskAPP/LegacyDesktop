@@ -25,7 +25,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import sample.controllers.dialogs.EventDialogController;
-import sample.controllers.dialogs.NoteDialogController;
 import sample.models.Event;
 import sample.models.Group;
 import sample.utils.Data;
@@ -341,7 +340,7 @@ public class EventViewController implements Initializable {
         hBoxAddEvent.setStyle("-fx-background-color: #272730; -fx-background-radius: 30");
         hBoxAddEvent.setPrefSize(275, 200);
 
-        ImageView imageView = new ImageView(new Image(new File("src/main/java/sample/windows/res/mt_add1_icon.png").toURI().toString()));
+        ImageView imageView = new ImageView(new Image(new File("src/main/java/sample/windows/res/icons/mt_add1_icon.png").toURI().toString()));
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
 

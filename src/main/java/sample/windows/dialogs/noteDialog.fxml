@@ -40,7 +40,7 @@
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../res/mt_ok_icon.png" />
+                              <Image url="@../res/icons/mt_ok_icon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -49,7 +49,7 @@
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../res/mt_cancel_icon.png" />
+                              <Image url="@../res/icons/mt_cancel_icon.png" />
                            </image>
                         </ImageView>
                      </graphic>

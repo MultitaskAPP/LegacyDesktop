@@ -16,14 +16,14 @@
          <children>
             <AnchorPane layoutX="22.0" layoutY="23.0" prefHeight="178.0" prefWidth="178.0" style="-fx-background-color: #32323E; -fx-background-radius: 50;">
                <children>
-                  <Label fx:id="tvDay" layoutX="38.0" layoutY="12.0" text="02" textAlignment="CENTER" textFill="WHITE">
+                  <Label fx:id="tvDay" alignment="CENTER" contentDisplay="CENTER" layoutY="11.0" prefHeight="117.0" prefWidth="179.0" text="01" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font name="Arial Bold" size="92.0" />
+                        <Font size="96.0" />
                      </font>
                   </Label>
-                  <Label fx:id="tvMonth" alignment="CENTER" contentDisplay="CENTER" layoutX="13.0" layoutY="104.0" prefHeight="52.0" prefWidth="153.0" text="NOV." textAlignment="CENTER" textFill="WHITE">
+                  <Label fx:id="tvMonth" alignment="CENTER" layoutX="-1.0" layoutY="102.0" prefHeight="58.0" prefWidth="179.0" text="MAIG" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font name="Arial Bold" size="45.0" />
+                        <Font size="40.0" />
                      </font>
                   </Label>
                </children>

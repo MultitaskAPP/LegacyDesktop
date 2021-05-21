@@ -1,3 +1,32 @@
+@font-face {
+    font-family: Roboto-Regular;
+    src: url('../res/fonts/Roboto-Regular.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: Roboto-Thin;
+    src: url('../res/fonts/Roboto-Thin.ttf') format('ttf');}
+
+@font-face {
+    font-family: Roboto-Medium;
+    src: url('../res/fonts/Roboto-Medium.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: Roboto-Light;
+    src: url('../res/fonts/Roboto-Light.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: Roboto-Bold;
+    src: url('../res/fonts/Roboto-Bold.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: Roboto-Black;
+    src: url('../res/fonts/Roboto-Black.ttf') format('ttf');
+}
+
 .scroll-bar .increment-arrow,
 .scroll-bar .decrement-arrow {
     -fx-background-color: transparent;
@@ -21,4 +50,13 @@
 #listView .scroll-bar .thumb{
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 30px;
+}
+
+.text-area{
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+.text-area *.text {
+    -fx-text-alignment: center;
 }

@@ -23,7 +23,7 @@
       </Label>
       <ImageView fitHeight="196.0" fitWidth="200.0" layoutX="91.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@res/multitask_icon.png" />
+            <Image url="@res/icons/multitask_icon.png" />
          </image>
       </ImageView>
    </children>

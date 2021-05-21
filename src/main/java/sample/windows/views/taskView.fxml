@@ -22,7 +22,7 @@
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../res/mt_add1_icon.png" />
+                              <Image url="@../res/icons/mt_add1_icon.png" />
                            </image>
                         </ImageView>
                         <Label text="Nuevo tablero" textFill="WHITE">
@@ -63,7 +63,7 @@
                      <children>
                         <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../res/mt_add1_icon.png" />
+                              <Image url="@../res/icons/mt_add1_icon.png" />
                            </image>
                         </ImageView>
                         <Label opacity="0.5" text="Añadir una nueva tarea" textFill="WHITE">

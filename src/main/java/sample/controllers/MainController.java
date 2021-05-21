@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -53,6 +54,8 @@ public class MainController implements Initializable {
     private void resetButtonStyles(){
         for (int i = 0; i < vBoxButtons.getChildren().size(); i++){
             HBox hBox = (HBox) vBoxButtons.getChildren().get(i);
+            Label tagButton = (Label) hBox.getChildren().get(1);
+            tagButton.setStyle("-fx-font-family: 'Roboto Light'");
             hBox.setStyle("-fx-background-color: transparent; -fx-background-radius: 0");
             FontAwesomeIcon icon = (FontAwesomeIcon) hBox.getChildren().get(0);
             icon.setFill(Paint.valueOf("#FFFFFF"));
@@ -63,6 +66,8 @@ public class MainController implements Initializable {
         selectedButton.setStyle("-fx-background-color: #202027; -fx-background-radius: 30");
         FontAwesomeIcon selectedIcon = (FontAwesomeIcon) selectedButton.getChildren().get(0);
         selectedIcon.setFill(Paint.valueOf(Data.userData.getHexCode()));
+        Label tagButton = (Label) selectedButton.getChildren().get(1);
+        tagButton.setStyle("-fx-font-family: 'Roboto Medium'");
     }
 
     @FXML

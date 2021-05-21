@@ -113,11 +113,12 @@ public class TaskViewController implements Initializable {
             vBox.getChildren().add(rectangle);
 
             Label label = new Label(s.getNameSchedule());
-            label.setStyle("-fx-text-fill: white; -fx-font-size: 18px; -fx-font-family: Arial");
+            label.setStyle("-fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Roboto'");
             vBox.getChildren().add(label);
 
             vBox.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    updateStyleSchedule(vBox);
                     getAllTasks(s);
                 }
             });
@@ -125,6 +126,19 @@ public class TaskViewController implements Initializable {
             hBoxSchedules.getChildren().add(vBox);
         }
 
+    }
+
+    private void updateStyleSchedule(VBox selectedSchedule){
+        resetStyle();
+        selectedSchedule.setStyle(selectedSchedule.getStyle() + "; -fx-border-width: 2; -fx-border-radius: 20; -fx-border-color: white");
+
+    }
+
+    private void resetStyle(){
+        for (int i = 1; i < hBoxSchedules.getChildren().size(); i++){
+            VBox vBox = (VBox) hBoxSchedules.getChildren().get(i);
+            vBox.setStyle(vBox.getStyle() + "; -fx-border-width: 0");
+        }
     }
 
     public void getAllTasks(Schedule s){
@@ -160,7 +174,7 @@ public class TaskViewController implements Initializable {
             }else {
                 textArea.setPrefHeight(textArea.getPrefRowCount() * 35);
             }
-            textArea.setStyle("-fx-background-radius: 15; -fx-background-color: " + s.getHexCode() + "; -fx-text-fill: white; -fx-font-size: 20; -fx-font-family: Arial");
+            textArea.setStyle("-fx-background-radius: 15; -fx-background-color: " + s.getHexCode() + "; -fx-text-fill: white; -fx-font-size: 20; -fx-font-family: 'Roboto Light'");
 
             hBox.getChildren().add(textArea);
             hBox.setPrefHeight(textArea.getPrefHeight());
@@ -185,7 +199,7 @@ public class TaskViewController implements Initializable {
 
             try{
                 ImageView imageView = new ImageView();
-                URL url = new File("src/main/java/sample/windows/res/mt_options_icon.png").toURI().toURL();
+                URL url = new File("src/main/java/sample/windows/res/icons/mt_options_icon.png").toURI().toURL();
                 imageView.setImage(new Image(String.valueOf(url)));
                 imageView.setSmooth(true);
                 imageView.setFitHeight(25);
