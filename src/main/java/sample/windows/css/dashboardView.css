@@ -28,8 +28,74 @@
 }
 
 #tvDay,
-#tvMonth {
+#tvMonth,
+#tagSummary {
     -fx-font-family: "Roboto Medium";
+}
+
+.date-picker-popup{
+    -fx-background-color: transparent;
+}
+.date-picker-popup .calendar-grid {
+    -fx-pref-width: 300.0;
+    -fx-pref-height: 300.0;
+    -fx-background-color: transparent;
+}
+.date-picker-popup .spinner-label {
+    -fx-font-size: 15.0;
+    -fx-text-fill: white;
+}
+.date-picker-popup > * > .spinner > .left-button,
+.date-picker-popup > * > .spinner > .right-button,
+.date-picker-popup > * > .spinner > .left-button.selected,
+.date-picker-popup > * > .spinner > .right-button.selected {
+    -fx-background-color: transparent;
+}
+
+.date-picker-popup > .month-year-pane  {
+    -fx-background-color: transparent;
+}
+
+.date-picker-popup > * > .date-cell {
+    -fx-background-color: #32323E;
+    -fx-background-radius: 5;
+    -fx-border-color: transparent;
+    -fx-background-insets: 5;
+    -fx-pref-height: 50;
+    -fx-pref-width: 50;
+    -fx-padding: 0;
+    -fx-alignment: BASELINE_CENTER;
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+}
+
+.date-picker-popup > * > .today.selected,
+.date-picker-popup > * > .date-cell.selected {
+    -fx-background-color: #4B4B57;
+    -fx-font-weight: bold;
+    -fx-border-color: white;
+    -fx-border-width: 0;
+    -fx-border-insets: 5;
+    -fx-border-radius: 5;
+}
+
+.date-picker-popup > * > .previous-month,
+.date-picker-popup > * > .next-month {
+    -fx-opacity: 0.4;
+    -fx-text-fill: #B8C5D3;
+}
+
+.date-picker-popup > * > .day-name-cell,
+.date-picker-popup > * > .week-number-cell {
+    -fx-background-color: transparent
+}
+
+.date-picker-popup > * > .spinner {
+    -fx-spacing: 0.25em; /* 3 */
+    -fx-alignment: CENTER;
+    -fx-fill-height: false;
+    -fx-background-color: transparent;
+    -fx-background-radius: 5;
 }
 
 .scroll-bar{

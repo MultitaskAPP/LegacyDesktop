@@ -55,7 +55,7 @@
             <FontAwesomeIcon fx:id="fxSchedule" fill="WHITE" iconName="TH_LARGE" size="2.5em" />
          </graphic>
       </Button>
-      <ScrollPane fx:id="listView" layoutX="50.0" layoutY="230.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="417.0" prefWidth="961.0" style="-fx-background-color: #202027;" stylesheets="@../css/taskView.css" visible="false">
+      <ScrollPane fx:id="listView" layoutX="50.0" layoutY="230.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="417.0" prefWidth="961.0" style="-fx-background-color: #202027; -fx-background-radius: 20;" stylesheets="@../css/taskView.css" visible="false">
          <content>
             <VBox fx:id="vBoxList" spacing="15.0" stylesheets="@../css/taskView.css">
                <children>
@@ -77,9 +77,12 @@
             </VBox>
          </content>
       </ScrollPane>
-      <ScrollPane fx:id="scheduleView" layoutX="50.0" layoutY="230.0" prefHeight="425.0" prefWidth="875.0" style="-fx-background-color: transparent;">
+      <ScrollPane fx:id="scheduleView" layoutX="50.0" layoutY="230.0" prefHeight="425.0" prefWidth="909.0" style="-fx-background-color: transparent; -fx-background-radius: 20;" stylesheets="@../css/taskView.css">
          <content>
-            <HBox fx:id="hBoxScheduleView" spacing="24.0" />
+            <HBox fx:id="hBoxScheduleView" spacing="25.0" stylesheets="@../css/taskView.css">
+               <padding>
+                  <Insets right="15.0" />
+               </padding></HBox>
          </content>
       </ScrollPane>
    </children>

@@ -237,7 +237,7 @@ public class TaskViewController implements Initializable {
             // Label - SCHEDULE
 
             Label tagListName = new Label(listsSchedule.getString(i));
-            tagListName.setStyle("-fx-text-fill: " + s.getHexCode() +"; -fx-font-size: 16; -fx-font-weight: bold");
+            tagListName.setStyle("-fx-text-fill: " + s.getHexCode() +"; -fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: Roboto");
             hBoxScheduleHeader.getChildren().add(tagListName);
 
             // MenuButton - SCHEDULE
@@ -257,7 +257,7 @@ public class TaskViewController implements Initializable {
 
             try{
                 ImageView imageView = new ImageView();
-                URL url = new File("src/main/java/sample/windows/res/mt_options_icon.png").toURI().toURL();
+                URL url = new File("src/main/java/sample/windows/res/icons/mt_options_icon.png").toURI().toURL();
                 imageView.setImage(new Image(String.valueOf(url)));
                 imageView.setSmooth(true);
                 imageView.setFitHeight(20);
@@ -275,7 +275,8 @@ public class TaskViewController implements Initializable {
                     TextArea textArea = new TextArea(t.getTextTask());
                     textArea.setEditable(false);
                     textArea.setWrapText(true);
-                    textArea.setStyle("-fx-background-color:  #32323E; -fx-background-radius: 15");
+                    textArea.setPadding(new Insets(5));
+                    textArea.setStyle("-fx-background-color:  #32323E; -fx-background-radius: 18; -fx-font-family: 'Roboto Light'");
                     textArea.setPrefWidth(200);
                     textArea.setPrefRowCount((textArea.getText().length() / 25) + 1);
                     if (textArea.getPrefRowCount() <= 1){
@@ -302,7 +303,7 @@ public class TaskViewController implements Initializable {
 
             try {
                 ImageView igAdd = new ImageView();
-                URL url = new File("src/main/java/sample/windows/res/mt_add1_icon.png").toURI().toURL();
+                URL url = new File("src/main/java/sample/windows/res/icons/mt_add1_icon.png").toURI().toURL();
                 igAdd.setImage(new Image(String.valueOf(url)));
                 igAdd.setSmooth(true);
                 igAdd.setFitHeight(20);

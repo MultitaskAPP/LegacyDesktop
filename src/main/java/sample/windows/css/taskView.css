@@ -28,9 +28,13 @@
 }
 
 .scroll-bar .increment-arrow,
-.scroll-bar .decrement-arrow {
+.scroll-bar .decrement-arrow,
+.scroll-bar .increment-arrow:hover,
+.scroll-bar .decrement-arrow:hover {
     -fx-background-color: transparent;
 }
+
+
 
 #scrollPaneSchedules {
     -fx-border-width: 5px;
@@ -39,11 +43,16 @@
 }
 
 #scrollPaneSchedules .scroll-bar,
-#listView .scroll-bar {
+#listView .scroll-bar,
+#scheduleView .scroll-bar {
     -fx-background-color : #32323E;
     -fx-border-color :transparent;
     -fx-background-radius: 30px;
     -fx-background-insets: 2 15 2 15;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: transparent;
 }
 
 #scrollPaneSchedules .scroll-bar .thumb,
@@ -52,11 +61,16 @@
     -fx-background-radius: 30px;
 }
 
+.scroll-bar {
+    -fx-background-color : #32323E;
+}
+
 .text-area{
     -fx-text-fill: white;
     -fx-alignment: center;
 }
 
 .text-area *.text {
+    -fx-line-spacing: 5px;
     -fx-text-alignment: center;
 }
