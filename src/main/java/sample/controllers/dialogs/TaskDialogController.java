@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 
 public class TaskDialogController implements Initializable {
@@ -32,6 +33,7 @@ public class TaskDialogController implements Initializable {
     private TaskViewController taskViewController;
     private DatePicker datePicker = new DatePicker(LocalDate.now());
     private Schedule selectedSchedule;
+    private Task selectedTask;
     private boolean isGroup, updateMode = false;
     private double x, y;
     private int idTask = 0, selectedList = 0;
@@ -45,7 +47,6 @@ public class TaskDialogController implements Initializable {
         if (!textArea.getText().isBlank()) {
             if(!cbLists.getSelectionModel().isEmpty()){
                 Task taskObj = new Task();
-                taskObj.setIdTask(idTask);
                 taskObj.setTextTask(textArea.getText().replaceAll("\"", "'"));
                 taskObj.setListTask(cbLists.getSelectionModel().getSelectedItem());
                 taskObj.setIdSchedule(selectedSchedule.getIdSchedule());
@@ -57,8 +58,17 @@ public class TaskDialogController implements Initializable {
                     LocalDate localDate = datePicker.getValue();
                     Date date = Date.valueOf(localDate);
                     taskObj.setLimitDateTask(date);
-                    System.out.println(taskObj.getLimitDateTask());
                 }
+
+                if (selectedTask != null){
+                    taskObj.setIdTask(selectedTask.getIdTask());
+                    taskObj.setCreationDate(selectedTask.getCreationDate());
+                }else{
+                    taskObj.setIdTask(0);
+                    taskObj.setCreationDate(Date.valueOf(LocalDate.now()));
+                }
+
+                System.out.println(taskObj.getCreationDate());
 
                 if(updateMode){
                     if (isGroup)
@@ -265,6 +275,14 @@ public class TaskDialogController implements Initializable {
 
     public void setTaskViewController(TaskViewController taskViewController) {
         this.taskViewController = taskViewController;
+    }
+
+    public Task getSelectedTask() {
+        return selectedTask;
+    }
+
+    public void setSelectedTask(Task selectedTask) {
+        this.selectedTask = selectedTask;
     }
 
     private void updateView(){

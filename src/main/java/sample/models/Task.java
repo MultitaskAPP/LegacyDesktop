@@ -2,7 +2,8 @@ package sample.models;
 
 import org.json.JSONObject;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 public class Task {
 
@@ -10,15 +11,16 @@ public class Task {
     private String textTask;
     private int durationTask;
     private int priorityTask;
-    private Date limitDateTask;
+    private Date limitDateTask, creationDate;
     private int idSchedule;
     private String listTask;
+    private boolean isFinished;
 
     private boolean isGroup;
 
     public Task(){}
 
-    public Task(int idTask, String textTask, int durationTask, int priorityTask, Date limitDateTask, int idSchedule, String listTask, boolean isGroup) {
+    public Task(int idTask, String textTask, int durationTask, int priorityTask, Date limitDateTask, int idSchedule, String listTask, boolean isGroup, boolean isFinished, Date creationDate) {
         this.idTask = idTask;
         this.textTask = textTask;
         this.durationTask = durationTask;
@@ -27,6 +29,8 @@ public class Task {
         this.idSchedule = idSchedule;
         this.listTask = listTask;
         this.isGroup = isGroup;
+        this.isFinished = isFinished;
+        this.creationDate = creationDate;
     }
 
     public int getIdTask() {
@@ -85,8 +89,24 @@ public class Task {
         this.listTask = listTask;
     }
 
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
+    }
+
     public boolean isGroup() {
         return isGroup;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public void setGroup(boolean group) {
@@ -104,6 +124,12 @@ public class Task {
         taskJSON.put("limitDateTask", limitDateTask);
         taskJSON.put("idSchedule", idSchedule);
         taskJSON.put("listTask", listTask);
+        taskJSON.put("creationDate", creationDate);
+
+        if (isFinished)
+            taskJSON.put("isFinished", 1);
+        else
+            taskJSON.put("isFinished", 0);
 
         return taskJSON;
 

@@ -10,4 +10,7 @@ public interface IGroup {
 
     public Group getGroupByID(int idGroup);
 
+    public ArrayList<String> getAllGroupsForSQLQuery();
+
+
 }

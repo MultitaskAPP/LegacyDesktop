@@ -17,6 +17,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import sample.controllers.views.DashboardViewController;
 import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
 
@@ -98,10 +99,14 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void gotoDashboard(MouseEvent event) {
+    public void gotoDashboard(MouseEvent event) {
         try {
             URL url = new File("src/main/java/sample/windows/views/dashboardView.fxml").toURI().toURL();
-            scenePane.getChildren().add(FXMLLoader.load(url));
+            FXMLLoader loader = new FXMLLoader(url);
+            scenePane.getChildren().add(loader.load());
+            DashboardViewController dashboardViewController = loader.getController();
+            dashboardViewController.preloadData();
+            dashboardViewController.setMainController(this);
             resetButtonStyles();
             setStyleButton(btnDashboard);
             transitionEffect();
@@ -111,7 +116,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void gotoTasks(MouseEvent event) {
+    public void gotoTasks(MouseEvent event) {
         try {
             URL url = new File("src/main/java/sample/windows/views/taskView.fxml").toURI().toURL();
             scenePane.getChildren().add(FXMLLoader.load(url));
@@ -124,7 +129,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void gotoEvents(MouseEvent event) {
+    public void gotoEvents(MouseEvent event) {
         try {
             URL url = new File("src/main/java/sample/windows/views/eventView.fxml").toURI().toURL();
             scenePane.getChildren().add(FXMLLoader.load(url));
@@ -137,7 +142,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void gotoNotes(MouseEvent event) {
+    public void gotoNotes(MouseEvent event) {
         try {
             URL url = new File("src/main/java/sample/windows/views/noteView.fxml").toURI().toURL();
             scenePane.getChildren().add(FXMLLoader.load(url));
@@ -150,7 +155,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void gotoChats(MouseEvent event) {
+    public void gotoChats(MouseEvent event) {
         try {
             URL url = new File("src/main/java/sample/windows/views/chatView.fxml").toURI().toURL();
             scenePane.getChildren().add(FXMLLoader.load(url));

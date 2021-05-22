@@ -377,6 +377,7 @@ public class TaskViewController implements Initializable {
         if (success){
             System.out.println("[DEBUG] - TASK eliminada correctamente!");
             taskList.remove(task);
+            clearListView();
             listView(schedule);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("MultitaskAPP | DESKTOP");
@@ -401,6 +402,7 @@ public class TaskViewController implements Initializable {
             TaskDialogController taskDialogController = loader.getController();
             taskDialogController.setTaskViewController(this);
             taskDialogController.setSelectedSchedule(schedule);
+            taskDialogController.setSelectedTask(task);
             taskDialogController.setGroup(task.isGroup());
             taskDialogController.setUpdateMode(true);
             Scene scene = new Scene(root);
@@ -452,6 +454,7 @@ public class TaskViewController implements Initializable {
 
         if (success){
             System.out.println("[DEBUG] - SCHEDULE eliminado correctamente!");
+            clearListView();
             getAllSchedules();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("MultitaskAPP | DESKTOP");

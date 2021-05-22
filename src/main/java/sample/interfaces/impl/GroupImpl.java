@@ -72,4 +72,15 @@ public class GroupImpl implements IGroup {
 
         return null;
     }
+
+    @Override
+    public ArrayList<String> getAllGroupsForSQLQuery() {
+
+        ArrayList<String> arrayGroupIDs = new ArrayList<>();
+        for (Group g : Data.arrayGroupsUser) {
+            arrayGroupIDs.add(Integer.toString(g.getIdGroup()));
+        }
+
+        return arrayGroupIDs;
+    }
 }

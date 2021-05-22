@@ -151,7 +151,4 @@ public class MainClass extends Application {
         Data.storeProperties(Data.properties);
     }
 
-    private void loadResources(){
-        Font.loadFont(getClass().getResource("src/main/java/sample/windows/res").toExternalForm(), 10);
-    }
 }
