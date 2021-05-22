@@ -27,9 +27,8 @@
     src: url('../res/fonts/Roboto-Black.ttf') format('ttf');
 }
 
-#tvDay,
-#tvMonth,
-#tagSummary {
+#tvDay, #tvMonth, #tagSummary,
+#tagEventsHeader, #tagTasksHeader, #tagCalendarHeader {
     -fx-font-family: "Roboto Medium";
 }
 
