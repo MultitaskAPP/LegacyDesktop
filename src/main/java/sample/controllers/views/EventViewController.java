@@ -80,85 +80,7 @@ public class EventViewController implements Initializable {
 
         Collections.sort(eventList, Comparator.comparing(Event::isGroup));
 
-        final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
-            public DateCell call(final DatePicker datePicker) {
-                return new DateCell() {
-                    @Override public void updateItem(LocalDate item, boolean empty) {
-                        super.updateItem(item, empty);
-                        for (Event e : eventList) {
-                            if (e.getTypeEvent() == 0){
-                                if (item.equals(e.getDateStart().toLocalDate())) {
-                                    if (e.isGroup()) {
-                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
-                                        setStyle("-fx-background-color: " + g.getHexCode());
-                                    } else {
-                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
-                                    }
-                                } else if(item.isAfter(e.getDateStart().toLocalDate()) && item.isBefore(e.getDateFinish().toLocalDate().plusDays(1))){
-                                    if (e.isGroup()) {
-                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
-                                        setStyle("-fx-background-color: " + g.getHexCode());
-                                    } else {
-                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
-                                    }
-                                }
-                            }else if (e.getTypeEvent() == 1){
-                                if (item.getDayOfWeek().equals(e.getDateStart().toLocalDate().getDayOfWeek())){
-                                    if (e.isGroup()){
-                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
-                                        setStyle("-fx-background-color: " + g.getHexCode());
-                                    }else{
-                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
-                                    }
-                                } else if(item.isAfter(e.getDateStart().toLocalDate()) && item.isBefore(e.getDateFinish().toLocalDate().plusDays(1))){
-                                    if (e.isGroup()) {
-                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
-                                        setStyle("-fx-background-color: " + g.getHexCode());
-                                    } else {
-                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
-                                    }
-                                }
-                            }else if (e.getTypeEvent() == 2){
-                                if (item.getDayOfMonth() == e.getDateStart().toLocalDate().getDayOfMonth()){
-                                    if (e.isGroup()){
-                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
-                                        setStyle("-fx-background-color: " + g.getHexCode());
-                                    }else{
-                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
-                                    }
-                                } else if(item.isAfter(e.getDateStart().toLocalDate()) && item.isBefore(e.getDateFinish().toLocalDate().plusDays(1))){
-                                    if (e.isGroup()) {
-                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
-                                        setStyle("-fx-background-color: " + g.getHexCode());
-                                    } else {
-                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
-                                    }
-                                }
-                            }else if (e.getTypeEvent() == 3){
-                                if (MonthDay.from(item).equals(MonthDay.of(e.getDateStart().toLocalDate().getMonth(), e.getDateStart().toLocalDate().getDayOfMonth()))){
-                                    if (e.isGroup()){
-                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
-                                        setStyle("-fx-background-color: " + g.getHexCode());
-                                    }else{
-                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
-                                    }
-                                } else if(item.isAfter(e.getDateStart().toLocalDate()) && item.isBefore(e.getDateFinish().toLocalDate().plusDays(1))){
-                                    if (e.isGroup()) {
-                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
-                                        setStyle("-fx-background-color: " + g.getHexCode());
-                                    } else {
-                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                };
-            }
-        };
-
-        datePicker.setDayCellFactory(dayCellFactory);
+        datePicker.setDayCellFactory(getMarkedEvents(eventList));
 
         DatePickerSkin datePickerSkin = new DatePickerSkin(datePicker);
         Node popupContent = datePickerSkin.getPopupContent();
@@ -458,5 +380,88 @@ public class EventViewController implements Initializable {
 
     public void setSelectedDate(LocalDate selectedDate) {
         this.selectedDate = selectedDate;
+    }
+
+    public Callback<DatePicker, DateCell> getMarkedEvents(List<Event> listEvents){
+
+        final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        for (Event e : listEvents) {
+                            if (e.getTypeEvent() == 0){
+                                if (item.equals(e.getDateStart().toLocalDate())) {
+                                    if (e.isGroup()) {
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    } else {
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+                                } else if(item.isAfter(e.getDateStart().toLocalDate()) && item.isBefore(e.getDateFinish().toLocalDate().plusDays(1))){
+                                    if (e.isGroup()) {
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    } else {
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+                                }
+                            }else if (e.getTypeEvent() == 1){
+                                if (item.getDayOfWeek().equals(e.getDateStart().toLocalDate().getDayOfWeek())){
+                                    if (e.isGroup()){
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    }else{
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+                                } else if(item.isAfter(e.getDateStart().toLocalDate()) && item.isBefore(e.getDateFinish().toLocalDate().plusDays(1))){
+                                    if (e.isGroup()) {
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    } else {
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+                                }
+                            }else if (e.getTypeEvent() == 2){
+                                if (item.getDayOfMonth() == e.getDateStart().toLocalDate().getDayOfMonth()){
+                                    if (e.isGroup()){
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    }else{
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+                                } else if(item.isAfter(e.getDateStart().toLocalDate()) && item.isBefore(e.getDateFinish().toLocalDate().plusDays(1))){
+                                    if (e.isGroup()) {
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    } else {
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+                                }
+                            }else if (e.getTypeEvent() == 3){
+                                if (MonthDay.from(item).equals(MonthDay.of(e.getDateStart().toLocalDate().getMonth(), e.getDateStart().toLocalDate().getDayOfMonth()))){
+                                    if (e.isGroup()){
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    }else{
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+                                } else if(item.isAfter(e.getDateStart().toLocalDate()) && item.isBefore(e.getDateFinish().toLocalDate().plusDays(1))){
+                                    if (e.isGroup()) {
+                                        Group g = Data.groupManager.getGroupByID(e.getIdGroup());
+                                        setStyle("-fx-background-color: " + g.getHexCode());
+                                    } else {
+                                        setStyle("-fx-background-color: " + Data.userData.getHexCode());
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                };
+            }
+        };
+
+        return dayCellFactory;
     }
 }
