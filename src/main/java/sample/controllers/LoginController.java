@@ -111,7 +111,6 @@ public class LoginController implements Initializable {
             connAPI.setData(requestJSON);
             connAPI.establishConn();
 
-            JSONObject responseJSON = connAPI.getDataJSON();
             int status = connAPI.getStatus();
             switch (status){
                 case 0:
@@ -119,6 +118,7 @@ public class LoginController implements Initializable {
                     break;
 
                 case 200:
+                    JSONObject responseJSON = connAPI.getDataJSON();
                     JSONArray arrayJSON = new JSONArray(responseJSON.getJSONArray("data"));
                     Data.userData = Data.userManager.getUserData(arrayJSON.getJSONObject(0));
                     Data.arrayGroupsUser = Data.groupManager.getAllGroups(Data.userData.getIdUser());
@@ -127,10 +127,8 @@ public class LoginController implements Initializable {
                     break;
 
                 case 500:
-                    String errorMSG = responseJSON.getString("message");
-                    System.out.println("[ERROR] - " + errorMSG);
+                    System.out.println("[ERROR] - Datos erroneos...");
                     pfPassword.clear();
-
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("MultitaskAPP | DESKTOP");
                     alert.setHeaderText("Login incorrecto...");
@@ -218,7 +216,7 @@ public class LoginController implements Initializable {
             stage.setScene(scene);
             stage.setTitle("MultitaskAPP | DESKTOP");
             stage.initStyle(StageStyle.UNDECORATED);
-            Image icon = new Image("windows/res/multitask_icon.png");
+            Image icon = new Image("windows/res/icons/multitask_icon.png");
             stage.getIcons().add(icon);
             stage.show();
 
