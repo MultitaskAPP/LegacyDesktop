@@ -210,14 +210,15 @@ public class LoginController implements Initializable {
     private void gotoMainWindow(){
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/mainWindow.fxml").toURI().toURL();
-            Parent root = FXMLLoader.load(url);
+            // URL url = new File("src/main/java/sample/windows/mainWindow.fxml").toURI().toURL();
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getClassLoader().getResource("windows/mainWindow.fxml"));
+            Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("MultitaskAPP | DESKTOP");
             stage.initStyle(StageStyle.UNDECORATED);
-            url = new File("src/main/java/sample/windows/res/multitask_icon.png").toURI().toURL();
-            Image icon = new Image(String.valueOf(url));
+            Image icon = new Image("windows/res/multitask_icon.png");
             stage.getIcons().add(icon);
             stage.show();
 

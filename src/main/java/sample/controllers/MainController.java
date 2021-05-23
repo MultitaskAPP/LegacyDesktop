@@ -101,8 +101,9 @@ public class MainController implements Initializable {
     @FXML
     public void gotoDashboard(MouseEvent event) {
         try {
-            URL url = new File("src/main/java/sample/windows/views/dashboardView.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
+            // URL url = new File("src/main/java/sample/windows/views/dashboardView.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/dashboardView.fxml"));
             scenePane.getChildren().add(loader.load());
             DashboardViewController dashboardViewController = loader.getController();
             dashboardViewController.preloadData();
@@ -118,8 +119,10 @@ public class MainController implements Initializable {
     @FXML
     public void gotoTasks(MouseEvent event) {
         try {
-            URL url = new File("src/main/java/sample/windows/views/taskView.fxml").toURI().toURL();
-            scenePane.getChildren().add(FXMLLoader.load(url));
+            // URL url = new File("src/main/java/sample/windows/views/taskView.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/taskView.fxml"));
+            scenePane.getChildren().add(loader.load());
             resetButtonStyles();
             setStyleButton(btnTasks);
             transitionEffect();
@@ -131,8 +134,9 @@ public class MainController implements Initializable {
     @FXML
     public void gotoEvents(MouseEvent event) {
         try {
-            URL url = new File("src/main/java/sample/windows/views/eventView.fxml").toURI().toURL();
-            scenePane.getChildren().add(FXMLLoader.load(url));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/eventView.fxml"));
+            scenePane.getChildren().add(loader.load());
             resetButtonStyles();
             setStyleButton(btnEvents);
             transitionEffect();
@@ -144,8 +148,9 @@ public class MainController implements Initializable {
     @FXML
     public void gotoNotes(MouseEvent event) {
         try {
-            URL url = new File("src/main/java/sample/windows/views/noteView.fxml").toURI().toURL();
-            scenePane.getChildren().add(FXMLLoader.load(url));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/noteView.fxml"));
+            scenePane.getChildren().add(loader.load());
             resetButtonStyles();
             setStyleButton(btnNotes);
             transitionEffect();
@@ -157,8 +162,9 @@ public class MainController implements Initializable {
     @FXML
     public void gotoChats(MouseEvent event) {
         try {
-            URL url = new File("src/main/java/sample/windows/views/chatView.fxml").toURI().toURL();
-            scenePane.getChildren().add(FXMLLoader.load(url));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/chatView.fxml"));
+            scenePane.getChildren().add(loader.load());
             resetButtonStyles();
             setStyleButton(btnChats);
             transitionEffect();

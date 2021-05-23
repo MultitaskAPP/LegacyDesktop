@@ -122,8 +122,9 @@ public class NoteViewController implements Initializable {
     private void viewNote(Note n){
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/dialogs/noteDialog.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
+            // URL url = new File("src/main/java/sample/windows/dialogs/noteDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/noteDialog.fxml"));
             Parent root = loader.load();
             NoteDialogController noteDialogController = loader.getController();
             noteDialogController.setNoteViewController(this);
@@ -146,8 +147,9 @@ public class NoteViewController implements Initializable {
     private void updateNote(Note n){
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/dialogs/noteDialog.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
+            // URL url = new File("src/main/java/sample/windows/dialogs/noteDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/noteDialog.fxml"));
             Parent root = loader.load();
             NoteDialogController noteDialogController = loader.getController();
             noteDialogController.setNoteViewController(this);
@@ -196,8 +198,9 @@ public class NoteViewController implements Initializable {
     void addNote(MouseEvent event) {
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/dialogs/noteDialog.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
+            // URL url = new File("src/main/java/sample/windows/dialogs/noteDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/noteDialog.fxml"));
             Parent root = loader.load();
             NoteDialogController noteDialogController = loader.getController();
             noteDialogController.setNoteViewController(this);

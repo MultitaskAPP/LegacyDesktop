@@ -13,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -22,6 +21,8 @@ import org.json.JSONObject;
 import sample.models.User;
 import sample.utils.ConnAPI;
 import sample.utils.Data;
+
+import javax.imageio.ImageIO;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -34,48 +35,47 @@ public class MainClass extends Application {
 
         try {
 
-            URL url = new File("src/main/java/sample/windows/splashScreen.fxml").toURI().toURL();
-            AtomicReference<Parent> root = new AtomicReference<>(FXMLLoader.load(url));
+            // URL url = new File("windows/splashScreen.fxml").toURI().toURL();
+            URL fxmlLocation = getClass().getClassLoader().getResource("windows/splashScreen.fxml");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(fxmlLocation);
+            AtomicReference<Parent> root = new AtomicReference<>(fxmlLoader.load());
             primaryStage.setTitle("MultitaskAPP | DESKTOP");
             primaryStage.initStyle(StageStyle.TRANSPARENT);
             Scene scene = new Scene(root.get(), 400, 480);
             scene.setFill(Color.TRANSPARENT);
             primaryStage.setScene(scene);
             primaryStage.show();
-
-            url = new File("src/main/java/sample/windows/res/icons/multitask_icon.png").toURI().toURL();
-            Image icon = new Image(String.valueOf(url));
+            Image icon = new Image("windows/res/icons/multitask_icon.png");
             primaryStage.getIcons().add(icon);
 
-            Task task = new Task<URL>() {
+            Task task = new Task<FXMLLoader>() {
 
                 @Override
-                protected URL call() throws Exception {
+                protected FXMLLoader call() throws Exception {
 
                     getProperties();
-                    URL url = null;
+                    FXMLLoader fxmlLoader1 = new FXMLLoader();
 
-                    try {
-                        if (Data.properties.getProperty("tokenLogin") == null){
-                            url = new File("src/main/java/sample/windows/login.fxml").toURI().toURL();
-                        }else {
-                            Data.userData = decodeToken(Data.properties.getProperty("tokenLogin"));
-                            Data.arrayGroupsUser = Data.groupManager.getAllGroups(Data.userData.getIdUser());
-                            url = new File("src/main/java/sample/windows/mainWindow.fxml").toURI().toURL();
-                        }
-
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
+                    if (Data.properties.getProperty("tokenLogin") == null){
+                        fxmlLoader1.setLocation(getClass().getClassLoader().getResource("windows/login.fxml"));
+                        // url = new File("src/main/java/sample/windows/login.fxml").toURI().toURL();
+                    }else {
+                        Data.userData = decodeToken(Data.properties.getProperty("tokenLogin"));
+                        Data.arrayGroupsUser = Data.groupManager.getAllGroups(Data.userData.getIdUser());
+                        fxmlLoader1.setLocation(getClass().getClassLoader().getResource("windows/mainWindow.fxml"));
+                        // url = new File("src/main/java/sample/windows/mainWindow.fxml").toURI().toURL();
                     }
-                    return url;
+
+                    return fxmlLoader1;
                 }
             };
 
             task.setOnSucceeded(workerStateEvent -> {
-                URL finalUrl = (URL) task.getValue();
+                FXMLLoader loader = (FXMLLoader) task.getValue();
 
                 try {
-                    root.set(FXMLLoader.load(finalUrl));
+                    root.set(loader.load());
                     root.get().setEffect(new DropShadow());
                     primaryStage.setScene(new Scene(root.get(), 1280, 720));
 

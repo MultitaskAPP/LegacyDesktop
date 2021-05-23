@@ -197,17 +197,13 @@ public class TaskViewController implements Initializable {
             mbOptions.setPrefSize(40, 40);
             mbOptions.setStyle("-fx-background-radius: 15; -fx-background-color:  #272730");
 
-            try{
-                ImageView imageView = new ImageView();
-                URL url = new File("src/main/java/sample/windows/res/icons/mt_options_icon.png").toURI().toURL();
-                imageView.setImage(new Image(String.valueOf(url)));
-                imageView.setSmooth(true);
-                imageView.setFitHeight(25);
-                imageView.setFitWidth(25);
-                mbOptions.setGraphic(imageView);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+            ImageView imageView = new ImageView();
+            // URL url = new File("src/main/java/sample/windows/res/icons/mt_options_icon.png").toURI().toURL();
+            imageView.setImage(new Image("windows/res/icons/mt_options_icon.png"));
+            imageView.setSmooth(true);
+            imageView.setFitHeight(25);
+            imageView.setFitWidth(25);
+            mbOptions.setGraphic(imageView);
 
             vBox.getChildren().add(mbOptions);
             vBox.setPrefSize(52, 44);
@@ -255,17 +251,13 @@ public class TaskViewController implements Initializable {
             mbOptions.setPrefSize(20, 20);
             mbOptions.setStyle("-fx-background-color:  transparent");
 
-            try{
-                ImageView imageView = new ImageView();
-                URL url = new File("src/main/java/sample/windows/res/icons/mt_options_icon.png").toURI().toURL();
-                imageView.setImage(new Image(String.valueOf(url)));
-                imageView.setSmooth(true);
-                imageView.setFitHeight(20);
-                imageView.setFitWidth(20);
-                mbOptions.setGraphic(imageView);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+            ImageView imageView = new ImageView();
+            // URL url = new File("src/main/java/sample/windows/res/icons/mt_options_icon.png").toURI().toURL();
+            imageView.setImage(new Image("windows/res/icons/mt_options_icon.png"));
+            imageView.setSmooth(true);
+            imageView.setFitHeight(20);
+            imageView.setFitWidth(20);
+            mbOptions.setGraphic(imageView);
 
             hBoxScheduleHeader.getChildren().add(mbOptions);
             vBoxScheduleList.getChildren().add(hBoxScheduleHeader);
@@ -344,8 +336,9 @@ public class TaskViewController implements Initializable {
 
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/dialogs/taskDialog.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
+            // URL url = new File("src/main/java/sample/windows/dialogs/taskDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/taskDialog.fxml"));
             Parent root = loader.load();
             TaskDialogController taskDialogController = loader.getController();
             taskDialogController.setTaskViewController(this);
@@ -396,8 +389,9 @@ public class TaskViewController implements Initializable {
 
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/dialogs/taskDialog.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
+            // URL url = new File("src/main/java/sample/windows/dialogs/taskDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/taskDialog.fxml"));
             Parent root = loader.load();
             TaskDialogController taskDialogController = loader.getController();
             taskDialogController.setTaskViewController(this);
@@ -421,8 +415,9 @@ public class TaskViewController implements Initializable {
     private void viewTask(Task task, Schedule schedule){
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/dialogs/taskDialog.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
+            // URL url = new File("src/main/java/sample/windows/dialogs/taskDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/taskDialog.fxml"));
             Parent root = loader.load();
             TaskDialogController taskDialogController = loader.getController();
             taskDialogController.setTaskViewController(this);
@@ -473,8 +468,9 @@ public class TaskViewController implements Initializable {
     private void updateSchedule(Schedule schedule){
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/dialogs/scheduleDialog.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
+            // URL url = new File("src/main/java/sample/windows/dialogs/scheduleDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/scheduleDialog.fxml"));
             Parent root = loader.load();
             ScheduleDialogController scheduleDialogController = loader.getController();
             scheduleDialogController.setTaskViewController(this);
@@ -497,8 +493,9 @@ public class TaskViewController implements Initializable {
     private void viewSchedule(Schedule schedule){
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/dialogs/scheduleDialog.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
+            // URL url = new File("src/main/java/sample/windows/dialogs/scheduleDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/scheduleDialog.fxml"));
             Parent root = loader.load();
             ScheduleDialogController scheduleDialogController = loader.getController();
             scheduleDialogController.setTaskViewController(this);
@@ -536,8 +533,9 @@ public class TaskViewController implements Initializable {
     void addSchedule(MouseEvent event) {
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/dialogs/scheduleDialog.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
+            // URL url = new File("src/main/java/sample/windows/dialogs/scheduleDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/scheduleDialog.fxml"));
             Parent root = loader.load();
             ScheduleDialogController scheduleDialogController = loader.getController();
             scheduleDialogController.setTaskViewController(this);

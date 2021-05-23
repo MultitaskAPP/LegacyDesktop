@@ -262,7 +262,7 @@ public class EventViewController implements Initializable {
         hBoxAddEvent.setStyle("-fx-background-color: #272730; -fx-background-radius: 30");
         hBoxAddEvent.setPrefSize(275, 200);
 
-        ImageView imageView = new ImageView(new Image(new File("src/main/java/sample/windows/res/icons/mt_add1_icon.png").toURI().toString()));
+        ImageView imageView = new ImageView(new Image("windows/res/icons/mt_add1_icon.png"));
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
 
@@ -279,8 +279,9 @@ public class EventViewController implements Initializable {
     private void addEvent(){
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/dialogs/eventDialog.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
+            // URL url = new File("src/main/java/sample/windows/dialogs/eventDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/eventDialog.fxml"));
             Parent root = loader.load();
             EventDialogController eventDialogController = loader.getController();
             eventDialogController.setSelectedDate(selectedDate);
@@ -301,8 +302,9 @@ public class EventViewController implements Initializable {
     private void viewEvent(Event e){
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/dialogs/eventDialog.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
+            // URL url = new File("src/main/java/sample/windows/dialogs/eventDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/eventDialog.fxml"));
             Parent root = loader.load();
             EventDialogController eventDialogController = loader.getController();
             eventDialogController.setEventViewController(this);
@@ -325,8 +327,9 @@ public class EventViewController implements Initializable {
     private void updateEvent(Event e){
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/dialogs/eventDialog.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
+            // URL url = new File("src/main/java/sample/windows/dialogs/eventDialog.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/eventDialog.fxml"));
             Parent root = loader.load();
             EventDialogController eventDialogController = loader.getController();
             eventDialogController.setEventViewController(this);
