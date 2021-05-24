@@ -115,7 +115,7 @@
                   </ImageView>
                </children>
             </HBox>
-            <HBox fx:id="btnProfile" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
+            <HBox fx:id="btnProfile" alignment="CENTER_LEFT" onMouseClicked="#gotoProfile" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                <children>
                   <Rectangle fx:id="rectAvatar" arcHeight="360.0" arcWidth="360.0" fill="#272730" height="40.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="40.0" />
                   <Label fx:id="tagPerfil" text="TU PERFIL" textFill="WHITE">

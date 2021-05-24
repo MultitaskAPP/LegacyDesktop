@@ -8,7 +8,9 @@ import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
 
 import java.awt.*;
-import java.util.Date;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class UserImpl implements IUser {
 
@@ -17,7 +19,6 @@ public class UserImpl implements IUser {
 
         User userObj = new User();
         userObj.setIdUser(rawData.getInt("idUser"));
-        userObj.setBirthday(new Date());
         userObj.setPass(rawData.getString("password"));
         userObj.setName(rawData.getString("name"));
         userObj.setColourUser(Color.decode(rawData.getString("colourUser")));
@@ -26,6 +27,14 @@ public class UserImpl implements IUser {
         userObj.setLastSurname(rawData.getString("lastSurname"));
         userObj.setTlf(rawData.getInt("tlf"));
         userObj.setAvatarUser(new Image(new ImageTweakerTool(userObj.getIdUser()).getProfilePicUser()));
+
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date dateParsed = simpleDateFormat.parse(rawData.getString("birthday"));
+            userObj.setBirthday(new Date(dateParsed.getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return userObj;
     }

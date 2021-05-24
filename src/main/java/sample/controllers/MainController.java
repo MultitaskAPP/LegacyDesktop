@@ -61,14 +61,27 @@ public class MainController implements Initializable {
             FontAwesomeIcon icon = (FontAwesomeIcon) hBox.getChildren().get(0);
             icon.setFill(Paint.valueOf("#FFFFFF"));
         }
+
+        btnProfile.setStyle("-fx-background-color:  #272730; -fx-background-radius: 30");
+        btnOptions.setStyle("-fx-background-color:  #272730; -fx-background-radius: 30");
+
     }
 
     private void setStyleButton(HBox selectedButton){
-        selectedButton.setStyle("-fx-background-color: #202027; -fx-background-radius: 30");
-        FontAwesomeIcon selectedIcon = (FontAwesomeIcon) selectedButton.getChildren().get(0);
-        selectedIcon.setFill(Paint.valueOf(Data.userData.getHexCode()));
-        Label tagButton = (Label) selectedButton.getChildren().get(1);
-        tagButton.setStyle("-fx-font-family: 'Roboto Medium'");
+
+        if (selectedButton.equals(btnProfile) ||selectedButton.equals(btnOptions)){
+            selectedButton.setStyle("-fx-background-radius: 30; -fx-background-color: " + Data.userData.getHexCode());
+            if (selectedButton.equals(btnProfile)){
+                Label tagButton = (Label) selectedButton.getChildren().get(1);
+                tagButton.setStyle("-fx-font-family: 'Roboto Medium'");
+            }
+        }else{
+            selectedButton.setStyle("-fx-background-color: #202027; -fx-background-radius: 30");
+            FontAwesomeIcon selectedIcon = (FontAwesomeIcon) selectedButton.getChildren().get(0);
+            selectedIcon.setFill(Paint.valueOf(Data.userData.getHexCode()));
+            Label tagButton = (Label) selectedButton.getChildren().get(1);
+            tagButton.setStyle("-fx-font-family: 'Roboto Medium'");
+        }
     }
 
     @FXML
@@ -167,6 +180,20 @@ public class MainController implements Initializable {
             scenePane.getChildren().add(loader.load());
             resetButtonStyles();
             setStyleButton(btnChats);
+            transitionEffect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void gotoProfile(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/profileView.fxml"));
+            scenePane.getChildren().add(loader.load());
+            resetButtonStyles();
+            setStyleButton(btnProfile);
             transitionEffect();
         } catch (IOException e) {
             e.printStackTrace();
