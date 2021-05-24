@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import sample.interfaces.impl.*;
 import sample.models.Group;
+import sample.models.Theme;
 import sample.models.User;
 
 import java.io.FileNotFoundException;
@@ -23,7 +24,6 @@ public class Data {
     public static String API_URL = "https://multitaskapp.herokuapp.com";
     public static String LOCALHOST = "http://localhost:5000";
     public static SimpleDateFormat format = new SimpleDateFormat("yyyy MM dd kk:mm:ss zzz", Locale.US);       // Formato DATES de MongoDB
-
 
     public static User userData;
     public static ArrayList<Group> arrayGroupsUser = new ArrayList<>();
