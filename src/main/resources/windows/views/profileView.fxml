@@ -11,19 +11,18 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="720.0" prefWidth="1040.0" style="-fx-background-radius: 50 0 0 50; -fx-background-color: #202027;" stylesheets="@../css/profileView.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.views.ProfileViewController">
    <children>
       <HBox layoutX="48.0" layoutY="60.0" prefHeight="150.0" prefWidth="945.0" spacing="25.0">
          <children>
             <VBox prefHeight="200.0" prefWidth="70.0" spacing="10.0">
                <children>
-                  <Button fx:id="btnUpload" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" style="-fx-background-color: #272730; -fx-background-radius: 25;">
+                  <Button mnemonicParsing="false" onAction="#uploadAvatar" prefHeight="70.0" prefWidth="70.0" style="-fx-background-color: #272730; -fx-background-radius: 25;">
                      <graphic>
                         <FontAwesomeIcon fx:id="iconUpload" fill="WHITE" iconName="UPLOAD" size="3em" />
                      </graphic>
                   </Button>
-                  <Button fx:id="btnEdit" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" style="-fx-background-color: #272730; -fx-background-radius: 25;">
+                  <Button mnemonicParsing="false" onAction="#editProfile" prefHeight="70.0" prefWidth="70.0" style="-fx-background-color: #272730; -fx-background-radius: 25;">
                      <graphic>
                         <FontAwesomeIcon fx:id="iconEdit" fill="WHITE" iconName="PENCIL" size="3em" />
                      </graphic>
@@ -54,7 +53,7 @@
             </HBox>
             <AnchorPane fx:id="paneContacts" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                <children>
-                  <Label fx:id="tagContactsText" alignment="CENTER" contentDisplay="CENTER" layoutY="97.0" prefHeight="30.0" prefWidth="150.0" text="CONTACTOS" textAlignment="CENTER" textFill="WHITE">
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutY="97.0" prefHeight="30.0" prefWidth="150.0" text="CONTACTOS" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -68,7 +67,7 @@
             </AnchorPane>
             <AnchorPane fx:id="paneGroups" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                <children>
-                  <Label fx:id="tagGroupsText" alignment="CENTER" contentDisplay="CENTER" layoutY="97.0" prefHeight="30.0" prefWidth="150.0" text="GRUPOS" textAlignment="CENTER" textFill="WHITE">
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutY="97.0" prefHeight="30.0" prefWidth="150.0" text="GRUPOS" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -82,12 +81,12 @@
             </AnchorPane>
             <VBox prefHeight="200.0" prefWidth="70.0" spacing="10.0">
                <children>
-                  <Button fx:id="btnSettings" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" style="-fx-background-color: #272730; -fx-background-radius: 25;">
+                  <Button mnemonicParsing="false" onAction="#showSettings" prefHeight="70.0" prefWidth="70.0" style="-fx-background-color: #272730; -fx-background-radius: 25;">
                      <graphic>
                         <FontAwesomeIcon fx:id="iconSettings" fill="WHITE" iconName="UNLOCK_ALT" size="3em" />
                      </graphic>
                   </Button>
-                  <Button fx:id="btnDisconnect" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" style="-fx-background-color: #272730; -fx-background-radius: 25;">
+                  <Button mnemonicParsing="false" onAction="#disconnect" prefHeight="70.0" prefWidth="70.0" style="-fx-background-color: #272730; -fx-background-radius: 25;">
                      <graphic>
                         <FontAwesomeIcon fx:id="iconDisconnect" fill="WHITE" iconName="PLUG" size="3em" />
                      </graphic>
@@ -145,12 +144,12 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="70.0" spacing="10.0">
                <children>
-                  <Button fx:id="btnChangeColour" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" style="-fx-background-color: #272730; -fx-background-radius: 25;">
+                  <Button mnemonicParsing="false" onAction="#changeColour" prefHeight="70.0" prefWidth="70.0" style="-fx-background-color: #272730; -fx-background-radius: 25;">
                      <graphic>
                         <FontAwesomeIcon fx:id="iconChangeColour" fill="WHITE" iconName="MAGIC" size="3em" />
                      </graphic>
                   </Button>
-                  <Button fx:id="btnChangeTheme" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" style="-fx-background-color: #272730; -fx-background-radius: 25;">
+                  <Button mnemonicParsing="false" onAction="#changeTheme" prefHeight="70.0" prefWidth="70.0" style="-fx-background-color: #272730; -fx-background-radius: 25;">
                      <graphic>
                         <FontAwesomeIcon fx:id="iconChangeTheme" fill="WHITE" iconName="ADJUST" size="3em" />
                      </graphic>
@@ -159,7 +158,7 @@
             </VBox>
             <AnchorPane fx:id="paneMessages" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                <children>
-                  <Label fx:id="tagMessagesText" alignment="CENTER" contentDisplay="CENTER" layoutY="97.0" prefHeight="30.0" prefWidth="150.0" text="MENSAJES" textAlignment="CENTER" textFill="WHITE">
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutY="97.0" prefHeight="30.0" prefWidth="150.0" text="MENSAJES" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -173,7 +172,7 @@
             </AnchorPane>
             <AnchorPane fx:id="paneCloud" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                <children>
-                  <Label fx:id="tagCloudText" alignment="CENTER" contentDisplay="CENTER" layoutY="97.0" prefHeight="30.0" prefWidth="150.0" text="ESPACIO NUBE" textAlignment="CENTER" textFill="WHITE">
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutY="97.0" prefHeight="30.0" prefWidth="150.0" text="ESPACIO NUBE" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>

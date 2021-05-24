@@ -1,8 +1,12 @@
 package sample.controllers.views;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -11,8 +15,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import sample.utils.Data;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,9 +28,8 @@ import java.util.ResourceBundle;
 public class ProfileViewController implements Initializable {
 
     @FXML    private FontAwesomeIcon iconUpload, iconEdit, iconSettings, iconDisconnect, iconBirthday, iconLocation, iconTlf, iconChangeColour, iconChangeTheme;
-    @FXML    private Button btnEdit;
     @FXML    private Rectangle rectangleAvatar;
-    @FXML    private Label tagUsername, tagEmail, tagContactsText, tagContactsNumber, tagGroupsText, tagGroupsNumber, tagBirthday, tagLocation, tagTlf, tagMessagesText, tagMessagesNumber, tagCloudText, tagCloudNumber;
+    @FXML    private Label tagUsername, tagEmail, tagContactsNumber, tagGroupsNumber, tagBirthday, tagLocation, tagTlf, tagMessagesNumber, tagCloudNumber;
     @FXML    private AnchorPane paneContacts, paneGroups, paneMessages, paneCloud;
     @FXML    private VBox vBoxLogRegister;
 
@@ -78,6 +84,59 @@ public class ProfileViewController implements Initializable {
         for (Label tagNumber : arrayNumber) {
             tagNumber.setStyle("-fx-font-size: 75; -fx-font-family: 'Roboto Medium'; -fx-text-fill: " + Data.userData.getHexCode());
         }
+    }
+
+    @FXML
+    void changeColour(ActionEvent event) {
+
+    }
+
+    @FXML
+    void changeTheme(ActionEvent event) {
+
+    }
+
+    @FXML
+    void disconnect(ActionEvent event){
+
+        try {
+            Data.properties.clear();
+            Data.storeProperties(Data.properties);
+            System.out.println("[DEBUG] - Datos del usuario internos eliminados correctamente!");
+            Stage thisStage = (Stage) vBoxLogRegister.getScene().getWindow();
+            thisStage.close();
+
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getClassLoader().getResource("windows/login.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("MultitaskAPP | DESKTOP");
+            stage.initStyle(StageStyle.UNDECORATED);
+            Image icon = new Image("windows/res/icons/multitask_icon.png");
+            stage.getIcons().add(icon);
+            stage.show();
+
+        }catch (Exception e){
+            System.out.println("[DEBUG] - Error al cerrar la sesion...");
+        }
+
+    }
+
+    @FXML
+    void editProfile(ActionEvent event) {
+
+    }
+
+    @FXML
+    void showSettings(ActionEvent event) {
+
+    }
+
+    @FXML
+    void uploadAvatar(ActionEvent event) {
+
     }
 
 }
