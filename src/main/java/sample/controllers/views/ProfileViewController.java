@@ -17,8 +17,11 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sample.controllers.MainController;
 import sample.utils.Data;
+import sample.utils.ImageTweakerTool;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,7 +36,7 @@ public class ProfileViewController implements Initializable {
     @FXML    private AnchorPane paneContacts, paneGroups, paneMessages, paneCloud;
     @FXML    private VBox vBoxLogRegister;
 
-
+    private MainController mainController;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -136,7 +139,14 @@ public class ProfileViewController implements Initializable {
 
     @FXML
     void uploadAvatar(ActionEvent event) {
-
+        ImageTweakerTool imageTweakerTool = new ImageTweakerTool(Data.userData.getIdUser());
+        File newAvatar = imageTweakerTool.importImage();
+        Data.userData.setAvatarUser(new Image(imageTweakerTool.transformImage(newAvatar)));
+        mainController.updateAvatar();
+        setAvatar();
     }
 
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+    }
 }

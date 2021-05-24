@@ -190,6 +190,7 @@ public class LoginController implements Initializable {
                 case 200:
                     System.out.println("[DEBUG] - Usuario registrado correctamente!");
                     JSONObject result = responseJSON.getJSONObject("data");
+                    System.out.println(result);
                     Data.userData = Data.userManager.getUserData(result);
                     gotoMainWindow();
                     break;

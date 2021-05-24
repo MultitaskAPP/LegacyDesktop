@@ -18,6 +18,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sample.controllers.views.DashboardViewController;
+import sample.controllers.views.ProfileViewController;
 import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
 
@@ -192,6 +193,8 @@ public class MainController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("windows/views/profileView.fxml"));
             scenePane.getChildren().add(loader.load());
+            ProfileViewController profileViewController = loader.getController();
+            profileViewController.setMainController(this);
             resetButtonStyles();
             setStyleButton(btnProfile);
             transitionEffect();
@@ -210,5 +213,9 @@ public class MainController implements Initializable {
         fadeTransition.setToValue(1);
         fadeTransition.play();
 
+    }
+
+    public void updateAvatar() {
+        rectAvatar.setFill(new ImagePattern(new Image(Data.userData.getAvatarUser().getUrl(), rectAvatar.getWidth(), rectAvatar.getHeight(), true, false)));
     }
 }
