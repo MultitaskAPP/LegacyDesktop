@@ -1,5 +1,6 @@
 package sample.controllers.views;
 
+import com.sun.javafx.scene.control.CustomColorDialog;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,11 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ProfileViewController implements Initializable {
@@ -37,10 +39,10 @@ public class ProfileViewController implements Initializable {
     @FXML    private VBox vBoxLogRegister;
 
     private MainController mainController;
+    private Color selectedColour;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         setData();
         setIconsColour();
         setNumberColour();
@@ -91,7 +93,39 @@ public class ProfileViewController implements Initializable {
 
     @FXML
     void changeColour(ActionEvent event) {
+        Alert alertDialog = new Alert(Alert.AlertType.INFORMATION);
+        ColorPicker colorPicker = new ColorPicker();
+        colorPicker.setValue(null);
+        alertDialog.setTitle("MultitaskAPP");
+        alertDialog.setHeaderText("Cambia tu color temático");
+        alertDialog.getDialogPane().setContent(colorPicker);
+        Optional<ButtonType> result = alertDialog.showAndWait();
+        if (result.get() == ButtonType.OK){
+            if (colorPicker.getValue() != null){
+                selectedColour = colorPicker.getValue();
+                Data.userData.setColourUser(parseColor(selectedColour));
+                if (Data.userManager.updateColour()){
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("MultitaskAPP");
+                    alert.setHeaderText("Color temático actualizado correctamente, la aplicacion debe ser reiniciada para poder visualizar los cambios");
+                    alert.showAndWait();
+                }
 
+            }else{
+                System.out.println("[DEBUG] - No se ha escogido color, abortando");
+            }
+        }
+    }
+
+    private java.awt.Color parseColor(Color sc) {
+
+        java.awt.Color awtColor = new java.awt.Color((float) sc.getRed(), (float) sc.getGreen(), (float) sc.getBlue(), (float) sc.getOpacity());
+
+        int r = awtColor.getRed();
+        int g = awtColor.getGreen();
+        int b = awtColor.getBlue();
+
+        return awtColor;
     }
 
     @FXML

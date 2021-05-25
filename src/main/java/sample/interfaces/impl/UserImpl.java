@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import sample.interfaces.IUser;
 import sample.models.User;
 import sample.utils.ConnAPI;
+import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
 
 import java.awt.*;
@@ -52,7 +53,22 @@ public class UserImpl implements IUser {
         requestJSON.put("id", idUser);
         requestJSON.put("versionAvatar", versionAvatar);
 
-        ConnAPI connAPI = new ConnAPI("/api/users/updateAvatar", "POST", false);
+        ConnAPI connAPI = new ConnAPI("/api/users/updateAvatar", "PUT", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+
+    }
+
+    @Override
+    public boolean updateColour() {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", Data.userData.getIdUser());
+        requestJSON.put("colourUser", Data.userData.getHexCode());
+
+        ConnAPI connAPI = new ConnAPI("/api/users/updateColour", "PUT", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
