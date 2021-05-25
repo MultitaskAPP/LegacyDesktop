@@ -14,10 +14,11 @@ public class User {
     private String pass;
     private Color colourUser;
     private Image avatarUser;
+    private int versionAvatar;
 
     public User(){}
 
-    public User(int idUser, String email, String name, String firstSurname, String lastSurname, Date birthday, int tlf, String pass, Color colourUser, Image avatarUser) {
+    public User(int idUser, String email, String name, String firstSurname, String lastSurname, Date birthday, int tlf, String pass, Color colourUser, Image avatarUser, int versionAvatar) {
         this.idUser = idUser;
         this.email = email;
         this.name = name;
@@ -28,6 +29,7 @@ public class User {
         this.pass = pass;
         this.colourUser = colourUser;
         this.avatarUser = avatarUser;
+        this.versionAvatar = versionAvatar;
     }
 
     public int getIdUser() {
@@ -108,6 +110,14 @@ public class User {
 
     public void setAvatarUser(Image avatarUser) {
         this.avatarUser = avatarUser;
+    }
+
+    public int getVersionAvatar() {
+        return versionAvatar;
+    }
+
+    public void setVersionAvatar(int versionAvatar) {
+        this.versionAvatar = versionAvatar;
     }
 
     public String getHexCode(){

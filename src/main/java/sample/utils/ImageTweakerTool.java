@@ -26,17 +26,15 @@ import java.util.Map;
  */
 public class ImageTweakerTool {
 
-    private File profilePicFile;
-    private int userID;
-
-    public static void main(String[] args) {
-        ImageTweakerTool imageTweakerTool = new ImageTweakerTool(65);
-        File file = imageTweakerTool.importImage();
-        imageTweakerTool.transformImage(file);
-    }
+    private int userID, versionAvatar;
 
     public ImageTweakerTool(int userID){
         this.userID = userID;
+    }
+
+    public ImageTweakerTool(int userID, int versionAvatar){
+        this.userID = userID;
+        this.versionAvatar = versionAvatar;
     }
 
     public String transformImage(File file) {
@@ -44,6 +42,7 @@ public class ImageTweakerTool {
             try {
                 BufferedImage originalImgage = ImageIO.read(file);
                 BufferedImage subImage = null;
+
                 if (originalImgage.getWidth() == originalImgage.getHeight()){
                     subImage = originalImgage;
                 }else {
@@ -68,6 +67,7 @@ public class ImageTweakerTool {
     }
 
     public String uploadImageUser(BufferedImage subImage, String fileName){
+
         try {
             File outputfile = new File(fileName + ".jpg");
             ImageIO.write(subImage, "JPG", outputfile);
@@ -75,10 +75,8 @@ public class ImageTweakerTool {
                     "resource_type", "image",
                     "public_id", "profilePics/users/" + fileName
             ));
-            System.out.println(mapUpload);
             System.out.println("[INFO] - Success! Uploaded to Cloudinary!");
-            Data.properties.setProperty("versionAvatar", Integer.toString((Integer) mapUpload.get("version")));
-            Data.storeProperties(Data.properties);
+            Data.userManager.updateAvatar(userID, (Integer) mapUpload.get("version"));
             return (String) mapUpload.get("url");
 
         } catch (IOException e) {
@@ -94,6 +92,7 @@ public class ImageTweakerTool {
             File outputfile = new File(fileName + ".jpg");
             ImageIO.write(subImage, "JPG", outputfile);
             Data.cloudAPI.uploader().upload(outputfile, ObjectUtils.asMap(
+                    "version", "1",
                     "resource_type", "image",
                     "public_id", "profilePics/groups/" + fileName
             ));
@@ -118,19 +117,17 @@ public class ImageTweakerTool {
 
     public String getProfilePicUser(){
         try {
-            String imageURL = Data.cloudAPI.url().imageTag("profilePics/users/"+userID+".jpg");
+            String imageURL;
+            if (versionAvatar == 0){
+                imageURL = Data.cloudAPI.url().imageTag("profilePics/users/"+userID+".jpg");
+            }else{
+                imageURL = Data.cloudAPI.url().version(versionAvatar).imageTag("profilePics/users/"+userID+".jpg");
+            }
             System.out.println(imageURL);
             String[] urlPic = imageURL.split("'");
-            if (Data.properties.containsKey("versionAvatar")){
-                System.out.println(urlPic[1]);
-                return urlPic[1].replaceAll("v1", "v" + Data.properties.getProperty("versionAvatar"));
-            }
-            else{
-                Image image = new Image(urlPic[1]);
-                if (!image.isError()) {
-                    System.out.println(urlPic[1]);
-                    return urlPic[1];
-                }
+            Image image = new Image(urlPic[1]);
+            if (!image.isError()) {
+                return urlPic[1];
             }
 
         }catch (Exception e){
