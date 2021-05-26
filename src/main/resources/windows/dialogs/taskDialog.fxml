@@ -28,7 +28,7 @@
                   <HBox prefHeight="55.0" prefWidth="200.0" spacing="18.0">
                      <children>
                         <ChoiceBox fx:id="cbPriority" prefHeight="56.0" prefWidth="180.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
-                        <TextField fx:id="tfDuration" prefHeight="56.0" prefWidth="180.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
+                        <TextField fx:id="tfDuration" prefHeight="56.0" prefWidth="180.0" promptText="HORAS" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
                      </children>
                   </HBox>
                   <AnchorPane fx:id="calendarPane" prefHeight="316.0" prefWidth="316.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />

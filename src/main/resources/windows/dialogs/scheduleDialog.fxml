@@ -30,13 +30,13 @@
                <children>
                   <VBox fx:id="vBoxLeft" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="345.0" spacing="15.0">
                      <children>
-                        <TextField fx:id="tfName" prefHeight="55.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
-                        <ColorPicker fx:id="colourPicker" prefHeight="55.0" prefWidth="350.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;">
+                        <TextField fx:id="tfName" prefHeight="55.0" promptText="NOMBRE DEL TABLERO" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
+                        <ColorPicker fx:id="colourPicker" prefHeight="55.0" prefWidth="350.0" promptText="COLOR TEMÁTICO" style="-fx-background-color: #32323E; -fx-background-radius: 30;">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </ColorPicker>
-                        <ComboBox fx:id="cbGroups" onAction="#updatePreview" prefHeight="55.0" prefWidth="325.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
+                        <ComboBox fx:id="cbGroups" onAction="#updatePreview" prefHeight="55.0" prefWidth="325.0" promptText="GRUPO" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
                         <Label text="VISTA PREVIA:" textFill="WHITE">
                            <font>
                               <Font size="9.0" />
@@ -67,7 +67,7 @@
                                     </ImageView>
                                  </graphic>
                               </Button>
-                              <TextField fx:id="tfList" style="-fx-background-radius: 30; -fx-background-color: #373741;" />
+                              <TextField fx:id="tfList" promptText="AÑADE UNA LISTA" style="-fx-background-radius: 30; -fx-background-color: #373741;" />
                               <Button fx:id="btnDeleteList" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;">
                                  <graphic>
                                     <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">

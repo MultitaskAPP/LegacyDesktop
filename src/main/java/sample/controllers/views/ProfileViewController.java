@@ -1,7 +1,10 @@
 package sample.controllers.views;
 
 import com.sun.javafx.scene.control.CustomColorDialog;
+import de.jensd.fx.glyphs.GlyphIcon;
+import de.jensd.fx.glyphs.GlyphIconName;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -12,11 +15,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.PickResult;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -24,17 +28,18 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.json.JSONObject;
 import sample.controllers.MainController;
+import sample.models.SocialMedia;
 import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
-
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ProfileViewController implements Initializable {
 
@@ -43,6 +48,7 @@ public class ProfileViewController implements Initializable {
     @FXML    private Label tagUsername, tagEmail, tagContactsNumber, tagGroupsNumber, tagBirthday, tagLocation, tagTlf, tagMessagesNumber, tagCloudNumber;
     @FXML    private AnchorPane paneContacts, paneGroups, paneMessages, paneCloud, paneDialog, rootPane, blurPane;
     @FXML    private VBox vBoxLogRegister;
+    @FXML    private HBox hBoxSocialMedia;
 
     private MainController mainController;
     private Color selectedColour;
@@ -54,6 +60,49 @@ public class ProfileViewController implements Initializable {
         setIconsColour();
         setNumberColour();
         setAvatar();
+        setSocialMedia();
+    }
+
+    private void setSocialMedia() {
+
+        if (Data.userData.getSocialMedia() != null){
+            JSONObject socialMediaJSON = Data.userData.getSocialMedia();
+
+            ArrayList<SocialMedia> arraySocialMedia = new ArrayList<>(
+                    Arrays.asList(
+                            new SocialMedia("twitter", "https://twitter.com/#", "TWITTER"),
+                            new SocialMedia("github", "https://github.com/#", "GITHUB"),
+                            new SocialMedia("facebook", "https://facebook.com/#", "FACEBOOK_SQUARE"),
+                            new SocialMedia("url", "#", "CHAIN"),
+                            new SocialMedia("instagram", "https://instagram.com/#", "INSTAGRAM"),
+                            new SocialMedia("skype", "skype:#?chat", "SKYPE"),
+                            new SocialMedia("youtube", "https://youtube.com/c/#", "YOUTUBE_PLAY")
+                    )
+            );
+
+            for (SocialMedia socialMedia : arraySocialMedia) {
+                if (socialMediaJSON.has(socialMedia.getName())){
+                    FontAwesomeIcon icon = socialMedia.getIcon();
+                    icon.setFill(Color.WHITE);
+                    icon.setSize("40px");
+                    icon.setOnMouseClicked(mouseEvent -> browseURL(socialMedia.getUrl().concat(socialMediaJSON.getString(socialMedia.getName())).replaceFirst("#", "")));
+                    hBoxSocialMedia.getChildren().add(icon);
+                }
+            }
+
+        }
+    }
+
+    private void browseURL(String url){
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            try {
+                Desktop.getDesktop().browse(new URI(url));
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void setData(){
@@ -217,4 +266,5 @@ public class ProfileViewController implements Initializable {
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
+
 }

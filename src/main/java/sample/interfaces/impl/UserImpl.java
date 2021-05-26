@@ -30,6 +30,9 @@ public class UserImpl implements IUser {
         userObj.setTlf(rawData.getInt("tlf"));
         userObj.setVersionAvatar(rawData.getInt("versionAvatar"));
 
+        if (!(rawData.isNull("socialMedia")))
+            userObj.setSocialMedia(new JSONObject(rawData.getString("socialMedia")));
+
         if (!(rawData.isNull("privacitySettings")))
             userObj.setPrivacitySettings(new JSONArray(rawData.getString("privacitySettings")));
 

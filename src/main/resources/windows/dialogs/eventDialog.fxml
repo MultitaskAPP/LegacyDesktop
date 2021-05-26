@@ -45,7 +45,7 @@
             </TextArea>
             <VBox prefHeight="410.0" prefWidth="365.0" spacing="15.0">
                <children>
-                  <ComboBox fx:id="cbGroups" minHeight="50.0" onAction="#changeStyleComboBox" prefHeight="50.0" prefWidth="375.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
+                  <ComboBox fx:id="cbGroups" minHeight="50.0" onAction="#changeStyleComboBox" prefHeight="50.0" prefWidth="375.0" promptText="GRUPO" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
                   <Label alignment="CENTER" prefHeight="11.0" prefWidth="356.0" text="FECHA                                                          DURACION" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Arial Bold" size="10.0" />
@@ -68,8 +68,8 @@
                            <children>
                               <HBox prefHeight="50.0" prefWidth="200.0" spacing="10.0">
                                  <children>
-                                    <ComboBox fx:id="startHour" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" visibleRowCount="8" />
-                                    <ComboBox fx:id="startMinutes" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" visibleRowCount="8" />
+                                    <ComboBox fx:id="startHour" prefHeight="50.0" prefWidth="80.0" promptText="HH" style="-fx-background-color: #32323E; -fx-background-radius: 30;" visibleRowCount="8" />
+                                    <ComboBox fx:id="startMinutes" prefHeight="50.0" prefWidth="80.0" promptText="MM" style="-fx-background-color: #32323E; -fx-background-radius: 30;" visibleRowCount="8" />
                                  </children>
                               </HBox>
                               <Label text="A" textFill="WHITE">
@@ -79,8 +79,8 @@
                               </Label>
                               <HBox prefHeight="71.0" prefWidth="168.0" spacing="10.0">
                                  <children>
-                                    <ComboBox fx:id="finishHour" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" visibleRowCount="8" />
-                                    <ComboBox fx:id="finishMinutes" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" visibleRowCount="8" />
+                                    <ComboBox fx:id="finishHour" prefHeight="50.0" prefWidth="80.0" promptText="SS" style="-fx-background-color: #32323E; -fx-background-radius: 30;" visibleRowCount="8" />
+                                    <ComboBox fx:id="finishMinutes" prefHeight="50.0" prefWidth="80.0" promptText="MM" style="-fx-background-color: #32323E; -fx-background-radius: 30;" visibleRowCount="8" />
                                  </children>
                               </HBox>
                               <CheckBox fx:id="ckbAllDay" mnemonicParsing="false" text="TODO EL DIA" textFill="WHITE" />

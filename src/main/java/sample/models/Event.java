@@ -1,5 +1,6 @@
 package sample.models;
 
+
 import org.json.JSONObject;
 
 import java.sql.Date;

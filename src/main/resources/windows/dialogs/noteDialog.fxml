@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="550.0" prefWidth="750.0" style="-fx-background-radius: 30; -fx-background-color: #25252D;" stylesheets="@../css/noteDialog.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.dialogs.NoteDialogController">
    <children>
       <HBox alignment="CENTER_RIGHT" onMouseDragged="#windowDrag" onMousePressed="#windowPressed" prefHeight="50.0" prefWidth="750.0" spacing="10.0">
@@ -35,7 +34,7 @@
             <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" spacing="20.0">
                <children>
                   <ComboBox fx:id="cbGroups" onAction="#changeStyleComboBox" prefHeight="50.0" prefWidth="200.0" style="-fx-background-radius: 30; -fx-background-color: #32323E;" stylesheets="@../css/noteDialog.css" />
-                  <TextField fx:id="tfTitle" prefHeight="50.0" prefWidth="350.0" style="-fx-background-radius: 30; -fx-background-color: #32323E;" />
+                  <TextField fx:id="tfTitle" prefHeight="50.0" prefWidth="350.0" promptText="TITULO DE LA NOTA" style="-fx-background-radius: 30; -fx-background-color: #32323E;" />
                   <Button fx:id="btnAdd" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 30; -fx-background-color: #39CE39;">
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
