@@ -141,7 +141,7 @@ public class ProfileViewController implements Initializable {
     }
 
     @FXML
-    void disconnect(ActionEvent event){
+    public void disconnect(ActionEvent event){
 
         try {
             Data.properties.clear();

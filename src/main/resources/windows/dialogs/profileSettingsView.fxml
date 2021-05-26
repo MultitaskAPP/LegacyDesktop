@@ -1,62 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="720.0" prefWidth="475.0" style="-fx-background-color: #202027; -fx-background-radius: 50 0 0 50;" stylesheets="@../css/profileSettingsView.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.dialogs.ProfileSettingsViewController">
    <children>
-      <VBox layoutY="50.0" prefHeight="670.0" prefWidth="475.0" spacing="25.0">
-         <padding>
-            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-         </padding>
-         <children>
-            <VBox prefWidth="100.0" spacing="15.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
+      <ScrollPane layoutY="50.0" prefHeight="645.0" prefWidth="464.0" style="-fx-background-color: transparent; -fx-background-radius: 30;">
+         <content>
+            <VBox prefHeight="741.0" prefWidth="447.0" spacing="25.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="431.0" text="CAMBIAR CONTRASEÑA" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <PasswordField prefHeight="50.0" promptText="CONTRASEÑA ACTUAL">
+                  <VBox spacing="15.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                      <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                      </padding>
-                  </PasswordField>
-                  <Separator opacity="0.0" prefWidth="200.0" />
-                  <PasswordField prefHeight="50.0" promptText="NUEVA CONTRASEÑA">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="431.0" text="PRIVACIDAD Y SEGURIDAD" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <GridPane hgap="15.0" vgap="15.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <JFXToggleButton fx:id="switchBirthday" text="Cumpleaños" textFill="WHITE">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </JFXToggleButton>
+                              <JFXToggleButton fx:id="switchLinks" text="Enlaces" textFill="WHITE" GridPane.columnIndex="1">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </JFXToggleButton>
+                              <JFXToggleButton fx:id="switchAddress" text="Dirección" textFill="WHITE" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </JFXToggleButton>
+                              <JFXToggleButton fx:id="switchTlf" layoutX="205.0" layoutY="41.0" text="Teléfono" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </JFXToggleButton>
+                           </children>
+                        </GridPane>
+                        <Button fx:id="btnUpdatePrivacity" mnemonicParsing="false" onMouseClicked="#checkPrivacity" prefHeight="55.0" prefWidth="385.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" text="GUARDAR CAMBIOS" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <VBox prefWidth="387.0" spacing="15.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="431.0" text="CAMBIAR CONTRASEÑA" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <PasswordField fx:id="pfCurrent" prefHeight="50.0" promptText="CONTRASEÑA ACTUAL">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </PasswordField>
+                        <Separator opacity="0.0" prefWidth="200.0" />
+                        <PasswordField fx:id="pfNewPass1" prefHeight="50.0" promptText="NUEVA CONTRASEÑA">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </PasswordField>
+                        <PasswordField fx:id="pfNewPass2" promptText="REPITE LA CONTRASEÑA">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </PasswordField>
+                        <Separator opacity="0.0" prefWidth="200.0" />
+                        <Button fx:id="btnChangePass" mnemonicParsing="false" onMouseClicked="#checkPassword" prefHeight="55.0" prefWidth="385.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" text="CAMBIAR CONTRASEÑA" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Button>
+                     </children>
                      <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                      </padding>
-                  </PasswordField>
-                  <PasswordField promptText="REPITE LA CONTRASEÑA">
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </PasswordField>
-                  <Separator opacity="0.0" prefWidth="200.0" />
-                  <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="385.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" text="CAMBIAR CONTRASEÑA" textFill="WHITE">
+                  </VBox>
+                  <Button fx:id="btnDeleteAccount" mnemonicParsing="false" onMouseClicked="#checkDeleteAccount" prefHeight="55.0" prefWidth="438.0" style="-fx-background-color: #CE3939; -fx-background-radius: 30;" text="ELIMINAR CUENTA" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Button>
                </children>
                <padding>
-                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                  <Insets left="25.0" right="25.0" />
                </padding>
             </VBox>
-            <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="438.0" style="-fx-background-color: #CE3939; -fx-background-radius: 30;" text="ELIMINAR CUENTA" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Button>
-         </children>
-      </VBox>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

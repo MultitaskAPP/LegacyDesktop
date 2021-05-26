@@ -1,6 +1,7 @@
 package sample.models;
 
 import javafx.scene.image.Image;
+import org.json.JSONArray;
 
 import java.awt.*;
 import java.sql.Date;
@@ -15,10 +16,11 @@ public class User {
     private Color colourUser;
     private Image avatarUser;
     private int versionAvatar;
+    private JSONArray privacitySettings;
 
     public User(){}
 
-    public User(int idUser, String email, String name, String firstSurname, String lastSurname, Date birthday, int tlf, String pass, Color colourUser, Image avatarUser, int versionAvatar) {
+    public User(int idUser, String email, String name, String firstSurname, String lastSurname, Date birthday, int tlf, String pass, Color colourUser, Image avatarUser, int versionAvatar, JSONArray privacitySettings) {
         this.idUser = idUser;
         this.email = email;
         this.name = name;
@@ -30,6 +32,7 @@ public class User {
         this.colourUser = colourUser;
         this.avatarUser = avatarUser;
         this.versionAvatar = versionAvatar;
+        this.privacitySettings = privacitySettings;
     }
 
     public int getIdUser() {
@@ -118,6 +121,14 @@ public class User {
 
     public void setVersionAvatar(int versionAvatar) {
         this.versionAvatar = versionAvatar;
+    }
+
+    public JSONArray getPrivacitySettings() {
+        return privacitySettings;
+    }
+
+    public void setPrivacitySettings(JSONArray privacitySettings) {
+        this.privacitySettings = privacitySettings;
     }
 
     public String getHexCode(){

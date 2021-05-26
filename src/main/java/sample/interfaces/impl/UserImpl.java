@@ -1,6 +1,7 @@
 package sample.interfaces.impl;
 
 import javafx.scene.image.Image;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import sample.interfaces.IUser;
 import sample.models.User;
@@ -28,6 +29,9 @@ public class UserImpl implements IUser {
         userObj.setLastSurname(rawData.getString("lastSurname"));
         userObj.setTlf(rawData.getInt("tlf"));
         userObj.setVersionAvatar(rawData.getInt("versionAvatar"));
+
+        if (!(rawData.isNull("privacitySettings")))
+            userObj.setPrivacitySettings(new JSONArray(rawData.getString("privacitySettings")));
 
         if (userObj.getVersionAvatar() == 0){
             userObj.setAvatarUser(new Image(new ImageTweakerTool(userObj.getIdUser()).getProfilePicUser()));
@@ -74,5 +78,47 @@ public class UserImpl implements IUser {
 
         return connAPI.getStatus() == 200;
 
+    }
+
+    @Override
+    public boolean deleteAccount() {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", Data.userData.getIdUser());
+
+        ConnAPI connAPI = new ConnAPI("/api/users/deleteAccount", "DELETE", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+    }
+
+    @Override
+    public boolean updatePrivacity(JSONArray privacityJSON) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", Data.userData.getIdUser());
+        requestJSON.put("privacitySettings", privacityJSON);
+
+        ConnAPI connAPI = new ConnAPI("/api/users/updatePrivacity", "PUT", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+
+    }
+
+    @Override
+    public boolean changePassword(String newPass) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", Data.userData.getIdUser());
+        requestJSON.put("password", newPass);
+
+        ConnAPI connAPI = new ConnAPI("/api/users/changePassword", "PUT", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
     }
 }
