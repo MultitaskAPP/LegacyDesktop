@@ -1,0 +1,7 @@
+.password-field{
+    -fx-text-fill: white;
+    -fx-pref-height: 55;
+    -fx-padding: 10;
+    -fx-background-color: #32323E;
+    -fx-background-radius: 30;
+}

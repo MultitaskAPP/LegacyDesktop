@@ -3,13 +3,19 @@ package sample.controllers.views;
 import com.sun.javafx.scene.control.CustomColorDialog;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.PickResult;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -35,7 +41,7 @@ public class ProfileViewController implements Initializable {
     @FXML    private FontAwesomeIcon iconUpload, iconEdit, iconSettings, iconDisconnect, iconBirthday, iconLocation, iconTlf, iconChangeColour, iconChangeTheme;
     @FXML    private Rectangle rectangleAvatar;
     @FXML    private Label tagUsername, tagEmail, tagContactsNumber, tagGroupsNumber, tagBirthday, tagLocation, tagTlf, tagMessagesNumber, tagCloudNumber;
-    @FXML    private AnchorPane paneContacts, paneGroups, paneMessages, paneCloud;
+    @FXML    private AnchorPane paneContacts, paneGroups, paneMessages, paneCloud, paneDialog, rootPane, blurPane;
     @FXML    private VBox vBoxLogRegister;
 
     private MainController mainController;
@@ -43,6 +49,7 @@ public class ProfileViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         setData();
         setIconsColour();
         setNumberColour();
@@ -163,12 +170,32 @@ public class ProfileViewController implements Initializable {
 
     @FXML
     void editProfile(ActionEvent event) {
-
+        try {
+           FXMLLoader fxmlLoader = new FXMLLoader();
+           fxmlLoader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/profileEditView.fxml"));
+           paneDialog.getChildren().add(fxmlLoader.load());
+           paneDialog.setDisable(false);
+           paneDialog.setVisible(true);
+           rootPane.setEffect(new BoxBlur());
+           blurPane.setVisible(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     void showSettings(ActionEvent event) {
-
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/profileSettingsView.fxml"));
+            paneDialog.getChildren().add(fxmlLoader.load());
+            paneDialog.setDisable(false);
+            paneDialog.setVisible(true);
+            rootPane.setEffect(new BoxBlur());
+            blurPane.setVisible(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -178,6 +205,13 @@ public class ProfileViewController implements Initializable {
         Data.userData.setAvatarUser(new Image(imageTweakerTool.transformImage(newAvatar)));
         mainController.updateAvatar();
         setAvatar();
+    }
+
+    @FXML
+    void dismissMenu(MouseEvent event) {
+        rootPane.setEffect(null);
+        blurPane.setVisible(false);
+        paneDialog.setVisible(false);
     }
 
     public void setMainController(MainController mainController) {
