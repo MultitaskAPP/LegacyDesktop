@@ -19,10 +19,11 @@ public class User {
     private int versionAvatar;
     private JSONArray privacitySettings;
     private JSONObject socialMedia;
+    private String address;
 
     public User(){}
 
-    public User(int idUser, String email, String name, String firstSurname, String lastSurname, Date birthday, int tlf, String pass, Color colourUser, Image avatarUser, int versionAvatar, JSONArray privacitySettings, JSONObject socialMedia) {
+    public User(int idUser, String email, String name, String firstSurname, String lastSurname, Date birthday, int tlf, String pass, Color colourUser, Image avatarUser, int versionAvatar, String address, JSONArray privacitySettings, JSONObject socialMedia) {
         this.idUser = idUser;
         this.email = email;
         this.name = name;
@@ -36,6 +37,7 @@ public class User {
         this.versionAvatar = versionAvatar;
         this.privacitySettings = privacitySettings;
         this.socialMedia = socialMedia;
+        this.address = address;
     }
 
     public int getIdUser() {
@@ -142,6 +144,14 @@ public class User {
         this.socialMedia = socialMedia;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getHexCode(){
 
         int r = colourUser.getRed();
@@ -154,5 +164,20 @@ public class User {
     @Override
     public String toString() {
         return name + " " + firstSurname + " " + lastSurname;
+    }
+
+    public JSONObject toJSONObject() {
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", name);
+        jsonObject.put("firstSurname", firstSurname);
+        jsonObject.put("lastSurname", lastSurname);
+        jsonObject.put("birthday", birthday);
+        jsonObject.put("tlf", tlf);
+        jsonObject.put("socialMedia", socialMedia);
+        jsonObject.put("address", address);
+
+        return jsonObject;
+
     }
 }

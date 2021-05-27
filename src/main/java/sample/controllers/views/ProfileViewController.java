@@ -30,6 +30,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.json.JSONObject;
 import sample.controllers.MainController;
+import sample.controllers.dialogs.ProfileEditViewController;
+import sample.controllers.dialogs.ProfileSettingsViewController;
 import sample.models.SocialMedia;
 import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
@@ -50,6 +52,7 @@ public class ProfileViewController implements Initializable {
     @FXML    private VBox vBoxLogRegister;
     @FXML    private HBox hBoxSocialMedia;
 
+    private ArrayList<SocialMedia> arraySocialMedia;
     private MainController mainController;
     private Color selectedColour;
 
@@ -65,18 +68,19 @@ public class ProfileViewController implements Initializable {
 
     private void setSocialMedia() {
 
+        hBoxSocialMedia.getChildren().removeAll();
+
         if (Data.userData.getSocialMedia() != null){
             JSONObject socialMediaJSON = Data.userData.getSocialMedia();
-
-            ArrayList<SocialMedia> arraySocialMedia = new ArrayList<>(
+            arraySocialMedia = new ArrayList<>(
                     Arrays.asList(
-                            new SocialMedia("twitter", "https://twitter.com/#", "TWITTER"),
-                            new SocialMedia("github", "https://github.com/#", "GITHUB"),
-                            new SocialMedia("facebook", "https://facebook.com/#", "FACEBOOK_SQUARE"),
-                            new SocialMedia("url", "#", "CHAIN"),
-                            new SocialMedia("instagram", "https://instagram.com/#", "INSTAGRAM"),
-                            new SocialMedia("skype", "skype:#?chat", "SKYPE"),
-                            new SocialMedia("youtube", "https://youtube.com/c/#", "YOUTUBE_PLAY")
+                            new SocialMedia("twitter", "https://twitter.com/#", "TWITTER", "#5CAAF8"),
+                            new SocialMedia("github", "https://github.com/#", "GITHUB", "#1D1D1D"),
+                            new SocialMedia("facebook", "https://facebook.com/#", "FACEBOOK_SQUARE", "#0335FF"),
+                            new SocialMedia("url", "#", "CHAIN", "#7FFE61"),
+                            new SocialMedia("instagram", "https://instagram.com/#", "INSTAGRAM", "#FF3EF2"),
+                            new SocialMedia("skype", "skype:#?chat", "SKYPE", "#0392FF"),
+                            new SocialMedia("youtube", "https://youtube.com/c/#", "YOUTUBE_PLAY", "#FF3E3E")
                     )
             );
 
@@ -112,6 +116,7 @@ public class ProfileViewController implements Initializable {
         tagBirthday.setText(Data.userData.getBirthday().toLocalDate().toString());
         tagTlf.setText(Integer.toString(Data.userData.getTlf()));
         tagGroupsNumber.setText(Integer.toString(Data.arrayGroupsUser.size()));
+        tagLocation.setText(Data.userData.getAddress());
 
     }
 
@@ -192,28 +197,17 @@ public class ProfileViewController implements Initializable {
     @FXML
     public void disconnect(ActionEvent event){
 
-        try {
-            Data.properties.clear();
-            Data.storeProperties(Data.properties);
-            System.out.println("[DEBUG] - Datos del usuario internos eliminados correctamente!");
-            Stage thisStage = (Stage) vBoxLogRegister.getScene().getWindow();
-            thisStage.close();
+        Alert verifyAlert = new Alert(Alert.AlertType.WARNING);
+        verifyAlert.setTitle("MultitaskAPP");
+        verifyAlert.setHeaderText("Estas seguro de que quieres eliminar tu cuenta? No hay vuelta atrás...");
+        verifyAlert.getButtonTypes().add(new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE));
 
-            Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getClassLoader().getResource("windows/login.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("MultitaskAPP | DESKTOP");
-            stage.initStyle(StageStyle.UNDECORATED);
-            Image icon = new Image("windows/res/icons/multitask_icon.png");
-            stage.getIcons().add(icon);
-            stage.show();
-
-        }catch (Exception e){
-            System.out.println("[DEBUG] - Error al cerrar la sesion...");
+        Optional<ButtonType> result = verifyAlert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            new ProfileSettingsViewController().disconnect((Stage) vBoxLogRegister.getScene().getWindow());
         }
+
+
 
     }
 
@@ -223,6 +217,9 @@ public class ProfileViewController implements Initializable {
            FXMLLoader fxmlLoader = new FXMLLoader();
            fxmlLoader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/profileEditView.fxml"));
            paneDialog.getChildren().add(fxmlLoader.load());
+           ProfileEditViewController profileEditViewController = fxmlLoader.getController();
+           profileEditViewController.setArraySocialMedia(arraySocialMedia);
+           profileEditViewController.preloadData();
            paneDialog.setDisable(false);
            paneDialog.setVisible(true);
            rootPane.setEffect(new BoxBlur());
@@ -261,6 +258,8 @@ public class ProfileViewController implements Initializable {
         rootPane.setEffect(null);
         blurPane.setVisible(false);
         paneDialog.setVisible(false);
+        setSocialMedia();
+
     }
 
     public void setMainController(MainController mainController) {

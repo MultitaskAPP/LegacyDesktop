@@ -64,12 +64,11 @@ public class ProfileSettingsViewController implements Initializable {
         }
     }
 
-    private void disconnect() {
+    public void disconnect(Stage thisStage) {
         try {
             Data.properties.clear();
             Data.storeProperties(Data.properties);
             System.out.println("[DEBUG] - Datos del usuario internos eliminados correctamente!");
-            Stage thisStage = (Stage) btnChangePass.getScene().getWindow();
             thisStage.close();
 
             Stage stage = new Stage();
@@ -100,7 +99,7 @@ public class ProfileSettingsViewController implements Initializable {
         if (result.get() == ButtonType.OK){
             boolean success = Data.userManager.deleteAccount();
             if (success){
-                disconnect();
+                disconnect((Stage) btnChangePass.getScene().getWindow());
             }
         }
     }

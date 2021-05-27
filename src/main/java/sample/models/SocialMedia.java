@@ -8,14 +8,16 @@ public class SocialMedia {
     private String name;
     private String url;
     private FontAwesomeIcon icon;
+    private String hexCode;
 
     public SocialMedia() {}
 
-    public SocialMedia(String name, String url, String icon){
+    public SocialMedia(String name, String url, String icon, String hexCode){
         this.name = name;
         this.url = url;
         this.icon = new FontAwesomeIcon();
         this.icon.setIcon(FontAwesomeIconName.valueOf(icon));
+        this.hexCode = hexCode;
     }
 
     public String getName() {
@@ -43,8 +45,20 @@ public class SocialMedia {
         this.icon.setIcon(FontAwesomeIconName.valueOf(icon));
     }
 
+    public void setIcon(FontAwesomeIcon icon) {
+        this.icon = icon;
+    }
+
+    public String getHexCode() {
+        return hexCode;
+    }
+
+    public void setHexCode(String hexCode) {
+        this.hexCode = hexCode;
+    }
+
     @Override
     public String toString() {
-        return name;
+        return name.toUpperCase();
     }
 }

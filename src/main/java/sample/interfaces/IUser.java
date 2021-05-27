@@ -17,4 +17,6 @@ public interface IUser {
     public boolean updatePrivacity(JSONArray privacityJSON);
 
     public boolean changePassword(String newPass);
+
+    public boolean updateUser(User userData);
 }

@@ -6,6 +6,10 @@
     -fx-background-radius: 30;
 }
 
+.text-field{
+    -fx-text-fill: white;
+}
+
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
     -fx-background-radius: 30;

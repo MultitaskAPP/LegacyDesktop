@@ -30,6 +30,9 @@ public class UserImpl implements IUser {
         userObj.setTlf(rawData.getInt("tlf"));
         userObj.setVersionAvatar(rawData.getInt("versionAvatar"));
 
+        if (!(rawData.isNull("address")))
+            userObj.setAddress(rawData.getString("address"));
+
         if (!(rawData.isNull("socialMedia")))
             userObj.setSocialMedia(new JSONObject(rawData.getString("socialMedia")));
 
@@ -123,5 +126,33 @@ public class UserImpl implements IUser {
         connAPI.establishConn();
 
         return connAPI.getStatus() == 200;
+    }
+
+    @Override
+    public boolean updateUser(User userData) {
+
+        System.out.println(userData);
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", Data.userData.getIdUser());
+        requestJSON.put("data", userData.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/users/updateUser", "PUT", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        if (connAPI.getStatus() == 200){
+            Data.userData.setName(userData.getName());
+            Data.userData.setFirstSurname(userData.getFirstSurname());
+            Data.userData.setLastSurname(userData.getLastSurname());
+            Data.userData.setTlf(userData.getTlf());
+            Data.userData.setBirthday(userData.getBirthday());
+            Data.userData.setAddress(userData.getAddress());
+            Data.userData.setSocialMedia(userData.getSocialMedia());
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }
