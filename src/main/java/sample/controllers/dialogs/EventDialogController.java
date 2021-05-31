@@ -347,6 +347,7 @@ public class EventDialogController implements Initializable {
         updateView();
         Stage stage = (Stage) btnAdd.getScene().getWindow();
         stage.close();
+        Data.removeBlur();
     }
 
     @FXML

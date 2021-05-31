@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -81,6 +82,10 @@ public class ProfileSettingsViewController implements Initializable {
             stage.initStyle(StageStyle.UNDECORATED);
             Image icon = new Image("windows/res/icons/multitask_icon.png");
             stage.getIcons().add(icon);
+            stage.getScene().setFill(LinearGradient.valueOf("from 0% 0% to 100% 0%, #121214 0%,  #121214 21%, #202027 22%, #202027 100%"));
+
+            Data.mainStage = stage;
+
             stage.show();
 
         }catch (Exception e){

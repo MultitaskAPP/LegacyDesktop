@@ -19,6 +19,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.LinearGradient;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.json.JSONArray;
@@ -219,6 +220,8 @@ public class LoginController implements Initializable {
             stage.initStyle(StageStyle.UNDECORATED);
             Image icon = new Image("windows/res/icons/multitask_icon.png");
             stage.getIcons().add(icon);
+            stage.getScene().setFill(LinearGradient.valueOf("from 0% 0% to 100% 0%, #121214 0%,  #121214 21%, #202027 22%, #202027 100%"));
+            Data.mainStage = stage;
             stage.show();
 
             Stage thisStage = (Stage) btnRegister.getScene().getWindow();

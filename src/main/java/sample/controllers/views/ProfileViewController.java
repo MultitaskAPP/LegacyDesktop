@@ -160,7 +160,9 @@ public class ProfileViewController implements Initializable {
         alertDialog.setTitle("MultitaskAPP");
         alertDialog.setHeaderText("Cambia tu color temático");
         alertDialog.getDialogPane().setContent(colorPicker);
+        Data.setBlur();
         Optional<ButtonType> result = alertDialog.showAndWait();
+        Data.removeBlur();
         if (result.get() == ButtonType.OK){
             if (colorPicker.getValue() != null){
                 selectedColour = colorPicker.getValue();
@@ -169,7 +171,9 @@ public class ProfileViewController implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("MultitaskAPP");
                     alert.setHeaderText("Color temático actualizado correctamente, la aplicacion debe ser reiniciada para poder visualizar los cambios");
+                    Data.setBlur();
                     alert.showAndWait();
+                    Data.removeBlur();
                 }
 
             }else{
@@ -199,16 +203,13 @@ public class ProfileViewController implements Initializable {
 
         Alert verifyAlert = new Alert(Alert.AlertType.WARNING);
         verifyAlert.setTitle("MultitaskAPP");
-        verifyAlert.setHeaderText("Estas seguro de que quieres eliminar tu cuenta? No hay vuelta atrás...");
+        verifyAlert.setHeaderText("Estas seguro de que quieres cerrar tu sesión?");
         verifyAlert.getButtonTypes().add(new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE));
 
         Optional<ButtonType> result = verifyAlert.showAndWait();
         if (result.get() == ButtonType.OK){
             new ProfileSettingsViewController().disconnect((Stage) vBoxLogRegister.getScene().getWindow());
         }
-
-
-
     }
 
     @FXML

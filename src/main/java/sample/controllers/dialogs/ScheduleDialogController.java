@@ -237,12 +237,14 @@ public class ScheduleDialogController implements Initializable {
         updateView();
         Stage stage = (Stage) btnAdd.getScene().getWindow();
         stage.close();
+        Data.removeBlur();
     }
 
     @FXML
     void close(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
+        Data.removeBlur();
     }
 
     @FXML

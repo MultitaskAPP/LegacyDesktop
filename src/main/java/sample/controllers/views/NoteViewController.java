@@ -136,6 +136,7 @@ public class NoteViewController implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
             stage.show();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -161,6 +162,7 @@ public class NoteViewController implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
             stage.show();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -183,13 +185,17 @@ public class NoteViewController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("MultitaskAPP | DESKTOP");
             alert.setHeaderText("Nota eliminada correctamente!");
+            Data.setBlur();
             alert.showAndWait();
+            Data.removeBlur();
         }else {
             System.out.println("[DEBUG] - Error al eliminar la NOTE...");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("MultitaskAPP | DESKTOP");
             alert.setHeaderText("Error al eliminar la nota...");
+            Data.setBlur();
             alert.showAndWait();
+            Data.removeBlur();
         }
 
     }
@@ -209,6 +215,7 @@ public class NoteViewController implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
             stage.show();
         } catch (MalformedURLException e) {
             e.printStackTrace();

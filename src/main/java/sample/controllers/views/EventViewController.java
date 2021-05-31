@@ -291,6 +291,7 @@ public class EventViewController implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
             stage.show();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -316,6 +317,7 @@ public class EventViewController implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
             stage.show();
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
@@ -341,6 +343,7 @@ public class EventViewController implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
             stage.show();
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
@@ -363,13 +366,17 @@ public class EventViewController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("MultitaskAPP | DESKTOP");
             alert.setHeaderText("Evento eliminado correctamente!");
+            Data.setBlur();
             alert.showAndWait();
+            Data.removeBlur();
         }else {
             System.out.println("[DEBUG] - Error al eliminar el EVENT...");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("MultitaskAPP | DESKTOP");
             alert.setHeaderText("Error al eliminar el evento...");
+            Data.setBlur();
             alert.showAndWait();
+            Data.removeBlur();
         }
     }
 

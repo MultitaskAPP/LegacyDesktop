@@ -2,6 +2,8 @@ package sample.utils;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import javafx.scene.effect.BoxBlur;
+import javafx.stage.Stage;
 import sample.interfaces.impl.*;
 import sample.models.Group;
 import sample.models.Theme;
@@ -20,6 +22,7 @@ import java.util.Properties;
 public class Data {
 
     public static Properties properties = new Properties();
+    public static Stage mainStage;
 
     public static String API_URL = "https://multitaskapp.herokuapp.com";
     public static String LOCALHOST = "http://localhost:5000";
@@ -50,6 +53,19 @@ public class Data {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void setBlur(){
+        BoxBlur boxBlur = new BoxBlur();
+        boxBlur.setIterations(1000);
+        mainStage.getScene().getRoot().setEffect(boxBlur);
+        mainStage.getScene().getRoot().applyCss();
+        mainStage.getScene().getRoot().setDisable(true);
+    }
+
+    public static void removeBlur(){
+        mainStage.getScene().getRoot().setEffect(null);
+        mainStage.getScene().getRoot().setDisable(false);
     }
 
 }

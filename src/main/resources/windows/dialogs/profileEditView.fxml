@@ -135,7 +135,10 @@
                         <HBox prefHeight="50.0" prefWidth="200.0" spacing="15.0">
                            <children>
                               <ComboBox fx:id="cmbSocialMedia" prefHeight="50.0" prefWidth="100.0" style="-fx-background-radius: 30; -fx-background-color: #32323E;" />
-                              <TextField fx:id="tfSocialMedia" prefHeight="50.0" prefWidth="166.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;" />
+                              <TextField fx:id="tfSocialMedia" prefHeight="50.0" prefWidth="166.0" promptText="TU USUARIO / WEB" style="-fx-background-color: #32323E; -fx-background-radius: 30;">
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding></TextField>
                               <Button fx:id="btnAddSocialMedia" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" onAction="#addSocialMedia" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;">
                                  <graphic>
                                     <FontAwesomeIcon fill="WHITE" iconName="PLUS" size="30px" />

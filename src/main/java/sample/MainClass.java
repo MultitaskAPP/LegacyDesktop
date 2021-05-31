@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -76,13 +77,14 @@ public class MainClass extends Application {
 
                 try {
                     root.set(loader.load());
-                    root.get().setEffect(new DropShadow());
                     primaryStage.setScene(new Scene(root.get(), 1280, 720));
+                    primaryStage.getScene().setFill(LinearGradient.valueOf("from 0% 0% to 100% 0%, #121214 0%,  #121214 21%, #202027 22%, #202027 100%"));
 
                     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
                     primaryStage.setX((screenBounds.getWidth() - 1280) / 2);
                     primaryStage.setY((screenBounds.getHeight() - 720) / 2);
 
+                    Data.mainStage = primaryStage;
                     primaryStage.show();
                 } catch (IOException e) {
                     e.printStackTrace();

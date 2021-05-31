@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -150,12 +151,16 @@ public class ProfileEditViewController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("MultitaskAPP");
             alert.setHeaderText("Datos actualizados correctamente!");
+            Data.setBlur();
             alert.showAndWait();
+            Data.removeBlur();
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("MultitaskAPP");
             alert.setHeaderText("Ha ocurrido un error al actualizar los datos...");
+            Data.setBlur();
             alert.showAndWait();
+            Data.removeBlur();
         }
 
     }

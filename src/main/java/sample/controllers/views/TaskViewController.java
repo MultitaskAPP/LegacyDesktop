@@ -349,6 +349,7 @@ public class TaskViewController implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
             stage.show();
             taskDialogController.preloadData();
         } catch (MalformedURLException e) {
@@ -375,13 +376,17 @@ public class TaskViewController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("MultitaskAPP | DESKTOP");
             alert.setHeaderText("Tarea eliminada correctamente!");
+            Data.setBlur();
             alert.showAndWait();
+            Data.removeBlur();
         }else {
             System.out.println("[DEBUG] - Error al eliminar la TASK...");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("MultitaskAPP | DESKTOP");
             alert.setHeaderText("Error al eliminar la tarea...");
+            Data.setBlur();
             alert.showAndWait();
+            Data.removeBlur();
         }
     }
 
@@ -403,6 +408,7 @@ public class TaskViewController implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
             stage.show();
             taskDialogController.showTaskData(task);
         } catch (MalformedURLException e) {
@@ -428,6 +434,7 @@ public class TaskViewController implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
             stage.show();
             taskDialogController.showTaskData(task);
         } catch (MalformedURLException e) {
@@ -454,13 +461,17 @@ public class TaskViewController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("MultitaskAPP | DESKTOP");
             alert.setHeaderText("Tablero eliminado correctamente!");
+            Data.setBlur();
             alert.showAndWait();
+            Data.removeBlur();
         }else {
             System.out.println("[DEBUG] - Error al eliminar el SCHEDULE...");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("MultitaskAPP | DESKTOP");
             alert.setHeaderText("Error al eliminar el tablero...");
+            Data.setBlur();
             alert.showAndWait();
+            Data.removeBlur();
         }
 
     }
@@ -482,6 +493,7 @@ public class TaskViewController implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
             stage.show();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -507,6 +519,7 @@ public class TaskViewController implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
             stage.show();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -543,6 +556,7 @@ public class TaskViewController implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
             stage.show();
             scheduleDialogController.preloadData();
         } catch (MalformedURLException e) {
