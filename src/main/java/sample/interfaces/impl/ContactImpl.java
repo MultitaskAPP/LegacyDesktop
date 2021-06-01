@@ -10,10 +10,13 @@ import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactImpl implements IContact {
+
     @Override
     public List<Contact> getAllContacts() {
 
@@ -38,11 +41,22 @@ public class ContactImpl implements IContact {
                 contact.setFirstSurname(rawJSON.getString("firstSurname"));
                 contact.setLastSurname(rawJSON.getString("lastSurname"));
                 contact.setEmail(rawJSON.getString("email"));
-                contact.setAvatar(new Image(new ImageTweakerTool(contact.getIdContact()).getProfilePicUser()));
+                contact.setVersionAvatar(rawJSON.getInt("versionAvatar"));
+
+                if (contact.getVersionAvatar() == 0){
+                    contact.setAvatar(new Image(new ImageTweakerTool(contact.getIdContact()).getProfilePicUser()));
+                }else{
+                    contact.setAvatar(new Image(new ImageTweakerTool(contact.getIdContact(), contact.getVersionAvatar()).getProfilePicUser()));
+                }
 
                 if (!(rawJSON.isNull("birthday")))
-                    contact.setBirthday(Date.valueOf(rawJSON.getString("birthday")));
-
+                    try {
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        java.util.Date dateParsed = simpleDateFormat.parse(rawJSON.getString("birthday"));
+                        contact.setBirthday(new Date(dateParsed.getTime()));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 if (!(rawJSON.isNull("tlf")))
                     contact.setTlf(rawJSON.getInt("tlf"));
 
@@ -50,7 +64,7 @@ public class ContactImpl implements IContact {
                     contact.setAddress(rawJSON.getString("address"));
 
                 if (!(rawJSON.isNull("socialMedia")))
-                    contact.setSocialMediaJSON(rawJSON.getJSONObject("socialMedia"));
+                    contact.setSocialMediaJSON(new JSONObject(rawJSON.getString("socialMedia")));
 
                 contactList.add(contact);
 
@@ -58,5 +72,25 @@ public class ContactImpl implements IContact {
         }
 
         return contactList;
+    }
+
+    @Override
+    public boolean deleteContact(int idContact) {
+        return false;
+    }
+
+    @Override
+    public boolean addContact(int idContact) {
+        return false;
+    }
+
+    @Override
+    public boolean rejectFriendRequest(int idContact) {
+        return false;
+    }
+
+    @Override
+    public boolean acceptFriendRequest(int idContact) {
+        return false;
     }
 }

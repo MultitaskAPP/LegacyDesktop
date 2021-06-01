@@ -42,23 +42,7 @@
                   </HBox>
                   <ScrollPane prefHeight="541.0" prefWidth="485.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                      <content>
-                        <VBox fx:id="vBoxContactsList" prefWidth="400.0" spacing="20.0">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #32323E; -fx-background-radius: 30;">
-                                 <children>
-                                    <Rectangle arcHeight="360.0" arcWidth="360.0" fill="DODGERBLUE" height="45.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="45.0" />
-                                    <Label text="Padua Keoma Salas" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </HBox>
-                           </children>
-                        </VBox>
+                        <VBox fx:id="vBoxContactsList" prefWidth="400.0" spacing="20.0" />
                      </content>
                      <padding>
                         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
@@ -97,28 +81,18 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </HBox>
-                        <HBox fx:id="hBoxSocialMedia" alignment="CENTER" prefHeight="65.0" prefWidth="200.0" spacing="15.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
-                           <children>
-                              <FontAwesomeIcon fill="DODGERBLUE" iconName="TWITTER" size="40px" />
-                              <FontAwesomeIcon fill="DODGERBLUE" iconName="TWITTER" size="40px" />
-                              <FontAwesomeIcon fill="DODGERBLUE" iconName="TWITTER" size="40px" />
-                              <FontAwesomeIcon fill="DODGERBLUE" iconName="TWITTER" size="40px" />
-                              <FontAwesomeIcon fill="DODGERBLUE" iconName="TWITTER" size="40px" />
-                              <FontAwesomeIcon fill="DODGERBLUE" iconName="TWITTER" size="40px" />
-                              <FontAwesomeIcon fill="DODGERBLUE" iconName="TWITTER" size="40px" />
-                           </children>
-                        </HBox>
+                        <HBox fx:id="hBoxSocialMedia" alignment="CENTER" prefHeight="65.0" prefWidth="200.0" spacing="15.0" style="-fx-background-color: #272730; -fx-background-radius: 30;" />
                         <HBox prefHeight="264.0" prefWidth="475.0" spacing="25.0">
                            <children>
-                              <VBox fx:id="vBoxExtraData" prefWidth="230.0" spacing="25.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
+                              <VBox prefWidth="230.0" spacing="25.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                                  <padding>
                                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                                  </padding>
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" spacing="10.0">
                                        <children>
-                                          <FontAwesomeIcon fill="DODGERBLUE" iconName="CALENDAR_ALT" size="30px" />
-                                          <Label text="31/10/1998" textFill="WHITE">
+                                          <FontAwesomeIcon fx:id="iconBirthday" fill="DODGERBLUE" iconName="CALENDAR_ALT" size="30px" />
+                                          <Label fx:id="tagBirthday" text="31/10/1998" textFill="WHITE">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -130,8 +104,8 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" spacing="10.0">
                                        <children>
-                                          <FontAwesomeIcon fill="DODGERBLUE" iconName="CALENDAR_ALT" size="30px" />
-                                          <Label text="31/10/1998" textFill="WHITE">
+                                          <FontAwesomeIcon fx:id="iconTlf" fill="DODGERBLUE" iconName="PHONE" size="30px" />
+                                          <Label fx:id="tagTlf" text="31/10/1998" textFill="WHITE">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -141,23 +115,10 @@
                                           <Insets left="5.0" />
                                        </padding>
                                     </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" spacing="10.0">
+                                    <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
                                        <children>
-                                          <FontAwesomeIcon fill="DODGERBLUE" iconName="CALENDAR_ALT" size="30px" />
-                                          <Label text="31/10/1998" textFill="WHITE">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                       <padding>
-                                          <Insets left="5.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" spacing="10.0">
-                                       <children>
-                                          <FontAwesomeIcon fill="DODGERBLUE" iconName="CALENDAR_ALT" size="30px" />
-                                          <Label text="31/10/1998" textFill="WHITE">
+                                          <FontAwesomeIcon fx:id="iconAddress" fill="DODGERBLUE" iconName="LOCATION_ARROW" size="30px" />
+                                          <Label fx:id="tagAddress" maxWidth="150.0" prefWidth="150.0" text="31/10/1998" textFill="WHITE" wrapText="true">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -176,7 +137,7 @@
                                           <Font size="15.0" />
                                        </font>
                                        <graphic>
-                                          <FontAwesomeIcon fill="DODGERBLUE" iconName="SEND" size="25px" />
+                                          <FontAwesomeIcon fx:id="iconEmail" fill="DODGERBLUE" iconName="SEND" size="25px" />
                                        </graphic>
                                     </Button>
                                     <Button fx:id="btnSendMessage" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="231.0" style="-fx-background-color: #272730; -fx-background-radius: 30;" text="ENVIAR UN MENSAJE" textFill="WHITE">
@@ -184,7 +145,7 @@
                                           <Font size="15.0" />
                                        </font>
                                        <graphic>
-                                          <FontAwesomeIcon fill="DODGERBLUE" iconName="COMMENT" size="25px" />
+                                          <FontAwesomeIcon fx:id="iconChat" fill="DODGERBLUE" iconName="COMMENT" size="25px" />
                                        </graphic>
                                     </Button>
                                     <Button fx:id="btnShowGroups" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="231.0" style="-fx-background-color: #272730; -fx-background-radius: 30;" text="GRUPOS EN COMÚN" textFill="WHITE">
@@ -192,7 +153,7 @@
                                           <Font size="15.0" />
                                        </font>
                                        <graphic>
-                                          <FontAwesomeIcon fill="DODGERBLUE" iconName="USERS" size="25px" />
+                                          <FontAwesomeIcon fx:id="iconGroups" fill="DODGERBLUE" iconName="USERS" size="25px" />
                                        </graphic>
                                     </Button>
                                     <Button fx:id="btnDeleteContact" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="231.0" style="-fx-background-color: #CE3939; -fx-background-radius: 30;" text="ELIMINAR CONTACTO" textFill="WHITE">

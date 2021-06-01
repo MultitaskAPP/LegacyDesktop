@@ -48,7 +48,7 @@ public class ProfileViewController implements Initializable {
     @FXML    private FontAwesomeIcon iconUpload, iconEdit, iconSettings, iconDisconnect, iconBirthday, iconLocation, iconTlf, iconChangeColour, iconChangeTheme;
     @FXML    private Rectangle rectangleAvatar;
     @FXML    private Label tagUsername, tagEmail, tagContactsNumber, tagGroupsNumber, tagBirthday, tagLocation, tagTlf, tagMessagesNumber, tagCloudNumber;
-    @FXML    private AnchorPane paneContacts, paneGroups, paneMessages, paneCloud, paneDialog, rootPane, blurPane;
+    @FXML    private AnchorPane paneDialog, rootPane, blurPane;
     @FXML    private VBox vBoxLogRegister;
     @FXML    private HBox hBoxSocialMedia;
 
@@ -63,15 +63,15 @@ public class ProfileViewController implements Initializable {
         setIconsColour();
         setNumberColour();
         setAvatar();
-        setSocialMedia();
+        setSocialMedia(hBoxSocialMedia, Data.userData.getSocialMedia(), false);
+
     }
 
-    private void setSocialMedia() {
+    public void setSocialMedia(HBox hBoxSocialMedia, JSONObject socialMediaJSON, boolean useColor) {
 
         hBoxSocialMedia.getChildren().removeAll();
 
-        if (Data.userData.getSocialMedia() != null){
-            JSONObject socialMediaJSON = Data.userData.getSocialMedia();
+        if (socialMediaJSON != null){
             arraySocialMedia = new ArrayList<>(
                     Arrays.asList(
                             new SocialMedia("twitter", "https://twitter.com/#", "TWITTER", "#5CAAF8"),
@@ -87,7 +87,11 @@ public class ProfileViewController implements Initializable {
             for (SocialMedia socialMedia : arraySocialMedia) {
                 if (socialMediaJSON.has(socialMedia.getName())){
                     FontAwesomeIcon icon = socialMedia.getIcon();
-                    icon.setFill(Color.WHITE);
+
+                    if (useColor)
+                        icon.setFill(Color.valueOf(Data.userData.getHexCode()));
+                    else icon.setFill(Color.WHITE);
+
                     icon.setSize("40px");
                     icon.setOnMouseClicked(mouseEvent -> browseURL(socialMedia.getUrl().concat(socialMediaJSON.getString(socialMedia.getName())).replaceFirst("#", "")));
                     hBoxSocialMedia.getChildren().add(icon);
@@ -259,7 +263,27 @@ public class ProfileViewController implements Initializable {
         rootPane.setEffect(null);
         blurPane.setVisible(false);
         paneDialog.setVisible(false);
-        setSocialMedia();
+        setSocialMedia(hBoxSocialMedia, Data.userData.getSocialMedia(), false);
+
+    }
+
+    @FXML
+    void gotoCloud(MouseEvent event) {
+
+    }
+
+    @FXML
+    void gotoContacts(MouseEvent event) {
+        mainController.gotoContacts(event);
+    }
+
+    @FXML
+    void gotoGroups(MouseEvent event) {
+
+    }
+
+    @FXML
+    void gotoMessages(MouseEvent event) {
 
     }
 

@@ -53,7 +53,7 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <AnchorPane fx:id="paneContacts" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
+                  <AnchorPane onMouseClicked="#gotoContacts" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" layoutY="97.0" prefHeight="30.0" prefWidth="150.0" text="CONTACTOS" textAlignment="CENTER" textFill="WHITE">
                            <font>
@@ -67,7 +67,7 @@
                         </Label>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="paneGroups" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
+                  <AnchorPane onMouseClicked="#gotoGroups" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" layoutY="97.0" prefHeight="30.0" prefWidth="150.0" text="GRUPOS" textAlignment="CENTER" textFill="WHITE">
                            <font>
@@ -149,7 +149,7 @@
                         </Button>
                      </children>
                   </VBox>
-                  <AnchorPane fx:id="paneMessages" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
+                  <AnchorPane onMouseClicked="#gotoMessages" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" layoutY="97.0" prefHeight="30.0" prefWidth="150.0" text="MENSAJES" textAlignment="CENTER" textFill="WHITE">
                            <font>
@@ -163,7 +163,7 @@
                         </Label>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="paneCloud" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
+                  <AnchorPane onMouseClicked="#gotoCloud" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" layoutY="97.0" prefHeight="30.0" prefWidth="150.0" text="ESPACIO NUBE" textAlignment="CENTER" textFill="WHITE">
                            <font>

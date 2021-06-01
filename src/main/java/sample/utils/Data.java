@@ -44,6 +44,7 @@ public class Data {
     public static TaskImpl taskManager = new TaskImpl();
     public static NoteImpl noteManager = new NoteImpl();
     public static EventImpl eventManager = new EventImpl();
+    public static ContactImpl contactManager = new ContactImpl();
 
     public static void storeProperties(Properties properties){
         try(OutputStream outputStream = new FileOutputStream("config.properties")){

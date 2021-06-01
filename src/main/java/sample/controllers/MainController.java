@@ -203,6 +203,19 @@ public class MainController implements Initializable {
         }
     }
 
+    public void gotoContacts(MouseEvent event){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/contactView.fxml"));
+            scenePane.getChildren().add(loader.load());
+            resetButtonStyles();
+            setStyleButton(btnProfile);
+            transitionEffect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void transitionEffect(){
 
         // transitionEffect()

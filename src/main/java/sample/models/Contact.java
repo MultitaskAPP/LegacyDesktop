@@ -11,14 +11,14 @@ public class Contact {
     private String name, firstSurname, lastSurname;
     private String email;
     private Date birthday;
-    private int tlf;
+    private int tlf, versionAvatar;
     private String address;
     private JSONObject socialMediaJSON;
     private Image avatar;
 
     public Contact() {}
 
-    public Contact(int idContact, String name, String firstSurname, String lastSurname, String email, Date birthday, int tlf, String address, JSONObject socialMediaJSON, Image avatar) {
+    public Contact(int idContact, String name, String firstSurname, String lastSurname, String email, Date birthday, int tlf, int versionAvatar, String address, JSONObject socialMediaJSON, Image avatar) {
         this.idContact = idContact;
         this.name = name;
         this.firstSurname = firstSurname;
@@ -29,6 +29,7 @@ public class Contact {
         this.address = address;
         this.socialMediaJSON = socialMediaJSON;
         this.avatar = avatar;
+        this.versionAvatar = versionAvatar;
     }
 
     public int getIdContact() {
@@ -109,6 +110,14 @@ public class Contact {
 
     public void setAvatar(Image avatar) {
         this.avatar = avatar;
+    }
+
+    public int getVersionAvatar() {
+        return versionAvatar;
+    }
+
+    public void setVersionAvatar(int versionAvatar) {
+        this.versionAvatar = versionAvatar;
     }
 
     @Override
