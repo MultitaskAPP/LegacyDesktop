@@ -3,9 +3,12 @@ package sample.controllers.views;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
@@ -13,9 +16,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import sample.controllers.dialogs.GroupDialogController;
+import sample.controllers.dialogs.ScheduleDialogController;
 import sample.models.Group;
 import sample.models.User;
 import sample.utils.Data;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -33,7 +43,30 @@ public class GroupViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         btnAddGroup.setStyle("-fx-background-radius: 30; -fx-background-color: " + Data.userData.getHexCode());
+        btnAddGroup.setOnMouseClicked(event -> addGroup());
         getGroups();
+    }
+
+    private void addGroup() {
+        try {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/groupDialog.fxml"));
+            Parent root = loader.load();
+            GroupDialogController groupDialogController = loader.getController();
+            groupDialogController.setGroupViewController(this);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
+            stage.show();
+            groupDialogController.preloadData();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void getGroups() {
