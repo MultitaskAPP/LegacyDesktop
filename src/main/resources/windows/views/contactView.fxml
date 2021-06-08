@@ -28,10 +28,13 @@
                         <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="385.0" spacing="15.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                            <children>
                               <FontAwesomeIcon fill="WHITE" iconName="SEARCH" selectionStart="0" size="3em" />
-                              <TextField fx:id="tfSearch" prefHeight="45.0" prefWidth="329.0" promptText="Busca o añade un contacto" style="-fx-background-color: #32323E; -fx-background-radius: 30;">
+                              <TextField fx:id="tfSearch" prefHeight="45.0" prefWidth="329.0" promptText="Busca un contacto" style="-fx-background-color: #32323E; -fx-background-radius: 30;">
                                  <padding>
                                     <Insets left="15.0" right="15.0" />
                                  </padding>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
                               </TextField>
                            </children>
                            <padding>
@@ -57,7 +60,7 @@
                         <Font name="System Bold" size="30.0" />
                      </font>
                   </Label>
-                  <VBox fx:id="vBoxContactData" prefHeight="598.0" prefWidth="475.0" spacing="25.0">
+                  <VBox fx:id="vBoxContactData" prefHeight="598.0" prefWidth="475.0" spacing="25.0" visible="false">
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="165.0" prefWidth="200.0" spacing="20.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                            <children>

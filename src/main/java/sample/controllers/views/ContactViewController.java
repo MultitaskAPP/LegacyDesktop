@@ -19,11 +19,13 @@ import sample.controllers.dialogs.ProfileSettingsViewController;
 import sample.models.Contact;
 import sample.utils.Data;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class ContactViewController implements Initializable {
 
@@ -40,6 +42,8 @@ public class ContactViewController implements Initializable {
 
         setIconStyle();
         getContacts();
+
+        tfSearch.textProperty().addListener((observableValue, s, t1) -> searchContact());
 
     }
 
@@ -59,9 +63,9 @@ public class ContactViewController implements Initializable {
 
     private void getContacts(){
 
-        vBoxContactData.getChildren().removeAll();
-        List<Contact> contactList = Data.contactManager.getAllContacts();
-        for (Contact c : contactList) {
+        vBoxContactsList.getChildren().clear();
+        Data.contactList = Data.contactManager.getAllContacts();
+        for (Contact c : Data.contactList) {
             vBoxContactsList.getChildren().add(contactView(c));
         }
 
@@ -165,6 +169,50 @@ public class ContactViewController implements Initializable {
     }
 
     private void sendEmail(Contact c){
+        Desktop desktop;
+            try {
+                if (Desktop.isDesktopSupported() && (desktop = Desktop.getDesktop()).isSupported(Desktop.Action.MAIL)) {
+                URI mailto = new URI("mailto:" + c.getEmail());
+                desktop.mail(mailto);
+                } else {
+                    throw new RuntimeException("[DEBUG] - Este equipo no soporta mailto...");
+                }
+            } catch (URISyntaxException | IOException e) {
+                e.printStackTrace();
+            }
+
+    }
+
+    private void searchContact(){
+
+        vBoxContactsList.getChildren().clear();
+
+        String searchKey = tfSearch.getText().toLowerCase();
+        ArrayList<Contact> filteredContacts = new ArrayList<>();
+
+        if (!(searchKey.isBlank())){
+            for (Contact c : Data.contactList) {
+                if (c.toString().toLowerCase().contains(searchKey) || c.getEmail().toLowerCase().contains(searchKey))
+                    filteredContacts.add(c);
+            }
+
+            if (filteredContacts.size() != 0){
+                for (Contact c : filteredContacts) {
+                    vBoxContactsList.getChildren().add(contactView(c));
+                }
+            }else{
+                Label tagNoResults = new Label("NO SE HAN ENCONTRADO CONTACTOS");
+                tagNoResults.setPrefSize(400, 35);
+                tagNoResults.setAlignment(Pos.CENTER);
+                tagNoResults.setStyle("-fx-font-size: 15; -fx-text-fill: white");
+            }
+        }else{
+            for (Contact c : Data.contactList) {
+                vBoxContactsList.getChildren().add(contactView(c));
+            }
+        }
+
+
 
     }
 }

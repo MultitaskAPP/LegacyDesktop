@@ -64,6 +64,7 @@ public class MainClass extends Application {
                     }else {
                         Data.userData = decodeToken(Data.properties.getProperty("tokenLogin"));
                         Data.arrayGroupsUser = Data.groupManager.getAllGroups(Data.userData.getIdUser());
+                        Data.contactList = Data.contactManager.getAllContacts();
                         fxmlLoader1.setLocation(getClass().getClassLoader().getResource("windows/mainWindow.fxml"));
                         // url = new File("src/main/java/sample/windows/mainWindow.fxml").toURI().toURL();
                     }

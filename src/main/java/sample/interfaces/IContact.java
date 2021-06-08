@@ -10,10 +10,12 @@ public interface IContact {
 
     public boolean deleteContact(int idContact);
 
-    public boolean addContact(int idContact);
-
     public boolean rejectFriendRequest(int idContact);
 
     public boolean acceptFriendRequest(int idContact);
+
+    public int sendFriendshipRequest(String email);
+
+    public List<Contact> getFriendshipRequests();
 
 }

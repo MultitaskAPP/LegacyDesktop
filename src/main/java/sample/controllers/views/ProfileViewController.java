@@ -11,10 +11,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
@@ -32,6 +35,7 @@ import org.json.JSONObject;
 import sample.controllers.MainController;
 import sample.controllers.dialogs.ProfileEditViewController;
 import sample.controllers.dialogs.ProfileSettingsViewController;
+import sample.models.Contact;
 import sample.models.SocialMedia;
 import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
@@ -42,6 +46,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 
 public class ProfileViewController implements Initializable {
 
@@ -64,6 +69,7 @@ public class ProfileViewController implements Initializable {
         setNumberColour();
         setAvatar();
         setSocialMedia(hBoxSocialMedia, Data.userData.getSocialMedia(), false);
+        getFriendshipRequests();
 
     }
 
@@ -122,6 +128,8 @@ public class ProfileViewController implements Initializable {
         tagGroupsNumber.setText(Integer.toString(Data.arrayGroupsUser.size()));
         tagLocation.setText(Data.userData.getAddress());
 
+        tagContactsNumber.setText(Integer.toString(Data.contactList.size()));
+
     }
 
     private void setAvatar(){
@@ -154,6 +162,127 @@ public class ProfileViewController implements Initializable {
         for (Label tagNumber : arrayNumber) {
             tagNumber.setStyle("-fx-font-size: 75; -fx-font-family: 'Roboto Medium'; -fx-text-fill: " + Data.userData.getHexCode());
         }
+    }
+
+    private void getFriendshipRequests(){
+
+        List<Contact> friendshipRequestsList = Data.contactManager.getFriendshipRequests();
+        if (friendshipRequestsList.size() != 0){
+            Label tagFriendships = new Label("SOLCITUDES DE AMISTAD:");
+            tagFriendships.setPrefSize(430, 35);
+            tagFriendships.setAlignment(Pos.CENTER);
+            tagFriendships.setStyle("-fx-text-fill: white; -fx-font-size: 15");
+            vBoxLogRegister.getChildren().add(tagFriendships);
+            for (Contact c : friendshipRequestsList) {
+                vBoxLogRegister.getChildren().add(friendshipRequestView(c));
+            }
+        }else{
+            Label tagFriendships = new Label("NO HAY SOLICITUDES DE AMISTAD PENDIENTES");
+            tagFriendships.setStyle("-fx-text-fill: white; -fx-font-size: 15");
+            tagFriendships.setAlignment(Pos.CENTER);
+            tagFriendships.setPrefSize(430, 35);
+            vBoxLogRegister.getChildren().add(tagFriendships);
+        }
+
+
+    }
+
+    private HBox friendshipRequestView(Contact c) {
+
+        HBox hBoxFriendship = new HBox();
+        hBoxFriendship.setAlignment(Pos.CENTER_LEFT);
+        hBoxFriendship.setPrefSize(430, 55);
+        hBoxFriendship.setPadding(new Insets(10));
+        hBoxFriendship.setSpacing(10);
+        hBoxFriendship.setStyle("-fx-background-color: #32323E; -fx-background-radius: 30");
+
+        Rectangle rectangleAvatar = new Rectangle(35, 35);
+        rectangleAvatar.setArcWidth(360);
+        rectangleAvatar.setArcHeight(360);
+        rectangleAvatar.setFill(new ImagePattern(new Image(c.getAvatar().getUrl(), rectangleAvatar.getWidth(), rectangleAvatar.getHeight(), true, false)));
+        hBoxFriendship.getChildren().add(rectangleAvatar);
+
+        Label tagName = new Label(c.toString());
+        tagName.setPrefSize(250, 35);
+        tagName.setStyle("-fx-text-fill: white; -fx-font-size: 15");
+        hBoxFriendship.getChildren().add(tagName);
+
+        HBox hBoxOptions = new HBox();
+        hBoxOptions.setAlignment(Pos.CENTER_RIGHT);
+        hBoxOptions.setSpacing(10);
+
+        Button btnAcceptFriendship = new Button();
+        btnAcceptFriendship.setPrefSize(50, 35);
+        FontAwesomeIcon iconAdd = new FontAwesomeIcon();
+        iconAdd.setIcon(FontAwesomeIconName.PLUS);
+        iconAdd.setSize("25px");
+        iconAdd.setFill(Color.WHITE);
+        btnAcceptFriendship.setGraphic(iconAdd);
+        btnAcceptFriendship.setStyle("-fx-background-radius: 30; -fx-background-color:  #39CE39");
+        btnAcceptFriendship.setOnMouseClicked(event -> acceptFriendshipRequest(c, hBoxFriendship));
+
+        Button btnRejectFriendship = new Button();
+        btnRejectFriendship.setPrefSize(50, 35);
+        FontAwesomeIcon iconReject = new FontAwesomeIcon();
+        iconReject.setIcon(FontAwesomeIconName.CLOSE);
+        iconReject.setSize("25px");
+        iconReject.setFill(Color.WHITE);
+        btnRejectFriendship.setGraphic(iconReject);
+        btnRejectFriendship.setStyle("-fx-background-color: #CE3939; -fx-background-radius: 30");
+        btnRejectFriendship.setOnMouseClicked(event -> rejectFriendshipRequest(c, hBoxFriendship));
+
+        hBoxOptions.getChildren().add(btnAcceptFriendship);
+        hBoxOptions.getChildren().add(btnRejectFriendship);
+
+        hBoxFriendship.getChildren().add(hBoxOptions);
+
+        return hBoxFriendship;
+
+    }
+
+    private void acceptFriendshipRequest(Contact c, HBox hBox){
+
+        boolean success = Data.contactManager.acceptFriendRequest(c.getIdContact());
+        if (success){
+            vBoxLogRegister.getChildren().remove(hBox);
+            tagContactsNumber.setText(Integer.toString(Data.contactList.size() + 1));
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Solicitud de amistad aceptada correctamente!");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Error al aceptar la solicitud de amistad...");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }
+
+    }
+
+    private void rejectFriendshipRequest(Contact c, HBox hBox){
+
+        boolean success = Data.contactManager.rejectFriendRequest(c.getIdContact());
+        if (success){
+            vBoxLogRegister.getChildren().remove(hBox);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Solicitud de amistad rechazada correctamente!");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Error al rechazar la solicitud de amistad...");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }
+
     }
 
     @FXML

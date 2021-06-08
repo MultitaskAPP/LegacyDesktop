@@ -5,6 +5,7 @@ import com.cloudinary.utils.ObjectUtils;
 import javafx.scene.effect.BoxBlur;
 import javafx.stage.Stage;
 import sample.interfaces.impl.*;
+import sample.models.Contact;
 import sample.models.Group;
 import sample.models.Theme;
 import sample.models.User;
@@ -14,10 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Properties;
+import java.util.*;
 
 public class Data {
 
@@ -30,6 +28,7 @@ public class Data {
 
     public static User userData;
     public static ArrayList<Group> arrayGroupsUser = new ArrayList<>();
+    public static List<Contact> contactList = new ArrayList<>();
 
     public static Date todayDate;
     public static Cloudinary cloudAPI = new Cloudinary(ObjectUtils.asMap(
