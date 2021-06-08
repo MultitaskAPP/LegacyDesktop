@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -44,6 +44,7 @@ public class ContactViewController implements Initializable {
         getContacts();
 
         tfSearch.textProperty().addListener((observableValue, s, t1) -> searchContact());
+        btnAddContact.setOnMouseClicked(event -> addContact());
 
     }
 
@@ -213,6 +214,62 @@ public class ContactViewController implements Initializable {
         }
 
 
+
+    }
+
+    private void addContact(){
+
+        TextInputDialog textInputDialog = new TextInputDialog();
+        textInputDialog.setTitle("MultitaskAPP");
+        textInputDialog.setHeaderText("Añade un contacto");
+        textInputDialog.setContentText("Introduce el correo electronico del usuario:");
+
+        Optional<String> result = textInputDialog.showAndWait();
+        if (result.isPresent()){
+            int statusFriendship = Data.contactManager.sendFriendshipRequest(result.get());
+
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            switch (statusFriendship){
+                case 200:
+                    alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("MultitaskAPP");
+                    alert.setHeaderText("Solicitud enviada correctamente!");
+                    break;
+
+                case 401:
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("MultitaskAPP");
+                    alert.setHeaderText("No se ha encontrado el usuario con el correo especificado...");
+                    break;
+
+                case 402:
+                    alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("MultitaskAPP");
+                    alert.setHeaderText("Ya has mandado una solicitud de amistad anteriormente...");
+                    break;
+
+                case 403:
+                    alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("MultitaskAPP");
+                    alert.setHeaderText("No puedes mandarte una solcitud de amistad a ti mismo...");
+                    break;
+
+                case 404:
+                    alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("MultitaskAPP");
+                    alert.setHeaderText("Ya sois amigos...");
+
+                case 500:
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("MultitaskAPP");
+                    alert.setHeaderText("Error al mandar la solicitud de amistad...");
+                    break;
+
+            }
+
+            alert.showAndWait();
+
+        }
 
     }
 }
