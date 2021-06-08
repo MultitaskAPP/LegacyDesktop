@@ -12,6 +12,7 @@ import sample.utils.ImageTweakerTool;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GroupImpl implements IGroup {
 
@@ -51,6 +52,13 @@ public class GroupImpl implements IGroup {
                     user.setName(rawUser.getString("name"));
                     user.setFirstSurname(rawUser.getString("firstSurname"));
                     user.setLastSurname(rawUser.getString("lastSurname"));
+                    user.setVersionAvatar(rawUser.getInt("versionAvatar"));
+
+                    if (user.getVersionAvatar() == 0){
+                        user.setAvatarUser(new Image(new ImageTweakerTool(user.getIdUser()).getProfilePicUser()));
+                    }else{
+                        user.setAvatarUser(new Image(new ImageTweakerTool(user.getIdUser(), user.getVersionAvatar()).getProfilePicUser()));
+                    }
 
                     arrayUsers.add(user);
 
@@ -82,5 +90,154 @@ public class GroupImpl implements IGroup {
         }
 
         return arrayGroupIDs;
+    }
+
+    @Override
+    public List<Group> getAllGroupRequests() {
+
+        List<Group> groupRequestsList = new ArrayList<>();
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("userID", Data.userData.getIdUser());
+
+        ConnAPI connAPI = new ConnAPI("/api/groups/getGroupRequests", "POST", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        if (connAPI.getStatus() == 200){
+            JSONObject responseJSON = connAPI.getDataJSON();
+            JSONArray arrayJSON = responseJSON.getJSONArray("data");
+            for (int i = 0; i < arrayJSON.length(); i++){
+                JSONObject rawJSON = arrayJSON.getJSONObject(i);
+                Group group = new Group();
+                group.setIdGroup(rawJSON.getInt("idGroup"));
+                group.setNameGroup(rawJSON.getString("nameGroup"));
+                group.setDescriptionGroup(rawJSON.getString("descGroup"));
+                group.setOwnerUser(rawJSON.getInt("ownerUser"));
+                group.setColourGroup(Color.decode(rawJSON.getString("colourGroup")));
+                group.setAvatarGroup(new Image(new ImageTweakerTool(group.getIdGroup()).getProfilePicGroup()));
+                groupRequestsList.add(group);
+            }
+        }
+
+        return groupRequestsList;
+    }
+
+    @Override
+    public boolean createGroup(Group g) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("data", g.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/groups/createGroup", "POST", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        if (connAPI.getStatus() == 200){
+            g.setIdGroup(new JSONObject(connAPI.getDataJSON()).getInt("data"));
+            return true;
+        }
+
+        return false;
+
+    }
+
+    @Override
+    public boolean updateGroup(Group g) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("data", g.toJSONObject());
+
+        ConnAPI connAPI = new ConnAPI("/api/groups/updateGroup", "PUT", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+    }
+
+    @Override
+    public boolean leaveGroup(Group g) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("userID", Data.userData.getIdUser());
+        requestJSON.put("groupID", g.getIdGroup());
+
+        ConnAPI connAPI = new ConnAPI("/api/groups/leaveGroup", "DELETE", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+    }
+
+    @Override
+    public boolean deleteGroup(Group g) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("groupID", g.getIdGroup());
+
+        ConnAPI connAPI = new ConnAPI("/api/groups/deleteGroup", "DELETE", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+    }
+
+    @Override
+    public int addUserToGroup(String email, Group g) {
+
+        if (email.equalsIgnoreCase(Data.userData.getEmail()))
+            return 404;
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("groupID", g.getIdGroup());
+        requestJSON.put("email", email);
+
+        ConnAPI connAPI = new ConnAPI("/api/groups/addUser", "POST", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus();
+    }
+
+    @Override
+    public boolean removeUserToGroup(int userID, Group g) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("userID", userID);
+        requestJSON.put("groupID", g.getIdGroup());
+
+        ConnAPI connAPI = new ConnAPI("/api/groups/removeUser", "DELETE", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+    }
+
+    @Override
+    public boolean acceptGroupRequest(Group g) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("userID", Data.userData.getIdUser());
+        requestJSON.put("groupID", g.getIdGroup());
+
+        ConnAPI connAPI = new ConnAPI("/api/groups/accept", "PUT", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+    }
+
+    @Override
+    public boolean rejectGroupRequest(Group g) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("userID", Data.userData.getIdUser());
+        requestJSON.put("groupID", g.getIdGroup());
+
+        ConnAPI connAPI = new ConnAPI("/api/groups/reject", "PUT", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
     }
 }

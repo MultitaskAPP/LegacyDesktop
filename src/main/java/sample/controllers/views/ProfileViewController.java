@@ -36,6 +36,7 @@ import sample.controllers.MainController;
 import sample.controllers.dialogs.ProfileEditViewController;
 import sample.controllers.dialogs.ProfileSettingsViewController;
 import sample.models.Contact;
+import sample.models.Group;
 import sample.models.SocialMedia;
 import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
@@ -70,6 +71,7 @@ public class ProfileViewController implements Initializable {
         setAvatar();
         setSocialMedia(hBoxSocialMedia, Data.userData.getSocialMedia(), false);
         getFriendshipRequests();
+        getGroupRequests();
 
     }
 
@@ -168,7 +170,7 @@ public class ProfileViewController implements Initializable {
 
         List<Contact> friendshipRequestsList = Data.contactManager.getFriendshipRequests();
         if (friendshipRequestsList.size() != 0){
-            Label tagFriendships = new Label("SOLCITUDES DE AMISTAD:");
+            Label tagFriendships = new Label("SOLICITUDES DE AMISTAD:");
             tagFriendships.setPrefSize(430, 35);
             tagFriendships.setAlignment(Pos.CENTER);
             tagFriendships.setStyle("-fx-text-fill: white; -fx-font-size: 15");
@@ -184,6 +186,28 @@ public class ProfileViewController implements Initializable {
             vBoxLogRegister.getChildren().add(tagFriendships);
         }
 
+
+    }
+
+    private void getGroupRequests(){
+
+        List<Group> groupsRequestsList = Data.groupManager.getAllGroupRequests();
+        if (groupsRequestsList.size() != 0){
+            Label tagFriendships = new Label("INVITACIONES DE GRUPOS:");
+            tagFriendships.setPrefSize(430, 35);
+            tagFriendships.setAlignment(Pos.CENTER);
+            tagFriendships.setStyle("-fx-text-fill: white; -fx-font-size: 15");
+            vBoxLogRegister.getChildren().add(tagFriendships);
+            for (Group g : groupsRequestsList) {
+                vBoxLogRegister.getChildren().add(groupRequestView(g));
+            }
+        }else{
+            Label tagFriendships = new Label("NO HAY INVITACIONES DE GRUPOS PENDIENTES");
+            tagFriendships.setStyle("-fx-text-fill: white; -fx-font-size: 15");
+            tagFriendships.setAlignment(Pos.CENTER);
+            tagFriendships.setPrefSize(430, 35);
+            vBoxLogRegister.getChildren().add(tagFriendships);
+        }
 
     }
 
@@ -237,6 +261,102 @@ public class ProfileViewController implements Initializable {
         hBoxFriendship.getChildren().add(hBoxOptions);
 
         return hBoxFriendship;
+
+    }
+
+    private HBox groupRequestView(Group g){
+
+        HBox hBoxGroup = new HBox();
+        hBoxGroup.setAlignment(Pos.CENTER_LEFT);
+        hBoxGroup.setPrefSize(430, 55);
+        hBoxGroup.setPadding(new Insets(10));
+        hBoxGroup.setSpacing(10);
+        hBoxGroup.setStyle("-fx-background-color: #32323E; -fx-background-radius: 30");
+
+        Rectangle avatarGroup = new Rectangle(35, 35);
+        avatarGroup.setArcWidth(360);
+        avatarGroup.setArcHeight(360);
+        avatarGroup.setFill(new ImagePattern(new Image(g.getAvatarGroup().getUrl(), avatarGroup.getWidth(), avatarGroup.getHeight(), true, false)));
+        hBoxGroup.getChildren().add(avatarGroup);
+
+        Label tagGroup = new Label(g.toString());
+        tagGroup.setPrefSize(250, 35);
+        tagGroup.setStyle("-fx-text-fill: white; -fx-font-size: 15");
+        hBoxGroup.getChildren().add(tagGroup);
+
+        HBox hBoxOptions = new HBox();
+        hBoxOptions.setAlignment(Pos.CENTER_RIGHT);
+        hBoxOptions.setSpacing(10);
+
+        Button btnAcceptFriendship = new Button();
+        btnAcceptFriendship.setPrefSize(50, 35);
+        FontAwesomeIcon iconAdd = new FontAwesomeIcon();
+        iconAdd.setIcon(FontAwesomeIconName.PLUS);
+        iconAdd.setSize("25px");
+        iconAdd.setFill(Color.WHITE);
+        btnAcceptFriendship.setGraphic(iconAdd);
+        btnAcceptFriendship.setStyle("-fx-background-radius: 30; -fx-background-color:  #39CE39");
+        btnAcceptFriendship.setOnMouseClicked(event -> acceptGroupRequest(g, hBoxGroup));
+
+        Button btnRejectFriendship = new Button();
+        btnRejectFriendship.setPrefSize(50, 35);
+        FontAwesomeIcon iconReject = new FontAwesomeIcon();
+        iconReject.setIcon(FontAwesomeIconName.CLOSE);
+        iconReject.setSize("25px");
+        iconReject.setFill(Color.WHITE);
+        btnRejectFriendship.setGraphic(iconReject);
+        btnRejectFriendship.setStyle("-fx-background-color: #CE3939; -fx-background-radius: 30");
+        btnRejectFriendship.setOnMouseClicked(event -> rejectGroupRequest(g, hBoxGroup));
+
+        hBoxOptions.getChildren().add(btnAcceptFriendship);
+        hBoxOptions.getChildren().add(btnRejectFriendship);
+
+        hBoxGroup.getChildren().add(hBoxOptions);
+        return hBoxGroup;
+    }
+
+    private void acceptGroupRequest(Group g, HBox hBoxGroup) {
+
+        boolean success = Data.groupManager.acceptGroupRequest(g);
+        if (success){
+            vBoxLogRegister.getChildren().remove(hBoxGroup);
+            tagGroupsNumber.setText(Integer.toString(Data.arrayGroupsUser.size() + 1));
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Invitacion de grupo aceptada correctamente!");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Error al aceptar la invitacion al grupo...");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }
+
+    }
+
+    private void rejectGroupRequest(Group g, HBox hBoxGroup) {
+
+        boolean success = Data.groupManager.rejectGroupRequest(g);
+        if (success){
+            vBoxLogRegister.getChildren().remove(hBoxGroup);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Invitacion de grupo rechazada correctamente!");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Error al rechazar la invitacion de grupo...");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }
 
     }
 
@@ -408,7 +528,7 @@ public class ProfileViewController implements Initializable {
 
     @FXML
     void gotoGroups(MouseEvent event) {
-
+        mainController.gotoGroups(event);
     }
 
     @FXML
