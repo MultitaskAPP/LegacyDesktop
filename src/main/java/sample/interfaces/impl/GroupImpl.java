@@ -129,7 +129,7 @@ public class GroupImpl implements IGroup {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("data", g.toJSONObject());
 
-        ConnAPI connAPI = new ConnAPI("/api/groups/createGroup", "POST", true);
+        ConnAPI connAPI = new ConnAPI("/api/groups/createGroup", "POST", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -249,7 +249,7 @@ public class GroupImpl implements IGroup {
         requestJSON.put("id", groupID);
         requestJSON.put("versionAvatar", versionAvatar);
 
-        ConnAPI connAPI = new ConnAPI("/api/groups/updateAvatar", "PUT", true);
+        ConnAPI connAPI = new ConnAPI("/api/groups/updateAvatar", "PUT", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 

@@ -55,13 +55,13 @@ public class GroupViewController implements Initializable {
             Parent root = loader.load();
             GroupDialogController groupDialogController = loader.getController();
             groupDialogController.setGroupViewController(this);
+            groupDialogController.preloadData();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
             Data.setBlur();
             stage.show();
-            groupDialogController.preloadData();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -138,6 +138,7 @@ public class GroupViewController implements Initializable {
     private void getGroupData(HBox hBoxGroup, Group g) {
 
         styleContactList(hBoxGroup, g);
+        btnEditGroup.setOnMouseClicked(event -> updateGroup(g));
 
         if (g.getOwnerUser() == Data.userData.getIdUser()){
             btnEditGroup.setDisable(false);
@@ -170,6 +171,30 @@ public class GroupViewController implements Initializable {
 
         vBoxGroupData.setVisible(true);
 
+    }
+
+    private void updateGroup(Group g) {
+        try {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/groupDialog.fxml"));
+            Parent root = loader.load();
+            GroupDialogController groupDialogController = loader.getController();
+            groupDialogController.setGroupViewController(this);
+            groupDialogController.setSelectedGroup(g);
+            groupDialogController.setUpdateMode(true);
+            groupDialogController.preloadData();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
+            stage.show();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void leaveGroup(HBox hBoxGroup, Group g) {

@@ -53,7 +53,7 @@
                   </ScrollPane>
                </children>
             </VBox>
-            <VBox fx:id="vBoxGroupData" prefHeight="635.0" prefWidth="475.0" spacing="25.0">
+            <VBox fx:id="vBoxGroupData" prefHeight="635.0" prefWidth="475.0" spacing="25.0" visible="false">
                <children>
                   <HBox alignment="TOP_RIGHT" prefHeight="65.0" prefWidth="200.0" spacing="20.0">
                      <children>

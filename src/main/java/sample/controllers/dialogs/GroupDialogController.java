@@ -47,7 +47,7 @@ public class GroupDialogController implements Initializable {
     private GroupViewController groupViewController;
     private Image avatar = null;
     private File uploadedAvatar;
-    private boolean updateMode = false, userIsAdmin = false;
+    private boolean updateMode = false;
     private Group selectedGroup;
     private double x, y;
 
@@ -99,8 +99,9 @@ public class GroupDialogController implements Initializable {
         tfName.setText(selectedGroup.toString());
         textArea.setText(selectedGroup.getDescriptionGroup());
         colourPicker.setValue(Color.valueOf(selectedGroup.getHexCode()));
-
+        avatarGroup.setFill(new ImagePattern(new Image(selectedGroup.getAvatarGroup().getUrl(), avatarGroup.getWidth(), avatarGroup.getHeight(), true, false)));
         getUsers();
+        updateGroupView();
 
     }
 
@@ -109,6 +110,11 @@ public class GroupDialogController implements Initializable {
         anchorPaneGroup.setStyle("-fx-background-radius: 30; -fx-background-color: " + getHexCode(colourPicker.getValue()));
         tagName.setText(tfName.getText());
         tagDesc.setText(textArea.getText());
+
+        for (int i = 0; i < vBoxGroupUsers.getChildren().size(); i++){
+            HBox hBox = (HBox) vBoxGroupUsers.getChildren().get(i);
+            hBox.setStyle("-fx-background-radius: 30; -fx-background-color: " + getHexCode(colourPicker.getValue()));
+        }
 
     }
 
@@ -138,6 +144,7 @@ public class GroupDialogController implements Initializable {
         hBoxUser.setSpacing(15);
         hBoxUser.setPadding(new Insets(10));
         hBoxUser.setAlignment(Pos.CENTER_LEFT);
+        hBoxUser.setStyle("-fx-background-radius: 30; -fx-background-color:  #373743");
 
         Rectangle avatarUser = new Rectangle(30, 30);
         avatarUser.setArcHeight(360);
@@ -150,8 +157,9 @@ public class GroupDialogController implements Initializable {
         tagUserName.setStyle("-fx-text-fill: white; -fx-font-size: 15");
         hBoxUser.getChildren().add(tagUserName);
 
-        if (updateMode && userIsAdmin){
+        if (updateMode){
             MenuButton menuButton = new MenuButton();
+            menuButton.setStyle("-fx-background-color: transparent");
             FontAwesomeIcon iconMenu = new FontAwesomeIcon();
             iconMenu.setIcon(FontAwesomeIconName.ELLIPSIS_H);
             iconMenu.setFill(Color.WHITE);
@@ -233,10 +241,6 @@ public class GroupDialogController implements Initializable {
 
     public void setUpdateMode(boolean updateMode) {
         this.updateMode = updateMode;
-    }
-
-    public void setUserIsAdmin(boolean userIsAdmin) {
-        this.userIsAdmin = userIsAdmin;
     }
 
     public void setSelectedGroup(Group selectedGroup) {
