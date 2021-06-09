@@ -2,6 +2,7 @@ package sample.controllers.dialogs;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -16,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sample.controllers.views.GroupViewController;
 import sample.models.Group;
@@ -23,6 +25,10 @@ import sample.models.User;
 import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -39,6 +45,8 @@ public class GroupDialogController implements Initializable {
     @FXML    private TextArea textArea;
 
     private GroupViewController groupViewController;
+    private Image avatar = null;
+    private File uploadedAvatar;
     private boolean updateMode = false, userIsAdmin = false;
     private Group selectedGroup;
     private double x, y;
@@ -57,7 +65,8 @@ public class GroupDialogController implements Initializable {
         tfName.textProperty().addListener((observableValue, s, t1) -> updateGroupView());
         textArea.textProperty().addListener((observableValue, s, t1) -> updateGroupView());
         colourPicker.valueProperty().addListener((observableValue, color, t1) -> updateGroupView());
-        btnUpdateAvatar.setOnMouseClicked(event -> new ImageTweakerTool());
+        btnUpdateAvatar.setOnMouseClicked(event -> uploadAvatar());
+        btnCancel.setOnMouseClicked(this::close);
 
         if (selectedGroup != null){
             if (updateMode){
@@ -154,11 +163,67 @@ public class GroupDialogController implements Initializable {
 
     }
 
-    public void addGroup(){
+    private Group getData(){
+
+       if (!(tfName.getText().isBlank())){
+           Group group = new Group();
+           group.setNameGroup(tfName.getText());
+           group.setDescriptionGroup(textArea.getText());
+           group.setAvatarGroup(avatar);
+           group.setColourGroup(java.awt.Color.decode(getHexCode(colourPicker.getValue())));
+
+           if (selectedGroup != null){
+               group.setIdGroup(selectedGroup.getIdGroup());
+               group.setOwnerUser(selectedGroup.getOwnerUser());
+           }else{
+               group.setOwnerUser(Data.userData.getIdUser());
+           }
+
+           return group;
+
+       }else{
+           Alert alert = new Alert(Alert.AlertType.ERROR);
+           alert.setTitle("MultitaskAPP");
+           alert.setHeaderText("El grupo debe tener nombre...");
+           alert.showAndWait();
+       }
+
+       return null;
 
     }
 
+    public void addGroup(){
+
+        Group newGroup = getData();
+
+        if (newGroup != null){
+            newGroup = Data.groupManager.createGroup(newGroup);
+            if (newGroup != null){
+                ImageTweakerTool imageTweakerTool = new ImageTweakerTool(0, 0);
+                imageTweakerTool.uploadImageGroup(imageTweakerTool.transformImage(uploadedAvatar), Integer.toString(newGroup.getIdGroup()));
+                close(null);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("MultitaskAPP");
+                alert.setHeaderText("Grupo creado correctamente!");
+                alert.showAndWait();
+            }
+        }
+    }
+
     public void updateGroup(){
+
+    }
+
+    private void uploadAvatar(){
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagenes", "*.jpeg", "*.png", "*.jpg"));
+        uploadedAvatar = fileChooser.showOpenDialog(btnCancel.getScene().getWindow());
+        if (uploadedAvatar != null){
+            avatar = SwingFXUtils.toFXImage(new ImageTweakerTool(0).transformImage(uploadedAvatar), null);
+            System.out.println(avatar.getUrl());
+            avatarGroup.setFill(new ImagePattern(avatar));
+        }
 
     }
 
@@ -180,7 +245,7 @@ public class GroupDialogController implements Initializable {
 
     @FXML
     void close(MouseEvent event) {
-        Stage stage = (Stage) btnAddUser.getScene().getWindow();
+        Stage stage = (Stage) btnAdd.getScene().getWindow();
         stage.close();
         Data.removeBlur();
     }

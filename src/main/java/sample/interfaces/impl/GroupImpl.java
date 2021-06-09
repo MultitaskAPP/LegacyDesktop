@@ -124,7 +124,7 @@ public class GroupImpl implements IGroup {
     }
 
     @Override
-    public boolean createGroup(Group g) {
+    public Group createGroup(Group g) {
 
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("data", g.toJSONObject());
@@ -134,11 +134,12 @@ public class GroupImpl implements IGroup {
         connAPI.establishConn();
 
         if (connAPI.getStatus() == 200){
-            g.setIdGroup(new JSONObject(connAPI.getDataJSON()).getInt("data"));
-            return true;
+            JSONObject responseJSON = connAPI.getDataJSON();
+            g.setIdGroup(responseJSON.getInt("data"));
+            return g;
         }
 
-        return false;
+        return null;
 
     }
 
@@ -235,6 +236,20 @@ public class GroupImpl implements IGroup {
         requestJSON.put("groupID", g.getIdGroup());
 
         ConnAPI connAPI = new ConnAPI("/api/groups/reject", "PUT", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+    }
+
+    @Override
+    public boolean uploadAvatar(int groupID, int versionAvatar) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", groupID);
+        requestJSON.put("versionAvatar", versionAvatar);
+
+        ConnAPI connAPI = new ConnAPI("/api/groups/updateAvatar", "PUT", true);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 

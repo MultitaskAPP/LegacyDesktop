@@ -37,7 +37,7 @@ public class ImageTweakerTool {
         this.versionAvatar = versionAvatar;
     }
 
-    public String transformImage(File file, boolean isUser) {
+    public BufferedImage transformImage(File file) {
         if (file != null){
             try {
                 BufferedImage originalImgage = ImageIO.read(file);
@@ -55,12 +55,8 @@ public class ImageTweakerTool {
                     }
                 }
                 subImage = Scalr.resize(subImage, 256, 256);
-                if (isUser)
-                    return uploadImageUser(subImage, Integer.toString(userID));
-                else{
-                    return uploadImageGroup(subImage, Integer.toString(userID));
+                return subImage;
 
-                }
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("[ERROR] - Failed to transform the selected image...");
@@ -81,6 +77,7 @@ public class ImageTweakerTool {
                     "public_id", "profilePics/users/" + fileName
             ));
             System.out.println("[INFO] - Success! Uploaded to Cloudinary!");
+            outputfile.delete();
             Data.userManager.updateAvatar(userID, (Integer) mapUpload.get("version"));
             return (String) mapUpload.get("url");
 
@@ -102,7 +99,8 @@ public class ImageTweakerTool {
                     "public_id", "profilePics/groups/" + fileName
             ));
             System.out.println("[INFO] - Success! Uploaded to Cloudinary!");
-            Data.userManager.updateAvatar(userID, (Integer) mapUpload.get("version"));
+            outputfile.delete();
+            Data.groupManager.uploadAvatar(userID, (Integer) mapUpload.get("version"));
             return (String) mapUpload.get("url");
 
         } catch (IOException e) {

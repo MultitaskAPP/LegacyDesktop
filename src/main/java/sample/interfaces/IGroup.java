@@ -15,7 +15,7 @@ public interface IGroup {
 
     public List<Group> getAllGroupRequests();
 
-    public boolean createGroup(Group g);
+    public Group createGroup(Group g);
 
     public boolean updateGroup(Group g);
 
@@ -30,6 +30,8 @@ public interface IGroup {
     public boolean acceptGroupRequest(Group g);
 
     public boolean rejectGroupRequest(Group g);
+
+    public boolean uploadAvatar(int groupID, int versionAvatar);
 
 
 

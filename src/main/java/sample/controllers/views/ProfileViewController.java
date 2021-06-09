@@ -502,7 +502,7 @@ public class ProfileViewController implements Initializable {
     void uploadAvatar(ActionEvent event) {
         ImageTweakerTool imageTweakerTool = new ImageTweakerTool(Data.userData.getIdUser());
         File newAvatar = imageTweakerTool.importImage();
-        Data.userData.setAvatarUser(new Image(imageTweakerTool.transformImage(newAvatar)));
+        Data.userData.setAvatarUser(new Image(imageTweakerTool.uploadImageUser(imageTweakerTool.transformImage(newAvatar), Integer.toString(Data.userData.getIdUser()))));
         mainController.updateAvatar();
         setAvatar();
     }
