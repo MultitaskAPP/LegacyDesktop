@@ -84,11 +84,16 @@ public class GroupDialogController implements Initializable {
 
     public void viewMode(){
 
+        editMode();
+
         tfName.setDisable(true);
         textArea.setDisable(true);
         btnAddUser.setDisable(true);
         colourPicker.setDisable(true);
         btnUpdateAvatar.setDisable(true);
+        btnAdd.setDisable(true);
+        btnAddUser.setDisable(true);
+        tfAddUser.setDisable(true);
 
     }
 
@@ -177,14 +182,16 @@ public class GroupDialogController implements Initializable {
            Group group = new Group();
            group.setNameGroup(tfName.getText());
            group.setDescriptionGroup(textArea.getText());
-           group.setAvatarGroup(avatar);
            group.setColourGroup(java.awt.Color.decode(getHexCode(colourPicker.getValue())));
 
            if (selectedGroup != null){
                group.setIdGroup(selectedGroup.getIdGroup());
                group.setOwnerUser(selectedGroup.getOwnerUser());
+               group.setAvatarGroup(selectedGroup.getAvatarGroup());
            }else{
                group.setOwnerUser(Data.userData.getIdUser());
+               group.setAvatarGroup(avatar);
+
            }
 
            return group;
@@ -207,8 +214,10 @@ public class GroupDialogController implements Initializable {
         if (newGroup != null){
             newGroup = Data.groupManager.createGroup(newGroup);
             if (newGroup != null){
-                ImageTweakerTool imageTweakerTool = new ImageTweakerTool(0, 0);
-                imageTweakerTool.uploadImageGroup(imageTweakerTool.transformImage(uploadedAvatar), Integer.toString(newGroup.getIdGroup()));
+                if (uploadedAvatar != null){
+                    ImageTweakerTool imageTweakerTool = new ImageTweakerTool(newGroup.getIdGroup(), 0);
+                    imageTweakerTool.uploadImageGroup(imageTweakerTool.transformImage(uploadedAvatar), Integer.toString(newGroup.getIdGroup()));
+                }
                 close(null);
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("MultitaskAPP");
@@ -219,6 +228,23 @@ public class GroupDialogController implements Initializable {
     }
 
     public void updateGroup(){
+
+        Group newGroup = getData();
+
+        if (newGroup != null){
+            newGroup = Data.groupManager.updateGroup(newGroup);
+            if (newGroup != null){
+                if (uploadedAvatar != null){
+                    ImageTweakerTool imageTweakerTool = new ImageTweakerTool(newGroup.getIdGroup(), 0);
+                    imageTweakerTool.uploadImageGroup(imageTweakerTool.transformImage(uploadedAvatar), Integer.toString(newGroup.getIdGroup()));
+                }
+                close(null);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("MultitaskAPP");
+                alert.setHeaderText("Grupo actualizado correctamente!");
+                alert.showAndWait();
+            }
+        }
 
     }
 
@@ -249,9 +275,14 @@ public class GroupDialogController implements Initializable {
 
     @FXML
     void close(MouseEvent event) {
+        updateView();
         Stage stage = (Stage) btnAdd.getScene().getWindow();
         stage.close();
         Data.removeBlur();
+    }
+
+    private void updateView() {
+        groupViewController.getGroups();
     }
 
     @FXML

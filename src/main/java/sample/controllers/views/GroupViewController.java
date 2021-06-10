@@ -69,8 +69,9 @@ public class GroupViewController implements Initializable {
         }
     }
 
-    private void getGroups() {
+    public void getGroups() {
 
+        vBoxGroupData.setVisible(false);
         vBoxGroupsList.getChildren().clear();
         Data.arrayGroupsUser = Data.groupManager.getAllGroups(Data.userData.getIdUser());
         for (Group g : Data.arrayGroupsUser) {
@@ -138,24 +139,37 @@ public class GroupViewController implements Initializable {
     private void getGroupData(HBox hBoxGroup, Group g) {
 
         styleContactList(hBoxGroup, g);
-        btnEditGroup.setOnMouseClicked(event -> updateGroup(g));
 
         if (g.getOwnerUser() == Data.userData.getIdUser()){
-            btnEditGroup.setDisable(false);
             FontAwesomeIcon icon = new FontAwesomeIcon();
             icon.setIcon(FontAwesomeIconName.TRASH);
             icon.setFill(Color.WHITE);
             icon.setSize("3em");
             btnDeleteGroup.setGraphic(icon);
             btnDeleteGroup.setOnMouseClicked(event -> deleteGroup(hBoxGroup, g));
+
+            FontAwesomeIcon iconEdit = new FontAwesomeIcon();
+            iconEdit.setIcon(FontAwesomeIconName.PENCIL);
+            iconEdit.setFill(Color.WHITE);
+            iconEdit.setSize("3em");
+            btnEditGroup.setGraphic(iconEdit);
+            btnEditGroup.setOnMouseClicked(event -> updateGroup(g));
+
+
         }else{
-            btnEditGroup.setDisable(true);
             FontAwesomeIcon icon = new FontAwesomeIcon();
             icon.setIcon(FontAwesomeIconName.CLOSE);
             icon.setFill(Color.WHITE);
             icon.setSize("3em");
             btnDeleteGroup.setGraphic(icon);
             btnDeleteGroup.setOnMouseClicked(event -> leaveGroup(hBoxGroup, g));
+
+            FontAwesomeIcon iconEdit = new FontAwesomeIcon();
+            iconEdit.setIcon(FontAwesomeIconName.EYE);
+            iconEdit.setFill(Color.WHITE);
+            iconEdit.setSize("3em");
+            btnEditGroup.setGraphic(iconEdit);
+            btnEditGroup.setOnMouseClicked(event -> viewGroup(g));
         }
 
         hBoxGroupData.setStyle("-fx-background-radius: 30; -fx-background-color: " + g.getHexCode());
@@ -183,6 +197,30 @@ public class GroupViewController implements Initializable {
             groupDialogController.setGroupViewController(this);
             groupDialogController.setSelectedGroup(g);
             groupDialogController.setUpdateMode(true);
+            groupDialogController.preloadData();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
+            Data.setBlur();
+            stage.show();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void viewGroup(Group g){
+        try {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/groupDialog.fxml"));
+            Parent root = loader.load();
+            GroupDialogController groupDialogController = loader.getController();
+            groupDialogController.setGroupViewController(this);
+            groupDialogController.setSelectedGroup(g);
+            groupDialogController.setUpdateMode(false);
             groupDialogController.preloadData();
             Scene scene = new Scene(root);
             stage.setScene(scene);

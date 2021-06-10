@@ -53,15 +53,11 @@
                   </ScrollPane>
                </children>
             </VBox>
-            <VBox fx:id="vBoxGroupData" prefHeight="635.0" prefWidth="475.0" spacing="25.0" visible="false">
+            <VBox fx:id="vBoxGroupData" prefHeight="635.0" prefWidth="475.0" spacing="25.0">
                <children>
                   <HBox alignment="TOP_RIGHT" prefHeight="65.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <Button fx:id="btnEditGroup" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="65.0" style="-fx-background-radius: 360; -fx-background-color: #272730;" textAlignment="CENTER">
-                           <graphic>
-                              <FontAwesomeIcon fill="WHITE" iconName="PENCIL" size="3em" textAlignment="CENTER" wrappingWidth="37.285715103149414" />
-                           </graphic>
-                        </Button>
+                        <Button fx:id="btnEditGroup" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="65.0" style="-fx-background-radius: 360; -fx-background-color: #272730;" textAlignment="CENTER" />
                         <Button fx:id="btnDeleteGroup" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="65.0" style="-fx-background-radius: 360; -fx-background-color: #CE3939;" textAlignment="CENTER" />
                      </children>
                   </HBox>

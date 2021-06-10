@@ -40,7 +40,13 @@ public class GroupImpl implements IGroup {
                 group.setDescriptionGroup(rawData.getString("descGroup"));
                 group.setOwnerUser(rawData.getInt("ownerUser"));
                 group.setColourGroup(Color.decode(rawData.getString("colourGroup")));
-                group.setAvatarGroup(new Image(new ImageTweakerTool(group.getIdGroup()).getProfilePicGroup()));
+                group.setVersionAvatar(rawData.getInt("versionAvatar"));
+
+                if (group.getVersionAvatar() == 0){
+                    group.setAvatarGroup(new Image(new ImageTweakerTool(group.getIdGroup()).getProfilePicGroup()));
+                }else{
+                    group.setAvatarGroup(new Image(new ImageTweakerTool(group.getIdGroup(), group.getVersionAvatar()).getProfilePicGroup()));
+                }
 
                 ArrayList<User> arrayUsers = new ArrayList<>();
                 JSONArray arrayDataUsers = rawData.getJSONArray("users");
@@ -144,16 +150,19 @@ public class GroupImpl implements IGroup {
     }
 
     @Override
-    public boolean updateGroup(Group g) {
+    public Group updateGroup(Group g) {
 
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("data", g.toJSONObject());
 
-        ConnAPI connAPI = new ConnAPI("/api/groups/updateGroup", "PUT", true);
+        ConnAPI connAPI = new ConnAPI("/api/groups/updateGroup", "PUT", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
-        return connAPI.getStatus() == 200;
+        if (connAPI.getStatus() == 200)
+            return g;
+
+        return null;
     }
 
     @Override

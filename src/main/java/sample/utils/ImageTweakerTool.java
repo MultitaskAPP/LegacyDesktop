@@ -89,7 +89,7 @@ public class ImageTweakerTool {
 
     }
 
-    public String uploadImageGroup(BufferedImage subImage, String fileName){
+    public void uploadImageGroup(BufferedImage subImage, String fileName){
 
         try {
             File outputfile = new File(fileName + ".jpg");
@@ -101,13 +101,9 @@ public class ImageTweakerTool {
             System.out.println("[INFO] - Success! Uploaded to Cloudinary!");
             outputfile.delete();
             Data.groupManager.uploadAvatar(userID, (Integer) mapUpload.get("version"));
-            return (String) mapUpload.get("url");
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return null;
     }
 
     public File importImage(){
@@ -131,7 +127,6 @@ public class ImageTweakerTool {
             }else{
                 imageURL = Data.cloudAPI.url().version(versionAvatar).imageTag("profilePics/users/"+userID+".jpg");
             }
-            System.out.println(imageURL);
             String[] urlPic = imageURL.split("'");
             Image image = new Image(urlPic[1]);
             if (!image.isError()) {
@@ -147,7 +142,13 @@ public class ImageTweakerTool {
     public String getProfilePicGroup(){
         try {
             int groupID = userID;
-            String imageURL = Data.cloudAPI.url().imageTag("profilePics/groups/"+groupID+".jpg");
+            String imageURL;
+
+            if (versionAvatar == 0){
+                imageURL = Data.cloudAPI.url().imageTag("profilePics/groups/"+groupID+".jpg");
+            }else{
+                imageURL = Data.cloudAPI.url().version(versionAvatar).imageTag("profilePics/groups/"+groupID+".jpg");
+            }
             String[] urlPic = imageURL.split("'");
             Image image = new Image(urlPic[1]);
             if (!image.isError()) {

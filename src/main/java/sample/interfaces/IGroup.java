@@ -17,7 +17,7 @@ public interface IGroup {
 
     public Group createGroup(Group g);
 
-    public boolean updateGroup(Group g);
+    public Group updateGroup(Group g);
 
     public boolean leaveGroup(Group g);
 
