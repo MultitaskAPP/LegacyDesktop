@@ -173,7 +173,7 @@ public class GroupImpl implements IGroup {
         requestJSON.put("userID", Data.userData.getIdUser());
         requestJSON.put("groupID", g.getIdGroup());
 
-        ConnAPI connAPI = new ConnAPI("/api/groups/leaveGroup", "DELETE", true);
+        ConnAPI connAPI = new ConnAPI("/api/groups/leaveGroup", "DELETE", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
