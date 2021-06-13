@@ -12,6 +12,7 @@ import sample.utils.ImageTweakerTool;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GroupImpl implements IGroup {
@@ -106,7 +107,7 @@ public class GroupImpl implements IGroup {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("userID", Data.userData.getIdUser());
 
-        ConnAPI connAPI = new ConnAPI("/api/groups/getGroupRequests", "POST", false);
+        ConnAPI connAPI = new ConnAPI("/api/groups/getUserRequests", "POST", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -172,7 +173,7 @@ public class GroupImpl implements IGroup {
         requestJSON.put("userID", Data.userData.getIdUser());
         requestJSON.put("groupID", g.getIdGroup());
 
-        ConnAPI connAPI = new ConnAPI("/api/groups/leaveGroup", "DELETE", false);
+        ConnAPI connAPI = new ConnAPI("/api/groups/leaveGroup", "DELETE", true);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -193,10 +194,14 @@ public class GroupImpl implements IGroup {
     }
 
     @Override
-    public int addUserToGroup(String email, Group g) {
+    public HashMap<Integer, Integer> addUserToGroup(String email, Group g) {
 
-        if (email.equalsIgnoreCase(Data.userData.getEmail()))
-            return 404;
+        HashMap<Integer, Integer> hashMap = new HashMap<>();
+
+        if (email.equalsIgnoreCase(Data.userData.getEmail())) {
+            hashMap.put(404, 0);
+            return hashMap;
+        }
 
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("groupID", g.getIdGroup());
@@ -206,7 +211,12 @@ public class GroupImpl implements IGroup {
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
-        return connAPI.getStatus();
+        if (connAPI.getStatus() == 200)
+            hashMap.put(200, connAPI.getDataJSON().getInt("data"));
+        else
+            hashMap.put(connAPI.getStatus(), 0);
+
+        return hashMap;
     }
 
     @Override
@@ -263,5 +273,43 @@ public class GroupImpl implements IGroup {
         connAPI.establishConn();
 
         return connAPI.getStatus() == 200;
+    }
+
+    @Override
+    public List<User> getInvitedUsersToGroup(int groupID) {
+
+        List<User> requestUserList = new ArrayList<>();
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", groupID);
+
+        ConnAPI connAPI = new ConnAPI("/api/groups/getGroupRequests", "POST", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        if (connAPI.getStatus() == 200){
+            JSONObject responseJSON = connAPI.getDataJSON();
+            JSONArray arrayJSON = responseJSON.getJSONArray("data");
+            for (int i = 0; i < arrayJSON.length(); i++){
+                JSONObject rawJSON = arrayJSON.getJSONObject(i);
+                User user = new User();
+                user.setIdUser(rawJSON.getInt("idUser"));
+                user.setName(rawJSON.getString("name"));
+                user.setEmail(rawJSON.getString("email"));
+                user.setFirstSurname(rawJSON.getString("firstSurname"));
+                user.setLastSurname(rawJSON.getString("lastSurname"));
+                user.setVersionAvatar(rawJSON.getInt("versionAvatar"));
+
+                if (user.getVersionAvatar() == 0){
+                    user.setAvatarUser(new Image(new ImageTweakerTool(user.getIdUser()).getProfilePicUser()));
+                }else{
+                    user.setAvatarUser(new Image(new ImageTweakerTool(user.getIdUser(), user.getVersionAvatar()).getProfilePicUser()));
+                }
+
+                requestUserList.add(user);
+            }
+        }
+
+        return requestUserList;
     }
 }

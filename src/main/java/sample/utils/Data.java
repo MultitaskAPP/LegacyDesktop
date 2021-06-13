@@ -2,12 +2,13 @@ package sample.utils;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sample.interfaces.impl.*;
 import sample.models.Contact;
 import sample.models.Group;
-import sample.models.Theme;
 import sample.models.User;
 
 import java.io.FileNotFoundException;
@@ -30,7 +31,6 @@ public class Data {
     public static ArrayList<Group> arrayGroupsUser = new ArrayList<>();
     public static List<Contact> contactList = new ArrayList<>();
 
-    public static Date todayDate;
     public static Cloudinary cloudAPI = new Cloudinary(ObjectUtils.asMap(
             "cloud_name", "multitaskapp",
             "api_key", "169861562753297",

@@ -30,6 +30,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class GroupDialogController implements Initializable {
@@ -67,6 +69,7 @@ public class GroupDialogController implements Initializable {
         colourPicker.valueProperty().addListener((observableValue, color, t1) -> updateGroupView());
         btnUpdateAvatar.setOnMouseClicked(event -> uploadAvatar());
         btnCancel.setOnMouseClicked(this::close);
+        btnAddUser.setOnMouseClicked(event -> sendUserRequest());
 
         if (selectedGroup != null){
             if (updateMode){
@@ -82,7 +85,7 @@ public class GroupDialogController implements Initializable {
 
     }
 
-    public void viewMode(){
+    private void viewMode(){
 
         editMode();
 
@@ -97,7 +100,7 @@ public class GroupDialogController implements Initializable {
 
     }
 
-    public void editMode(){
+    private void editMode(){
 
         tagName.setText(selectedGroup.toString());
         tagDesc.setText(selectedGroup.getDescriptionGroup());
@@ -105,7 +108,8 @@ public class GroupDialogController implements Initializable {
         textArea.setText(selectedGroup.getDescriptionGroup());
         colourPicker.setValue(Color.valueOf(selectedGroup.getHexCode()));
         avatarGroup.setFill(new ImagePattern(new Image(selectedGroup.getAvatarGroup().getUrl(), avatarGroup.getWidth(), avatarGroup.getHeight(), true, false)));
-        getUsers();
+        btnAddUser.setOnMouseClicked(event -> sendUserRequest(selectedGroup));
+        getUsers(selectedGroup);
         updateGroupView();
 
     }
@@ -118,7 +122,8 @@ public class GroupDialogController implements Initializable {
 
         for (int i = 0; i < vBoxGroupUsers.getChildren().size(); i++){
             HBox hBox = (HBox) vBoxGroupUsers.getChildren().get(i);
-            hBox.setStyle("-fx-background-radius: 30; -fx-background-color: " + getHexCode(colourPicker.getValue()));
+            if (hBox.getId() != null)
+                hBox.setStyle("-fx-background-radius: 30; -fx-background-color: " + getHexCode(colourPicker.getValue()));
         }
 
     }
@@ -134,22 +139,42 @@ public class GroupDialogController implements Initializable {
         return String.format("#%02X%02X%02X", r, g, b);
     }
 
-    private void getUsers() {
+    private void getUsers(Group group) {
+
+        List<User> requestUsers = Data.groupManager.getInvitedUsersToGroup(group.getIdGroup());
 
         for (User u : selectedGroup.getArrayUsersGroup()) {
-            vBoxGroupUsers.getChildren().add(userView(u));
+            vBoxGroupUsers.getChildren().add(userView(group, u));
+        }
+
+        if (group.getOwnerUser() == Data.userData.getIdUser()){
+            HBox hBoxRequests = new HBox();
+            hBoxRequests.setPrefSize(325, 40);
+            hBoxRequests.setAlignment(Pos.CENTER);
+            hBoxRequests.setStyle("-fx-background-radius: 30; -fx-background-color: #373743");
+
+            Label tagRequestNumber = new Label("Se han invitado a [" + requestUsers.size() + "] a unirse al grupo.");
+            tagRequestNumber.setStyle("-fx-font-size: 15; -fx-text-fill: white");
+            hBoxRequests.getChildren().add(tagRequestNumber);
+
+            vBoxGroupUsers.getChildren().add(hBoxRequests);
+
+            for (User u : requestUsers) {
+                vBoxGroupUsers.getChildren().add(requestView(group, u));
+            }
         }
 
     }
 
-    private HBox userView(User u) {
+    private HBox userView(Group g, User u) {
 
         HBox hBoxUser = new HBox();
+        hBoxUser.setId("user");
         hBoxUser.setPrefSize(325, 50);
         hBoxUser.setSpacing(15);
         hBoxUser.setPadding(new Insets(10));
         hBoxUser.setAlignment(Pos.CENTER_LEFT);
-        hBoxUser.setStyle("-fx-background-radius: 30; -fx-background-color:  #373743");
+        hBoxUser.setStyle("-fx-background-radius: 30; -fx-background-color: " + getHexCode(colourPicker.getValue()));
 
         Rectangle avatarUser = new Rectangle(30, 30);
         avatarUser.setArcHeight(360);
@@ -162,8 +187,10 @@ public class GroupDialogController implements Initializable {
         tagUserName.setStyle("-fx-text-fill: white; -fx-font-size: 15");
         hBoxUser.getChildren().add(tagUserName);
 
-        if (updateMode){
-            MenuButton menuButton = new MenuButton();
+        if (updateMode && g.getOwnerUser() != u.getIdUser()){
+            MenuItem miDelete = new MenuItem("ELIMINAR");
+            miDelete.setOnAction(actionEvent -> deleteUser(g, u, hBoxUser));
+            MenuButton menuButton = new MenuButton(null, null, miDelete);
             menuButton.setStyle("-fx-background-color: transparent");
             FontAwesomeIcon iconMenu = new FontAwesomeIcon();
             iconMenu.setIcon(FontAwesomeIconName.ELLIPSIS_H);
@@ -173,6 +200,164 @@ public class GroupDialogController implements Initializable {
         }
 
         return hBoxUser;
+
+    }
+
+    private void deleteUser(Group g, User u, HBox hBox) {
+
+        boolean success = Data.groupManager.removeUserToGroup(u.getIdUser(), g);
+        if (success){
+            vBoxGroupUsers.getChildren().remove(hBox);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Usuario elimiado correctamente!");
+            alert.showAndWait();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Error al elimnar al usuario...");
+            alert.showAndWait();
+        }
+
+    }
+
+    private HBox requestView(User u){
+
+        HBox hBoxRequest = new HBox();
+        hBoxRequest.setId("request");
+        hBoxRequest.setPrefSize(325, 50);
+        hBoxRequest.setPadding(new Insets(10, 10, 10, 20));
+        hBoxRequest.setAlignment(Pos.CENTER_LEFT);
+        hBoxRequest.setStyle("-fx-background-radius: 30; -fx-background-color: " + getHexCode(colourPicker.getValue()));
+
+        Label tagEmail = new Label(u.getEmail());
+        tagEmail.setStyle("-fx-font-size: 15; -fx-text-fill: white");
+        tagEmail.setPrefSize(275, 30);
+
+        FontAwesomeIcon iconRemoveRequest = new FontAwesomeIcon();
+        iconRemoveRequest.setSize("20px");
+        iconRemoveRequest.setIcon(FontAwesomeIconName.CLOSE);
+        iconRemoveRequest.setFill(Color.WHITE);
+        iconRemoveRequest.setOnMouseClicked(event -> vBoxGroupUsers.getChildren().remove(hBoxRequest));
+
+        hBoxRequest.getChildren().add(tagEmail);
+        hBoxRequest.getChildren().add(iconRemoveRequest);
+
+        return hBoxRequest;
+
+    }
+
+    private HBox requestView(Group g, User u){
+
+        HBox hBoxRequest = new HBox();
+        hBoxRequest.setId("request");
+        hBoxRequest.setPrefSize(325, 50);
+        hBoxRequest.setPadding(new Insets(10, 10, 10, 20));
+        hBoxRequest.setAlignment(Pos.CENTER_LEFT);
+        hBoxRequest.setStyle("-fx-background-radius: 30; -fx-background-color: " + getHexCode(colourPicker.getValue()));
+
+        Label tagEmail = new Label(u.getEmail());
+        tagEmail.setStyle("-fx-font-size: 15; -fx-text-fill: white");
+        tagEmail.setPrefSize(275, 30);
+
+        FontAwesomeIcon iconRemoveRequest = new FontAwesomeIcon();
+        iconRemoveRequest.setSize("20px");
+        iconRemoveRequest.setIcon(FontAwesomeIconName.CLOSE);
+        iconRemoveRequest.setFill(Color.WHITE);
+        iconRemoveRequest.setOnMouseClicked(event -> deleteUserRequest(g, u, hBoxRequest));
+
+        hBoxRequest.getChildren().add(tagEmail);
+        hBoxRequest.getChildren().add(iconRemoveRequest);
+
+        return hBoxRequest;
+
+
+    }
+
+    private void deleteUserRequest(Group g, User u, HBox hBox) {
+
+        boolean success = Data.groupManager.removeUserToGroup(u.getIdUser(), g);
+        if (success){
+            vBoxGroupUsers.getChildren().remove(hBox);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Invitacion retirada correctamente!");
+            alert.showAndWait();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Error al retirar la invitacion...");
+            alert.showAndWait();
+        }
+
+    }
+
+    private void sendUserRequest(){
+
+        if (!(tfAddUser.getText().isBlank())){
+            if (!(tfAddUser.getText().equals(Data.userData.getEmail()))){
+                User user = new User();
+                user.setEmail(tfAddUser.getText());
+                vBoxGroupUsers.getChildren().add(requestView(user));
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("MultitaskAPP");
+                alert.setHeaderText("No puedes invitarte a ti mismo, al crear tu el grupo ya eres miembro automaticamente...");
+                alert.showAndWait();
+            }
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("El correo introducido esta en blanco o no es valido...");
+            alert.showAndWait();
+        }
+
+        tfAddUser.clear();
+
+    }
+
+    private void sendUserRequest(Group g){
+
+        if (!(tfAddUser.getText().isBlank())){
+            String email = tfAddUser.getText();
+            HashMap<Integer, Integer> hashMap = Data.groupManager.addUserToGroup(email, g);
+            Alert alert = null;
+            if (hashMap.containsKey(200)){
+                User user = new User();
+                user.setIdUser(hashMap.get(200));
+                user.setEmail(email);
+                vBoxGroupUsers.getChildren().add(requestView(g, user));
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("MultitaskAPP");
+                alert.setHeaderText("Invitacion al grupo mandada correctamente!");
+                alert.showAndWait();
+            } else if (hashMap.containsKey(401)) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("MultitaskAPP");
+                alert.setHeaderText("No se ha encontrado al usuario [" + email + "]...");
+                alert.showAndWait();
+            } else if (hashMap.containsKey(402)) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("MultitaskAPP");
+                alert.setHeaderText("Ya se ha mandado una invitacion a este usuario...");
+                alert.showAndWait();
+            } else if (hashMap.containsKey(403)) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("MultitaskAPP");
+                alert.setHeaderText("Este usuario ya es miembro del grupo...");
+                alert.showAndWait();
+            } else if (hashMap.containsKey(404)) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("MultitaskAPP");
+                alert.setHeaderText("No puedes invitarte al grupo a ti mismo...");
+                alert.showAndWait();
+            } else if (hashMap.containsKey(500)) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("MultitaskAPP");
+                alert.setHeaderText("Error al mandar la invitacion al usuario...");
+                alert.showAndWait();
+            }
+        }
 
     }
 
@@ -207,13 +392,26 @@ public class GroupDialogController implements Initializable {
 
     }
 
-    public void addGroup(){
+    private void addGroup(){
 
         Group newGroup = getData();
+        int requestsSended = 0;
+        int totalRequests = 0;
 
         if (newGroup != null){
             newGroup = Data.groupManager.createGroup(newGroup);
             if (newGroup != null){
+                for (int i = 0; i < vBoxGroupUsers.getChildren().size(); i++){
+                    HBox hBox = (HBox) vBoxGroupUsers.getChildren().get(i);
+                    if (hBox.getId().equals("request")){
+                        totalRequests++;
+                        Label tagEmail = (Label) hBox.getChildren().get(0);
+                        HashMap<Integer, Integer> hashMap = Data.groupManager.addUserToGroup(tagEmail.getText(), newGroup);
+                        if (hashMap.containsKey(200))
+                            requestsSended++;
+                    }
+                }
+
                 if (uploadedAvatar != null){
                     ImageTweakerTool imageTweakerTool = new ImageTweakerTool(newGroup.getIdGroup(), 0);
                     imageTweakerTool.uploadImageGroup(imageTweakerTool.transformImage(uploadedAvatar), Integer.toString(newGroup.getIdGroup()));
@@ -221,13 +419,17 @@ public class GroupDialogController implements Initializable {
                 close(null);
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("MultitaskAPP");
-                alert.setHeaderText("Grupo creado correctamente!");
+                if (totalRequests != 0){
+                    alert.setHeaderText("Grupo creado correctamente!. Se han invitado a ["+requestsSended + " de " + totalRequests + "] al grupo correctamente!");
+                }else{
+                    alert.setHeaderText("Grupo creado correctamente!");
+                }
                 alert.showAndWait();
             }
         }
     }
 
-    public void updateGroup(){
+    private void updateGroup(){
 
         Group newGroup = getData();
 
@@ -261,6 +463,10 @@ public class GroupDialogController implements Initializable {
 
     }
 
+    private void updateView() {
+        groupViewController.getGroups();
+    }
+
     public void setGroupViewController(GroupViewController groupViewController) {
         this.groupViewController = groupViewController;
     }
@@ -275,14 +481,11 @@ public class GroupDialogController implements Initializable {
 
     @FXML
     void close(MouseEvent event) {
-        updateView();
+        if (event == null)
+            updateView();
         Stage stage = (Stage) btnAdd.getScene().getWindow();
         stage.close();
         Data.removeBlur();
-    }
-
-    private void updateView() {
-        groupViewController.getGroups();
     }
 
     @FXML

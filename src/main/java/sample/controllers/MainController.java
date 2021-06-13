@@ -18,6 +18,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sample.controllers.views.DashboardViewController;
+import sample.controllers.views.GroupViewController;
 import sample.controllers.views.ProfileViewController;
 import sample.utils.Data;
 import sample.utils.ImageTweakerTool;
@@ -29,13 +30,13 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-    @FXML    private AnchorPane mainPane;
-    @FXML    private AnchorPane scenePane;
-
+    @FXML    private AnchorPane mainPane, scenePane;
     @FXML    private HBox btnDashboard, btnTasks, btnEvents, btnNotes, btnChats;
     @FXML    private HBox btnProfile, btnOptions;
     @FXML    private VBox vBoxButtons;
     @FXML    private Rectangle rectAvatar;
+
+    @FXML    public VBox dialogPane;
 
     public static double x, y;
 
@@ -221,6 +222,8 @@ public class MainController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("windows/views/groupView.fxml"));
             scenePane.getChildren().add(loader.load());
+            GroupViewController groupViewController = loader.getController();
+            groupViewController.setMainController(this);
             resetButtonStyles();
             setStyleButton(btnProfile);
             transitionEffect();
@@ -243,5 +246,11 @@ public class MainController implements Initializable {
 
     public void updateAvatar() {
         rectAvatar.setFill(new ImagePattern(new Image(Data.userData.getAvatarUser().getUrl(), rectAvatar.getWidth(), rectAvatar.getHeight(), true, false)));
+    }
+
+    public void openDialogPane(AnchorPane pane){
+        dialogPane.getChildren().clear();
+        dialogPane.getChildren().add(pane);
+        dialogPane.setVisible(true);
     }
 }

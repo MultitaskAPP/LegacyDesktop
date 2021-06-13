@@ -110,7 +110,6 @@ public class Schedule {
         scheduleJSON.put("nameSchedule", nameSchedule);
         scheduleJSON.put("idUser", idUser);
         scheduleJSON.put("idGroup", idGroup);
-        scheduleJSON.put("colourSchedule", getHexCode());
         scheduleJSON.put("listsSchedule", listsSchedules.toString());
         scheduleJSON.put("creationDate", creationDate);
 

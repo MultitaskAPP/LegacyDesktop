@@ -65,7 +65,10 @@ public class ProfileEditViewController implements Initializable {
         tfAddress.setText(Data.userData.getAddress());
         datePicker.setValue(Data.userData.getBirthday().toLocalDate());
 
-        cmbSocialMedia.getItems().addAll(arraySocialMedia);
+        if(arraySocialMedia != null){
+            cmbSocialMedia.getItems().addAll(arraySocialMedia);
+
+        }
 
     }
 

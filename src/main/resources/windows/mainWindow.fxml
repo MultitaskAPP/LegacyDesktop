@@ -146,5 +146,6 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <VBox fx:id="dialogPane" alignment="CENTER" fillWidth="false" layoutX="240.0" prefHeight="720.0" prefWidth="1040.0" visible="false" />
    </children>
 </AnchorPane>

@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -18,6 +19,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sample.controllers.MainController;
 import sample.controllers.dialogs.GroupDialogController;
 import sample.controllers.dialogs.ScheduleDialogController;
 import sample.models.Group;
@@ -38,6 +40,8 @@ public class GroupViewController implements Initializable {
     @FXML    private HBox hBoxGroupData;
     @FXML    private Rectangle avatarData;
     @FXML    private Label tagName, tagDesc, tagUsers;
+
+    private MainController mainController;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -247,6 +251,7 @@ public class GroupViewController implements Initializable {
         if (result.get() == ButtonType.OK){
             boolean success = Data.groupManager.leaveGroup(g);
             if (success){
+                Data.arrayGroupsUser.remove(g);
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("MultitaskAPP");
                 alert.setHeaderText("Has abandonado el grupo correctamente!");
@@ -277,6 +282,7 @@ public class GroupViewController implements Initializable {
         if (result.get() == ButtonType.OK){
             boolean success = Data.groupManager.deleteGroup(g);
             if (success){
+                Data.arrayGroupsUser.remove(g);
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("MultitaskAPP");
                 alert.setHeaderText("Has elimnado el grupo correctamente!");
@@ -303,4 +309,7 @@ public class GroupViewController implements Initializable {
         hBoxSelected.setStyle("-fx-background-radius: 30; -fx-background-color: " + g.getHexCode());
     }
 
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+    }
 }

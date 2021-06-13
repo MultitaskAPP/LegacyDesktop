@@ -5,6 +5,8 @@ import org.json.JSONObject;
 import sample.interfaces.ISchedule;
 import sample.models.Schedule;
 import sample.utils.ConnAPI;
+import sample.utils.Data;
+
 import java.awt.*;
 import java.sql.Date;
 import java.text.ParseException;
@@ -80,7 +82,7 @@ public class ScheduleImpl implements ISchedule {
                 schedule.setIdSchedule(rawJSON.getInt("idGroupSchedule"));
                 schedule.setNameSchedule(rawJSON.getString("nameGroupSchedule"));
                 schedule.setIdGroup(rawJSON.getInt("idGroup"));
-                schedule.setColourSchedule(Color.decode(rawJSON.getString("colourSchedule")));
+                schedule.setColourSchedule(Data.groupManager.getGroupByID(schedule.getIdGroup()).getColourGroup());
                 schedule.setListsSchedules(new JSONArray(rawJSON.getString("listsSchedule")));
 
                 try {
