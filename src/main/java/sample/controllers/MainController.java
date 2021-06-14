@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -26,16 +28,19 @@ import sample.utils.ImageTweakerTool;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
     @FXML    private AnchorPane mainPane, scenePane;
     @FXML    private HBox btnDashboard, btnTasks, btnEvents, btnNotes, btnChats;
-    @FXML    private HBox btnProfile, btnOptions;
+    @FXML    private HBox btnProfile;
     @FXML    private VBox vBoxButtons;
     @FXML    private Rectangle rectAvatar;
-
+    @FXML    private MenuButton btnOptions;
     @FXML    public VBox dialogPane;
 
     public static double x, y;
@@ -52,6 +57,16 @@ public class MainController implements Initializable {
         Image image = new Image(Data.userData.getAvatarUser().getUrl(), rectAvatar.getWidth(), rectAvatar.getHeight(), false, true);
         ImagePattern imagePattern = new ImagePattern(image);
         rectAvatar.setFill(imagePattern);
+
+        MenuItem miContacts = new MenuItem("CONTACTOS");
+        MenuItem miGroups = new MenuItem("GRUPOS");
+        MenuItem miCloud = new MenuItem("ALMACENAMIENTO");
+
+        miContacts.setOnAction(actionEvent -> gotoContacts(null));
+        miGroups.setOnAction(actionEvent -> gotoGroups(null));
+
+        Collection<MenuItem> menuItems = new ArrayList<>(Arrays.asList(miContacts, miGroups, miCloud));
+        btnOptions.getItems().addAll(menuItems);
     }
 
     private void resetButtonStyles(){
@@ -69,9 +84,13 @@ public class MainController implements Initializable {
 
     }
 
+    private void setStyleButton(MenuButton selectedButton){
+        selectedButton.setStyle("-fx-background-radius: 30; -fx-background-color: " + Data.userData.getHexCode());
+    }
+
     private void setStyleButton(HBox selectedButton){
 
-        if (selectedButton.equals(btnProfile) ||selectedButton.equals(btnOptions)){
+        if (selectedButton.equals(btnProfile)){
             selectedButton.setStyle("-fx-background-radius: 30; -fx-background-color: " + Data.userData.getHexCode());
             if (selectedButton.equals(btnProfile)){
                 Label tagButton = (Label) selectedButton.getChildren().get(1);
@@ -189,7 +208,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void gotoProfile(MouseEvent event) {
+    public void gotoProfile(MouseEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("windows/views/profileView.fxml"));
@@ -210,7 +229,7 @@ public class MainController implements Initializable {
             loader.setLocation(getClass().getClassLoader().getResource("windows/views/contactView.fxml"));
             scenePane.getChildren().add(loader.load());
             resetButtonStyles();
-            setStyleButton(btnProfile);
+            setStyleButton(btnOptions);
             transitionEffect();
         } catch (IOException e) {
             e.printStackTrace();
@@ -225,7 +244,7 @@ public class MainController implements Initializable {
             GroupViewController groupViewController = loader.getController();
             groupViewController.setMainController(this);
             resetButtonStyles();
-            setStyleButton(btnProfile);
+            setStyleButton(btnOptions);
             transitionEffect();
         } catch (IOException e) {
             e.printStackTrace();

@@ -27,9 +27,20 @@
     src: url('../res/fonts/Roboto-Black.ttf') format('ttf');
 }
 
-#tvDay, #tvMonth, #tagSummary,
+#tvDay {
+    -fx-font-family: "Roboto Medium";
+    -fx-font-size: 96;
+}
+
+#tvMonth{
+    -fx-font-family: "Roboto Medium";
+    -fx-font-size: 40;
+}
+
+#tagSummary,
 #tagEventsHeader, #tagTasksHeader, #tagCalendarHeader {
     -fx-font-family: "Roboto Medium";
+    -fx-font-size: 30;
 }
 
 .date-picker-popup{

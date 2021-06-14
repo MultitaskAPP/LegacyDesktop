@@ -3,13 +3,12 @@ package sample.utils;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
 import org.apache.commons.io.FilenameUtils;
 import org.imgscalr.Scalr;
 import org.json.JSONObject;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -107,12 +106,11 @@ public class ImageTweakerTool {
     }
 
     public File importImage(){
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filtroImagen=new FileNameExtensionFilter("JPG, JPEG & PNG","jpg", "jpeg","png");
-        fileChooser.setFileFilter(filtroImagen);
-        int seleccion = fileChooser.showOpenDialog(null);
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter filtroImagen=new FileChooser.ExtensionFilter("JPG, JPEG & PNG","*.jpg", "*.jpeg","*.png");
+        fileChooser.setSelectedExtensionFilter(filtroImagen);
+        File file = fileChooser.showOpenDialog(Data.mainStage);
+        if (file != null){
             return file;
         }
 

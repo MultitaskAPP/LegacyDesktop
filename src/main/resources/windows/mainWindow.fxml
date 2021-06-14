@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -106,16 +107,16 @@
       </VBox>
       <HBox alignment="CENTER_LEFT" layoutX="19.0" layoutY="627.0" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <HBox fx:id="btnOptions" alignment="CENTER" prefHeight="100.0" prefWidth="115.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
-               <children>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <MenuButton fx:id="btnOptions" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" graphicTextGap="0.0" maxHeight="50.0" maxWidth="50.0" mnemonicParsing="false" popupSide="TOP" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #272730; -fx-background-radius: 30;" textAlignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="38.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@res/icons/mt_add1_icon.png" />
                      </image>
                   </ImageView>
-               </children>
-            </HBox>
-            <HBox fx:id="btnProfile" alignment="CENTER_LEFT" onMouseClicked="#gotoProfile" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
+               </graphic>
+            </MenuButton>
+            <HBox fx:id="btnProfile" alignment="CENTER_LEFT" onMouseClicked="#gotoProfile" prefHeight="50.0" prefWidth="139.0" spacing="10.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
                <children>
                   <Rectangle fx:id="rectAvatar" arcHeight="360.0" arcWidth="360.0" fill="#272730" height="40.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="40.0" />
                   <Label fx:id="tagPerfil" text="TU PERFIL" textFill="WHITE">
