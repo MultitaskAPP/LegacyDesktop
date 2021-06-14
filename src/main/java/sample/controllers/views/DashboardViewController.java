@@ -29,12 +29,11 @@ import java.util.*;
 public class DashboardViewController implements Initializable {
 
     @FXML    private Label tvDay, tvMonth, tagSummary;
-    @FXML    private VBox paneCalendar, vBoxEvents, vBoxTasks;
+    @FXML    private VBox paneCalendar, vBoxEvents, vBoxTasks, vBoxNotifications;
 
     private List<Event> eventList = new ArrayList<>();
     private List<Task> taskList = new ArrayList<>();
     private List<Schedule> scheduleList;
-
     private DatePicker datePicker = new DatePicker(LocalDate.now());
     private MainController mainController;
 
@@ -60,6 +59,8 @@ public class DashboardViewController implements Initializable {
 
         loadTasks();
 
+        loadNotifications();
+
     }
 
     private void loadCalendar(){
@@ -77,7 +78,6 @@ public class DashboardViewController implements Initializable {
         eventList.addAll(eventsUser);
         eventList.addAll(eventsGroup);
 
-        Collections.sort(eventList, Comparator.comparing(Event::getDateStart));
         datePicker.setDayCellFactory(new EventViewController().getMarkedEvents(eventList));
 
         loadEvents(eventList);
@@ -106,7 +106,7 @@ public class DashboardViewController implements Initializable {
                 hBoxMoreEvents.setPrefSize(330, 50);
                 hBoxMoreEvents.setPadding(new Insets(10));
                 hBoxMoreEvents.setAlignment(Pos.CENTER);
-                hBoxMoreEvents.setStyle("-fx-background-color:  #32323E; -fx-background-radius: 30");
+                hBoxMoreEvents.setStyle("-fx-background-color:  #32323E; -fx-background-radius: 60");
                 hBoxMoreEvents.setOnMouseClicked(mouseEvent -> mainController.gotoEvents(null));
 
                 Label tagMoreEvents = new Label("Y " + (listEvents.size() - 5) + " eventos más");
@@ -166,9 +166,9 @@ public class DashboardViewController implements Initializable {
                 hBoxMoreTasks.setPrefSize(578, 55);
                 hBoxMoreTasks.setPadding(new Insets(10));
                 hBoxMoreTasks.setAlignment(Pos.CENTER);
-                hBoxMoreTasks.setStyle("-fx-background-color:  #32323E; -fx-background-radius: 15");
+                hBoxMoreTasks.setStyle("-fx-background-color:  #32323E; -fx-background-radius: 60");
 
-                Label tagMoreEvents = new Label("Y " + (taskList.size() - 5) + " tareas más");
+                Label tagMoreEvents = new Label("Y " + (taskList.size() - 5) + " tareas más!");
                 tagMoreEvents.setStyle("-fx-text-fill: white; -fx-font-size: 20; -fx-font-family: 'Roboto Light'");
 
                 hBoxMoreTasks.getChildren().add(tagMoreEvents);
@@ -186,9 +186,9 @@ public class DashboardViewController implements Initializable {
             hBoxNoTasks.setPrefSize(578, 55);
             hBoxNoTasks.setPadding(new Insets(10));
             hBoxNoTasks.setAlignment(Pos.CENTER);
-            hBoxNoTasks.setStyle("-fx-background-color:  #272730; -fx-background-radius: 15");
+            hBoxNoTasks.setStyle("-fx-background-color:  #272730; -fx-background-radius: 60");
 
-            Label tagNoEvents = new Label("No tienes tareas sin finalizar");
+            Label tagNoEvents = new Label("No tienes tareas sin finalizar. ¡Añade más desde Tareas!");
             tagNoEvents.setStyle("-fx-text-fill: white; -fx-font-size: 15; -fx-font-family: 'Roboto Light'");
 
             hBoxNoTasks.setOnMouseClicked(mouseEvent -> mainController.gotoTasks(null));
@@ -199,13 +199,66 @@ public class DashboardViewController implements Initializable {
         }
     }
 
+    private void loadNotifications(){
+
+        vBoxNotifications.getChildren().clear();
+
+        List<Notification> notificationsList = Data.notificationManager.getAllNotifications();
+        if (notificationsList.size() != 0){
+            for (Notification n : notificationsList) {
+                vBoxNotifications.getChildren().add(notificationView(n));
+            }
+        }else{
+            HBox hBoxNoNotif = new HBox();
+            hBoxNoNotif.setPrefSize(300, 35);
+            hBoxNoNotif.setAlignment(Pos.CENTER);
+            hBoxNoNotif.setStyle("-fx-background-radius: 30; -fx-background-color: #32323E");
+
+            Label tagNoNotif = new Label("No tienes notificaciones nuevas.");
+            tagNoNotif.setStyle("-fx-text-fill: white; -fx-font-size: 13");
+            hBoxNoNotif.getChildren().add(tagNoNotif);
+
+            vBoxNotifications.getChildren().add(hBoxNoNotif);
+        }
+    }
+
+    private HBox notificationView(Notification n) {
+
+        HBox hBoxNotification = new HBox();
+        hBoxNotification.setPrefSize(300, 35);
+        hBoxNotification.setAlignment(Pos.CENTER_LEFT);
+        hBoxNotification.setSpacing(10);
+        hBoxNotification.setPadding(new Insets(5));
+
+        Rectangle avatar = new Rectangle(25, 25);
+        avatar.setArcWidth(360);
+        avatar.setArcHeight(360);
+        if (n.isGroup()){
+            Group group = Data.groupManager.getGroupByID(n.getIdGroup());
+            avatar.setFill(new ImagePattern(new Image(group.getAvatarGroup().getUrl(), avatar.getWidth(), avatar.getHeight(), true, false)));
+            hBoxNotification.setStyle("-fx-background-radius: 30; -fx-background-color: " + group.getHexCode());
+        }else{
+            avatar.setFill(new ImagePattern(new Image(Data.userData.getAvatarUser().getUrl(), avatar.getWidth(), avatar.getHeight(), true, false)));
+            hBoxNotification.setStyle("-fx-background-radius: 30; -fx-background-color: " + Data.userData.getHexCode());
+        }
+
+        hBoxNotification.getChildren().add(avatar);
+
+        Label tagNotification = new Label(n.getTextNotification());
+        tagNotification.setStyle("-fx-text-fill: white; -fx-font-size: 13");
+
+        hBoxNotification.getChildren().add(tagNotification);
+
+        return hBoxNotification;
+    }
+
     private HBox eventView(Event e){
 
         HBox hBoxEvent = new HBox();
         hBoxEvent.setPrefSize(330, 75);
         hBoxEvent.setPadding(new Insets(10));
         hBoxEvent.setSpacing(10);
-        hBoxEvent.setStyle("-fx-background-color:  #272730; -fx-background-radius: 30");
+        hBoxEvent.setStyle("-fx-background-color:  #272730; -fx-background-radius: 60");
         hBoxEvent.setOnMouseClicked(mouseEvent -> mainController.gotoEvents(null));
 
         VBox vBoxDate = new VBox();
@@ -260,15 +313,15 @@ public class DashboardViewController implements Initializable {
 
         if (t.isGroup()){
             Schedule s = getSchedule(t.getIdSchedule(), true);
-            hBoxTask.setStyle("-fx-background-radius: 15; -fx-background-color: " + s.getHexCode());
+            hBoxTask.setStyle("-fx-background-radius: 60; -fx-background-color: " + s.getHexCode());
         }else{
-            hBoxTask.setStyle("-fx-background-radius: 15; -fx-background-color: #272730");
+            hBoxTask.setStyle("-fx-background-radius: 60; -fx-background-color: #272730");
         }
 
         Rectangle rectangle = new Rectangle(40, 40);
         rectangle.setStrokeWidth(0);
-        rectangle.setArcWidth(30);
-        rectangle.setArcHeight(30);
+        rectangle.setArcWidth(360);
+        rectangle.setArcHeight(360);
 
         Image image = null;
         if (t.isGroup()){

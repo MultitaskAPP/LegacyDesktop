@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import sample.interfaces.impl.*;
 import sample.models.Contact;
 import sample.models.Group;
+import sample.models.Notification;
 import sample.models.User;
 
 import java.io.FileNotFoundException;
@@ -44,6 +45,7 @@ public class Data {
     public static NoteImpl noteManager = new NoteImpl();
     public static EventImpl eventManager = new EventImpl();
     public static ContactImpl contactManager = new ContactImpl();
+    public static NotificationImpl notificationManager = new NotificationImpl();
 
     public static void storeProperties(Properties properties){
         try(OutputStream outputStream = new FileOutputStream("config.properties")){

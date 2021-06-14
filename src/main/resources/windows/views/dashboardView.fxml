@@ -9,9 +9,9 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="1040.0" style="-fx-background-color: #202027; -fx-background-radius: 50 0 0 50;" stylesheets="@../css/dashboardView.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.views.DashboardViewController">
    <children>
-      <AnchorPane fx:id="paneSummary" layoutX="37.0" layoutY="113.0" prefHeight="223.0" prefWidth="588.0" style="-fx-background-color: #272730; -fx-background-radius: 50;">
+      <AnchorPane fx:id="paneSummary" layoutX="37.0" layoutY="113.0" prefHeight="223.0" prefWidth="588.0" style="-fx-background-color: #272730; -fx-background-radius: 60;">
          <children>
-            <AnchorPane layoutX="22.0" layoutY="23.0" prefHeight="178.0" prefWidth="178.0" style="-fx-background-color: #32323E; -fx-background-radius: 50;">
+            <AnchorPane layoutX="22.0" layoutY="23.0" prefHeight="178.0" prefWidth="178.0" style="-fx-background-color: #32323E; -fx-background-radius: 60;">
                <children>
                   <Label fx:id="tvDay" alignment="CENTER" contentDisplay="CENTER" layoutY="11.0" prefHeight="117.0" prefWidth="179.0" text="01" textAlignment="CENTER" textFill="WHITE">
                      <font>
@@ -25,9 +25,9 @@
                   </Label>
                </children>
             </AnchorPane>
-            <ScrollPane layoutX="218.0" layoutY="23.0" prefHeight="178.0" prefWidth="344.0" style="-fx-background-color: transparent;">
+            <ScrollPane layoutX="218.0" layoutY="30.0" prefHeight="165.0" prefWidth="350.0" style="-fx-background-color: transparent;">
                <content>
-                  <VBox prefWidth="315.0" spacing="7.0" />
+                  <VBox fx:id="vBoxNotifications" prefWidth="321.0" spacing="7.0" />
                </content>
             </ScrollPane>
          </children>
@@ -51,9 +51,9 @@
          <content>
             <VBox fx:id="vBoxEvents" prefWidth="330.0" spacing="15.0">
                <children>
-                  <VBox fx:id="paneCalendar" alignment="CENTER" prefHeight="330.0" prefWidth="330.0" style="-fx-background-color: #272730; -fx-background-radius: 50;">
+                  <VBox fx:id="paneCalendar" alignment="CENTER" prefHeight="330.0" prefWidth="330.0" style="-fx-background-color: #272730; -fx-background-radius: 60;">
                      <padding>
-                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        <Insets bottom="18.0" left="18.0" right="18.0" top="18.0" />
                      </padding>
                   </VBox>
                   <Label fx:id="tagEventsHeader" alignment="CENTER" maxWidth="330.0" prefWidth="330.0" text="Proximos eventos:" textFill="WHITE">

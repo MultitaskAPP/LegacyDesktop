@@ -5,59 +5,44 @@ import javafx.scene.image.ImageView;
 
 public class Notification {
 
-    private ImageView avatar;
-    private Object sender;
-    private String content;
-    private Button btnClose;
+    private String textNotification;
+    private boolean isGroup;
+    private int idGroup;
 
-    public Notification () {}
+    public Notification(){};
 
-    public Notification(ImageView avatar, Object sender, String content, Button btnClose) {
-        this.avatar = avatar;
-        this.sender = sender;
-        this.content = content;
-        this.btnClose = btnClose;
+    public Notification(String textNotification, boolean isGroup, int idGroup) {
+        this.textNotification = textNotification;
+        this.isGroup = isGroup;
+        this.idGroup = idGroup;
     }
 
-    public ImageView getAvatar() {
-        return avatar;
+    public String getTextNotification() {
+        return textNotification;
     }
 
-    public void setAvatar(ImageView avatar) {
-        this.avatar = avatar;
+    public void setTextNotification(String textNotification) {
+        this.textNotification = textNotification;
     }
 
-    public Object getSender() {
-        return sender;
+    public boolean isGroup() {
+        return isGroup;
     }
 
-    public void setSender(Object sender) {
-        this.sender = sender;
+    public void setGroup(boolean group) {
+        isGroup = group;
     }
 
-    public String getContent() {
-        return content;
+    public int getIdGroup() {
+        return idGroup;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Button getBtnClose() {
-        return btnClose;
-    }
-
-    public void setBtnClose(Button btnClose) {
-        this.btnClose = btnClose;
+    public void setIdGroup(int idGroup) {
+        this.idGroup = idGroup;
     }
 
     @Override
     public String toString() {
-        return "Notification{" +
-                "avatar=" + avatar +
-                ", sender=" + sender +
-                ", content='" + content + '\'' +
-                ", btnClose=" + btnClose +
-                '}';
+        return textNotification;
     }
 }

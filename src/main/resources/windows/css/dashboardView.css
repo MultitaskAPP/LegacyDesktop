@@ -68,7 +68,7 @@
 
 .date-picker-popup > * > .date-cell {
     -fx-background-color: #32323E;
-    -fx-background-radius: 5;
+    -fx-background-radius: 7;
     -fx-border-color: transparent;
     -fx-background-insets: 5;
     -fx-pref-height: 50;

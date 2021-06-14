@@ -223,7 +223,7 @@ public class EventViewController implements Initializable {
         hBoxTime.setPrefSize(200, 40);
         hBoxTime.setSpacing(5);
 
-        ImageView ivTime = new ImageView(new Image(new File("src/main/java/sample/windows/res/mt_time_icon.png").toURI().toString()));
+        ImageView ivTime = new ImageView(new Image("windows/res/icons/mt_time_icon.png"));
         ivTime.setFitHeight(40);
         ivTime.setFitWidth(40);
 
