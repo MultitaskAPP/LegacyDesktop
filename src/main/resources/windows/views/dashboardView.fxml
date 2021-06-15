@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1040.0" style="-fx-background-color: #202027; -fx-background-radius: 50 0 0 50;" stylesheets="@../css/dashboardView.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.views.DashboardViewController">
+   <children>
+      <AnchorPane fx:id="paneSummary" layoutX="37.0" layoutY="113.0" prefHeight="223.0" prefWidth="588.0" style="-fx-background-color: #272730; -fx-background-radius: 60;">
+         <children>
+            <AnchorPane layoutX="22.0" layoutY="23.0" prefHeight="178.0" prefWidth="178.0" style="-fx-background-color: #32323E; -fx-background-radius: 60;">
+               <children>
+                  <Label fx:id="tvDay" alignment="CENTER" contentDisplay="CENTER" layoutY="11.0" prefHeight="117.0" prefWidth="179.0" text="01" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="96.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="tvMonth" alignment="CENTER" layoutX="-1.0" layoutY="102.0" prefHeight="58.0" prefWidth="179.0" text="MAIG" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <ScrollPane layoutX="218.0" layoutY="30.0" prefHeight="165.0" prefWidth="350.0" style="-fx-background-color: transparent;">
+               <content>
+                  <VBox fx:id="vBoxNotifications" prefWidth="321.0" spacing="7.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+      <Label fx:id="tagSummary" alignment="CENTER" contentDisplay="CENTER" layoutX="37.0" layoutY="54.0" prefHeight="38.0" prefWidth="588.0" text="Hola, #USERNAME!" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="tagCalendarHeader" alignment="CENTER" layoutX="662.0" layoutY="51.0" maxWidth="330.0" prefWidth="330.0" text="Calendario:" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="tagTasksHeader" alignment="CENTER" layoutX="48.0" layoutY="349.0" maxWidth="578.0" prefHeight="45.0" prefWidth="578.0" text="Tus tareas:" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <ScrollPane layoutX="662.0" layoutY="113.0" prefHeight="573.0" prefWidth="360.0" style="-fx-background-color: transparent;">
+         <content>
+            <VBox fx:id="vBoxEvents" prefWidth="330.0" spacing="15.0">
+               <children>
+                  <VBox fx:id="paneCalendar" alignment="CENTER" prefHeight="330.0" prefWidth="330.0" style="-fx-background-color: #272730; -fx-background-radius: 60;">
+                     <padding>
+                        <Insets bottom="18.0" left="18.0" right="18.0" top="18.0" />
+                     </padding>
+                  </VBox>
+                  <Label fx:id="tagEventsHeader" alignment="CENTER" maxWidth="330.0" prefWidth="330.0" text="Proximos eventos:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <ScrollPane layoutX="39.0" layoutY="405.0" prefHeight="280.0" prefWidth="611.0" style="-fx-background-color: transparent; -fx-background-radius: 15;">
+         <content>
+            <VBox fx:id="vBoxTasks" prefWidth="578.0" spacing="10.0" style="-fx-background-radius: 15;">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

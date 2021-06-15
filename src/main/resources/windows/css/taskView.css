@@ -1,0 +1,76 @@
+@font-face {
+    font-family: Roboto-Regular;
+    src: url('../res/fonts/Roboto-Regular.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: Roboto-Thin;
+    src: url('../res/fonts/Roboto-Thin.ttf') format('ttf');}
+
+@font-face {
+    font-family: Roboto-Medium;
+    src: url('../res/fonts/Roboto-Medium.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: Roboto-Light;
+    src: url('../res/fonts/Roboto-Light.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: Roboto-Bold;
+    src: url('../res/fonts/Roboto-Bold.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: Roboto-Black;
+    src: url('../res/fonts/Roboto-Black.ttf') format('ttf');
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow,
+.scroll-bar .increment-arrow:hover,
+.scroll-bar .decrement-arrow:hover {
+    -fx-background-color: transparent;
+}
+
+
+
+#scrollPaneSchedules {
+    -fx-border-width: 5px;
+    -fx-border-color:  #272730;
+    -fx-border-radius: 20px;
+}
+
+#scrollPaneSchedules .scroll-bar,
+#listView .scroll-bar,
+#scheduleView .scroll-bar {
+    -fx-background-color : #32323E;
+    -fx-border-color :transparent;
+    -fx-background-radius: 30px;
+    -fx-background-insets: 2 15 2 15;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: transparent;
+}
+
+#scrollPaneSchedules .scroll-bar .thumb,
+#listView .scroll-bar .thumb{
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 30px;
+}
+
+.scroll-bar {
+    -fx-background-color : #32323E;
+}
+
+.text-area{
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+.text-area *.text {
+    -fx-line-spacing: 5px;
+    -fx-text-alignment: center;
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="720.0" prefWidth="1040.0" style="-fx-background-color: #202027; -fx-background-radius: 50 0 0 50;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.views.NoteViewController">
+   <children>
+      <Label alignment="CENTER" layoutX="62.0" layoutY="69.0" prefHeight="17.0" prefWidth="916.0" text="Tus notas" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <ScrollPane layoutX="65.0" layoutY="129.0" prefHeight="550.0" prefWidth="910.0" style="-fx-background-color: transparent;" stylesheets="@../css/noteView.css">
+         <content>
+            <FlowPane fx:id="flNotes" hgap="25.0" orientation="VERTICAL" prefHeight="525.0" rowValignment="TOP" vgap="25.0">
+               <children>
+                  <VBox fx:id="btnAdd" alignment="CENTER" onMouseClicked="#addNote" prefHeight="100.0" prefWidth="285.0" style="-fx-background-color: #272730; -fx-background-radius: 30;">
+                     <children>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../res/icons/mt_add1_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Nueva nota" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="160.0" prefWidth="285.0" style="-fx-background-color: #D3324D; -fx-background-radius: 30;">
+                     <children>
+                        <Label text="LISTA DE LA COMPRA" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <TextArea prefWidth="200.0" style="-fx-background-color: transparent;" text="Lorem ipsum dolor sit amet consectetur adipiscing elit massa, elementum congue sodales magnis porttitor curae molestie arcu, " wrapText="true">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextArea>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </FlowPane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

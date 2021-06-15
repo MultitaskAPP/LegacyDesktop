@@ -1,6 +1,11 @@
 package sample.models;
 
-import java.util.Date;
+import javafx.scene.image.Image;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.awt.*;
+import java.sql.Date;
 
 public class User {
 
@@ -8,11 +13,17 @@ public class User {
     private String email, name, firstSurname, lastSurname;
     private Date birthday;
     private int tlf;
-    private String colourUser, pass;
+    private String pass;
+    private Color colourUser;
+    private Image avatarUser;
+    private int versionAvatar;
+    private JSONArray privacitySettings;
+    private JSONObject socialMedia;
+    private String address;
 
     public User(){}
 
-    public User(int idUser, String email, String name, String firstSurname, String lastSurname, Date birthday, int tlf, String colourUser, String pass) {
+    public User(int idUser, String email, String name, String firstSurname, String lastSurname, Date birthday, int tlf, String pass, Color colourUser, Image avatarUser, int versionAvatar, String address, JSONArray privacitySettings, JSONObject socialMedia) {
         this.idUser = idUser;
         this.email = email;
         this.name = name;
@@ -20,8 +31,13 @@ public class User {
         this.lastSurname = lastSurname;
         this.birthday = birthday;
         this.tlf = tlf;
-        this.colourUser = colourUser;
         this.pass = pass;
+        this.colourUser = colourUser;
+        this.avatarUser = avatarUser;
+        this.versionAvatar = versionAvatar;
+        this.privacitySettings = privacitySettings;
+        this.socialMedia = socialMedia;
+        this.address = address;
     }
 
     public int getIdUser() {
@@ -80,11 +96,11 @@ public class User {
         this.tlf = tlf;
     }
 
-    public String getColourUser() {
+    public Color getColourUser() {
         return colourUser;
     }
 
-    public void setColourUser(String colourUser) {
+    public void setColourUser(Color colourUser) {
         this.colourUser = colourUser;
     }
 
@@ -96,8 +112,72 @@ public class User {
         this.pass = pass;
     }
 
+    public Image getAvatarUser() {
+        return avatarUser;
+    }
+
+    public void setAvatarUser(Image avatarUser) {
+        this.avatarUser = avatarUser;
+    }
+
+    public int getVersionAvatar() {
+        return versionAvatar;
+    }
+
+    public void setVersionAvatar(int versionAvatar) {
+        this.versionAvatar = versionAvatar;
+    }
+
+    public JSONArray getPrivacitySettings() {
+        return privacitySettings;
+    }
+
+    public void setPrivacitySettings(JSONArray privacitySettings) {
+        this.privacitySettings = privacitySettings;
+    }
+
+    public JSONObject getSocialMedia() {
+        return socialMedia;
+    }
+
+    public void setSocialMedia(JSONObject socialMedia) {
+        this.socialMedia = socialMedia;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getHexCode(){
+
+        int r = colourUser.getRed();
+        int g = colourUser.getGreen();
+        int b = colourUser.getBlue();
+
+        return String.format("#%02X%02X%02X", r, g, b);
+    }
+
     @Override
     public String toString() {
         return name + " " + firstSurname + " " + lastSurname;
+    }
+
+    public JSONObject toJSONObject() {
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", name);
+        jsonObject.put("firstSurname", firstSurname);
+        jsonObject.put("lastSurname", lastSurname);
+        jsonObject.put("birthday", birthday);
+        jsonObject.put("tlf", tlf);
+        jsonObject.put("socialMedia", socialMedia);
+        jsonObject.put("address", address);
+
+        return jsonObject;
+
     }
 }

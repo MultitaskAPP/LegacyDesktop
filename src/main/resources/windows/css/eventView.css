@@ -1,0 +1,115 @@
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+    -fx-hbar-policy:never;
+    -fx-vbar-policy:never;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+.text-area{
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+.text-area *.text {
+    -fx-text-alignment: center;
+}
+.date-picker-popup{
+    -fx-background-color: transparent;
+}
+.date-picker-popup .calendar-grid {
+    -fx-pref-width: 600.0;
+    -fx-pref-height: 600.0;
+    -fx-background-color: transparent;
+}
+.date-picker-popup .spinner-label {
+    -fx-font-size: 15.0;
+    -fx-text-fill: white;
+    -fx-background-color: #32323E;
+}
+.date-picker-popup > * > .spinner > .left-button,
+.date-picker-popup > * > .spinner > .right-button,
+.date-picker-popup > * > .spinner > .left-button.selected,
+.date-picker-popup > * > .spinner > .right-button.selected {
+    -fx-background-color: transparent;
+}
+
+.date-picker-popup > .month-year-pane  {
+    -fx-background-color: transparent;
+}
+
+.date-picker-popup > * > .date-cell {
+    -fx-background-color: #32323E;
+    -fx-background-radius: 5;
+    -fx-border-color: transparent;
+    -fx-background-insets: 5;
+    -fx-pref-height: 75;
+    -fx-pref-width: 75;
+    -fx-padding: 0;
+    -fx-alignment: BASELINE_CENTER;
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+}
+
+.date-picker-popup > * > .today.selected,
+.date-picker-popup > * > .date-cell.selected {
+    -fx-background-color: #121214;
+    -fx-font-weight: bold;
+    -fx-border-color: white;
+    -fx-border-width: 1;
+    -fx-border-insets: 5;
+    -fx-border-radius: 5;
+}
+
+.date-picker-popup > * > .previous-month,
+.date-picker-popup > * > .next-month {
+    -fx-opacity: 0.4;
+    -fx-text-fill: #B8C5D3;
+}
+
+.date-picker-popup > * > .day-name-cell,
+.date-picker-popup > * > .week-number-cell {
+    -fx-background-color: transparent
+}
+
+.date-picker-popup > * > .spinner {
+    -fx-spacing: 0.25em; /* 3 */
+    -fx-alignment: CENTER;
+    -fx-fill-height: false;
+    -fx-background-color: #32323E;
+    -fx-background-radius: 5;
+    -fx-padding:15 10 15 10;
+}
+
+.scroll-bar:vertical{
+    -fx-background-color :#32323E;
+    -fx-border-color :#32323E;
+    -fx-background-radius : 30px;
+    -fx-border-radius: 25px;
+    -fx-border-width: 2px;
+
+}
+
+.scroll-bar:vertical .thumb{
+    -fx-background-color :#FFFFFF;
+    -fx-border-color :#FFFFFF;
+    -fx-border-radius: 30px;
+    -fx-border-width: 10px;
+
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow{
+    -fx-background-color: transparent;
+}

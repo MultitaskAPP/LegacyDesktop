@@ -1,5 +1,7 @@
 package sample.controllers;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -8,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -16,6 +19,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.LinearGradient;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.json.JSONArray;
@@ -99,37 +103,51 @@ public class LoginController implements Initializable {
         if (tfEmail.getText().contains("@"))
             validated = true;
 
-        if (validated){
+        if (validated) {
             JSONObject requestJSON = new JSONObject();
             requestJSON.put("email", tfEmail.getText());
             requestJSON.put("pass", Encrypter.hashMD5(pfPassword.getText()));
-
-            ConnAPI connAPI = new ConnAPI("/api/login", "POST", false);
-            connAPI.setData(requestJSON);
-            connAPI.establishConn();
-
-            JSONObject responseJSON = connAPI.getDataJSON();
-            int status = connAPI.getStatus();
-            switch (status){
-                case 0:
-                    System.out.println("[DEBUG] - Error al contactar con la API");
-                    break;
-
-                case 200:
-                    JSONArray arrayJSON = new JSONArray(responseJSON.getJSONArray("data"));
-                    Data.userData = Data.userManager.getUserData(arrayJSON.getJSONObject(0));
-                    System.out.println("[DEBUG] - Login Ok! Obtenida información del usuario!");
-                    gotoMainWindow();
-                    break;
-
-                case 500:
-                    String errorMSG = responseJSON.getString("message");
-                    System.out.println("[ERROR] - " + errorMSG);
-                    pfPassword.clear();
-                    break;
-            }
+            apiLogin(requestJSON);
         }else {
             System.out.println("[DEBUG] - Datos no válidos...");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP | DESKTOP");
+            alert.setHeaderText("Datos invalidos...");
+            alert.showAndWait();
+        }
+
+    }
+
+    private void apiLogin(JSONObject requestJSON){
+
+        ConnAPI connAPI = new ConnAPI("/api/login", "POST", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        int status = connAPI.getStatus();
+        switch (status){
+            case 0:
+                System.out.println("[DEBUG] - Error al contactar con la API");
+                break;
+
+            case 200:
+                JSONObject responseJSON = connAPI.getDataJSON();
+                JSONArray arrayJSON = new JSONArray(responseJSON.getJSONArray("data"));
+                Data.userData = Data.userManager.getUserData(arrayJSON.getJSONObject(0));
+                Data.arrayGroupsUser = Data.groupManager.getAllGroups(Data.userData.getIdUser());
+                Data.contactList = Data.contactManager.getAllContacts();
+                storeLoginStatus();
+                gotoMainWindow();
+                break;
+
+            case 500:
+                System.out.println("[ERROR] - Datos erroneos...");
+                pfPassword.clear();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("MultitaskAPP | DESKTOP");
+                alert.setHeaderText("Login incorrecto...");
+                alert.showAndWait();
+                break;
         }
     }
 
@@ -155,10 +173,14 @@ public class LoginController implements Initializable {
             registerData.put("name", rTfName.getText());
             registerData.put("email", rTfEmail.getText());
             registerData.put("password", Encrypter.hashMD5(rPfPassword1.getText()));
+
             if (!rTfSurname1.getText().isBlank())
                 registerData.put("firstSurname", rTfSurname1.getText());
+            else registerData.put("firstSurname", "");
+
             if (!rTfSurname2.getText().isBlank())
                 registerData.put("lastSurname", rTfSurname2.getText());
+            else registerData.put("lastSurname", "");
 
             // Llamada API para registrar el usuario
 
@@ -178,9 +200,10 @@ public class LoginController implements Initializable {
 
                 case 200:
                     System.out.println("[DEBUG] - Usuario registrado correctamente!");
-                    JSONObject result = responseJSON.getJSONObject("data");
-                    Data.userData = Data.userManager.getUserData(result);
-                    gotoMainWindow();
+                    JSONObject loginJSON = new JSONObject();
+                    loginJSON.put("email", rTfEmail.getText());
+                    loginJSON.put("pass", Encrypter.hashMD5(rPfPassword1.getText()));
+                    apiLogin(loginJSON);
                     break;
 
                 case 500:
@@ -197,15 +220,18 @@ public class LoginController implements Initializable {
     private void gotoMainWindow(){
         try {
             Stage stage = new Stage();
-            URL url = new File("src/main/java/sample/windows/mainWindow.fxml").toURI().toURL();
-            Parent root = FXMLLoader.load(url);
+            // URL url = new File("src/main/java/sample/windows/mainWindow.fxml").toURI().toURL();
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getClassLoader().getResource("windows/mainWindow.fxml"));
+            Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("MultitaskAPP | DESKTOP");
             stage.initStyle(StageStyle.UNDECORATED);
-            url = new File("src/main/java/sample/windows/res/multitask_icon.png").toURI().toURL();
-            Image icon = new Image(String.valueOf(url));
+            Image icon = new Image("windows/res/icons/multitask_icon.png");
             stage.getIcons().add(icon);
+            stage.getScene().setFill(LinearGradient.valueOf("from 0% 0% to 100% 0%, #121214 0%,  #121214 21%, #202027 22%, #202027 100%"));
+            Data.mainStage = stage;
             stage.show();
 
             Stage thisStage = (Stage) btnRegister.getScene().getWindow();
@@ -214,7 +240,13 @@ public class LoginController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    private void storeLoginStatus(){
+        Algorithm algorithm = Algorithm.HMAC256("b568ef297c5755b85e7a0df8783ce04b");
+        String token = JWT.create().withSubject(Integer.toString(Data.userData.getIdUser())).sign(algorithm);
+        Data.properties.setProperty("tokenLogin", token);
+        Data.storeProperties(Data.properties);
     }
 
     @FXML

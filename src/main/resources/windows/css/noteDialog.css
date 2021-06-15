@@ -1,0 +1,57 @@
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+    -fx-hbar-policy:never;
+    -fx-vbar-policy:never;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+.text-area{
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.text-field{
+    -fx-text-fill: white;
+    -fx-font-family: Arial;
+    -fx-alignment: center;
+    -fx-font-size: 20;
+}
+
+.combo-box > .label{
+    -fx-text-fill: white;
+    -fx-font-family: Arial;
+    -fx-alignment: center;
+    -fx-font-size: 20;
+}
+
+.combo-box .arrow{
+    -fx-background-color: white;
+}
+
+.combo-box .cell:selected {
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}
+
+.menu-button > .arrow-button {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+
+.menu-button > .arrow-button > .arrow {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}

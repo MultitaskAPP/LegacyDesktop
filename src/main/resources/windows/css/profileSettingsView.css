@@ -1,0 +1,38 @@
+.password-field{
+    -fx-text-fill: white;
+    -fx-pref-height: 55;
+    -fx-padding: 10;
+    -fx-background-color: #32323E;
+    -fx-background-radius: 30;
+}
+
+.text-field{
+    -fx-text-fill: white;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+    -fx-background-radius: 30;
+}
+
+.scroll-bar:vertical{
+    -fx-background-color :#32323E;
+    -fx-border-color :#32323E;
+    -fx-background-radius : 30px;
+    -fx-border-radius: 25px;
+    -fx-border-width: 2px;
+
+}
+
+.scroll-bar:vertical .thumb{
+    -fx-background-color :#FFFFFF;
+    -fx-border-color :#FFFFFF;
+    -fx-border-radius: 30px;
+    -fx-border-width: 10px;
+
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow{
+    -fx-background-color: transparent;
+}

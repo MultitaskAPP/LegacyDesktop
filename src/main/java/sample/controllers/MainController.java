@@ -1,32 +1,108 @@
 package sample.controllers;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.animation.FadeTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import sample.controllers.views.DashboardViewController;
+import sample.controllers.views.GroupViewController;
+import sample.controllers.views.ProfileViewController;
+import sample.utils.Data;
+import sample.utils.ImageTweakerTool;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-    @FXML    private AnchorPane mainPane;
-    @FXML    private AnchorPane scenePane;
+    @FXML    private AnchorPane mainPane, scenePane;
+    @FXML    private HBox btnDashboard, btnTasks, btnEvents, btnNotes, btnChats;
+    @FXML    private HBox btnProfile;
+    @FXML    private VBox vBoxButtons;
+    @FXML    private Rectangle rectAvatar;
+    @FXML    private MenuButton btnOptions;
+    @FXML    public VBox dialogPane;
 
     public static double x, y;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        preloadMenu();
         gotoDashboard(null);
 
+    }
+
+    private void preloadMenu(){
+        Image image = new Image(Data.userData.getAvatarUser().getUrl(), rectAvatar.getWidth(), rectAvatar.getHeight(), false, true);
+        ImagePattern imagePattern = new ImagePattern(image);
+        rectAvatar.setFill(imagePattern);
+
+        MenuItem miContacts = new MenuItem("CONTACTOS");
+        MenuItem miGroups = new MenuItem("GRUPOS");
+        MenuItem miCloud = new MenuItem("ALMACENAMIENTO");
+
+        miContacts.setOnAction(actionEvent -> gotoContacts(null));
+        miGroups.setOnAction(actionEvent -> gotoGroups(null));
+
+        Collection<MenuItem> menuItems = new ArrayList<>(Arrays.asList(miContacts, miGroups, miCloud));
+        btnOptions.getItems().addAll(menuItems);
+    }
+
+    private void resetButtonStyles(){
+        for (int i = 0; i < vBoxButtons.getChildren().size(); i++){
+            HBox hBox = (HBox) vBoxButtons.getChildren().get(i);
+            Label tagButton = (Label) hBox.getChildren().get(1);
+            tagButton.setStyle("-fx-font-family: 'Roboto Light'");
+            hBox.setStyle("-fx-background-color: transparent; -fx-background-radius: 0");
+            FontAwesomeIcon icon = (FontAwesomeIcon) hBox.getChildren().get(0);
+            icon.setFill(Paint.valueOf("#FFFFFF"));
+        }
+
+        btnProfile.setStyle("-fx-background-color:  #272730; -fx-background-radius: 30");
+        btnOptions.setStyle("-fx-background-color:  #272730; -fx-background-radius: 30");
+
+    }
+
+    private void setStyleButton(MenuButton selectedButton){
+        selectedButton.setStyle("-fx-background-radius: 30; -fx-background-color: " + Data.userData.getHexCode());
+    }
+
+    private void setStyleButton(HBox selectedButton){
+
+        if (selectedButton.equals(btnProfile)){
+            selectedButton.setStyle("-fx-background-radius: 30; -fx-background-color: " + Data.userData.getHexCode());
+            if (selectedButton.equals(btnProfile)){
+                Label tagButton = (Label) selectedButton.getChildren().get(1);
+                tagButton.setStyle("-fx-font-family: 'Roboto Medium'");
+            }
+        }else{
+            selectedButton.setStyle("-fx-background-color: #202027; -fx-background-radius: 30");
+            FontAwesomeIcon selectedIcon = (FontAwesomeIcon) selectedButton.getChildren().get(0);
+            selectedIcon.setFill(Paint.valueOf(Data.userData.getHexCode()));
+            Label tagButton = (Label) selectedButton.getChildren().get(1);
+            tagButton.setStyle("-fx-font-family: 'Roboto Medium'");
+        }
     }
 
     @FXML
@@ -57,22 +133,118 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void gotoDashboard(ActionEvent event) {
+    public void gotoDashboard(MouseEvent event) {
         try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/dashboardView.fxml"));
+            scenePane.getChildren().add(loader.load());
+            DashboardViewController dashboardViewController = loader.getController();
+            dashboardViewController.preloadData();
+            dashboardViewController.setMainController(this);
+            resetButtonStyles();
+            setStyleButton(btnDashboard);
             transitionEffect();
-            URL url = new File("src/main/java/sample/windows/views/dashboardView.fxml").toURI().toURL();
-            scenePane.getChildren().add(FXMLLoader.load(url));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    void gotoTasks(ActionEvent event) {
+    public void gotoTasks(MouseEvent event) {
         try {
+            // URL url = new File("src/main/java/sample/windows/views/taskView.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/taskView.fxml"));
+            scenePane.getChildren().add(loader.load());
+            resetButtonStyles();
+            setStyleButton(btnTasks);
             transitionEffect();
-            URL url = new File("src/main/java/sample/windows/views/taskView.fxml").toURI().toURL();
-            scenePane.getChildren().add(FXMLLoader.load(url));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void gotoEvents(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/eventView.fxml"));
+            scenePane.getChildren().add(loader.load());
+            resetButtonStyles();
+            setStyleButton(btnEvents);
+            transitionEffect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void gotoNotes(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/noteView.fxml"));
+            scenePane.getChildren().add(loader.load());
+            resetButtonStyles();
+            setStyleButton(btnNotes);
+            transitionEffect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void gotoChats(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/chatView.fxml"));
+            scenePane.getChildren().add(loader.load());
+            resetButtonStyles();
+            setStyleButton(btnChats);
+            transitionEffect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void gotoProfile(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/profileView.fxml"));
+            scenePane.getChildren().add(loader.load());
+            ProfileViewController profileViewController = loader.getController();
+            profileViewController.setMainController(this);
+            resetButtonStyles();
+            setStyleButton(btnProfile);
+            transitionEffect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void gotoContacts(MouseEvent event){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/contactView.fxml"));
+            scenePane.getChildren().add(loader.load());
+            resetButtonStyles();
+            setStyleButton(btnOptions);
+            transitionEffect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void gotoGroups(MouseEvent event){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("windows/views/groupView.fxml"));
+            scenePane.getChildren().add(loader.load());
+            GroupViewController groupViewController = loader.getController();
+            groupViewController.setMainController(this);
+            resetButtonStyles();
+            setStyleButton(btnOptions);
+            transitionEffect();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,5 +260,15 @@ public class MainController implements Initializable {
         fadeTransition.setToValue(1);
         fadeTransition.play();
 
+    }
+
+    public void updateAvatar() {
+        rectAvatar.setFill(new ImagePattern(new Image(Data.userData.getAvatarUser().getUrl(), rectAvatar.getWidth(), rectAvatar.getHeight(), true, false)));
+    }
+
+    public void openDialogPane(AnchorPane pane){
+        dialogPane.getChildren().clear();
+        dialogPane.getChildren().add(pane);
+        dialogPane.setVisible(true);
     }
 }

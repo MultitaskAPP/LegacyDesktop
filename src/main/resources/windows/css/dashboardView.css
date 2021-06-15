@@ -1,0 +1,136 @@
+@font-face {
+    font-family: Roboto-Regular;
+    src: url('../res/fonts/Roboto-Regular.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: Roboto-Thin;
+    src: url('../res/fonts/Roboto-Thin.ttf') format('ttf');}
+
+@font-face {
+    font-family: Roboto-Medium;
+    src: url('../res/fonts/Roboto-Medium.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: Roboto-Light;
+    src: url('../res/fonts/Roboto-Light.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: Roboto-Bold;
+    src: url('../res/fonts/Roboto-Bold.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: Roboto-Black;
+    src: url('../res/fonts/Roboto-Black.ttf') format('ttf');
+}
+
+#tvDay {
+    -fx-font-family: "Roboto Medium";
+    -fx-font-size: 96;
+}
+
+#tvMonth{
+    -fx-font-family: "Roboto Medium";
+    -fx-font-size: 40;
+}
+
+#tagSummary,
+#tagEventsHeader, #tagTasksHeader, #tagCalendarHeader {
+    -fx-font-family: "Roboto Medium";
+    -fx-font-size: 30;
+}
+
+.date-picker-popup{
+    -fx-background-color: transparent;
+}
+.date-picker-popup .calendar-grid {
+    -fx-pref-width: 300.0;
+    -fx-pref-height: 300.0;
+    -fx-background-color: transparent;
+}
+.date-picker-popup .spinner-label {
+    -fx-font-size: 15.0;
+    -fx-text-fill: white;
+}
+.date-picker-popup > * > .spinner > .left-button,
+.date-picker-popup > * > .spinner > .right-button,
+.date-picker-popup > * > .spinner > .left-button.selected,
+.date-picker-popup > * > .spinner > .right-button.selected {
+    -fx-background-color: transparent;
+}
+
+.date-picker-popup > .month-year-pane  {
+    -fx-background-color: transparent;
+}
+
+.date-picker-popup > * > .date-cell {
+    -fx-background-color: #32323E;
+    -fx-background-radius: 7;
+    -fx-border-color: transparent;
+    -fx-background-insets: 5;
+    -fx-pref-height: 50;
+    -fx-pref-width: 50;
+    -fx-padding: 0;
+    -fx-alignment: BASELINE_CENTER;
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+}
+
+.date-picker-popup > * > .today.selected,
+.date-picker-popup > * > .date-cell.selected {
+    -fx-background-color: #4B4B57;
+    -fx-font-weight: bold;
+    -fx-border-color: white;
+    -fx-border-width: 1;
+    -fx-border-insets: 5;
+    -fx-border-radius: 5;
+}
+
+.date-picker-popup > * > .previous-month,
+.date-picker-popup > * > .next-month {
+    -fx-opacity: 0.4;
+    -fx-text-fill: #B8C5D3;
+}
+
+.date-picker-popup > * > .day-name-cell,
+.date-picker-popup > * > .week-number-cell {
+    -fx-background-color: transparent
+}
+
+.date-picker-popup > * > .spinner {
+    -fx-spacing: 0.25em; /* 3 */
+    -fx-alignment: CENTER;
+    -fx-fill-height: false;
+    -fx-background-color: transparent;
+    -fx-background-radius: 5;
+}
+
+.scroll-bar{
+    -fx-background-color :#32323E;
+    -fx-border-color :#32323E;
+    -fx-background-radius : 30px;
+    -fx-border-radius: 25px;
+    -fx-border-width: 2px;
+
+}
+
+.scroll-bar .thumb{
+    -fx-background-color :#FFFFFF;
+    -fx-border-color :#FFFFFF;
+    -fx-border-radius: 30px;
+    -fx-border-width: 10px;
+
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow{
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
