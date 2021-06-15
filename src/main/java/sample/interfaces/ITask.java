@@ -28,4 +28,12 @@ public interface ITask {
 
     public boolean deleteGroupTask(Task task);
 
+    public boolean markTaskAsFinished(Task task);
+
+    public boolean markTaskAsUnfinished(Task task);
+
+    public boolean markGroupTaskAsFinished(Task task);
+
+    public boolean markGroupTaskAsUnfinished(Task task);
+
 }

@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -148,8 +149,12 @@ public class TaskViewController implements Initializable {
         taskList = Data.taskManager.getAllTaksBySchedule(s.getIdSchedule(), s.isGroup());
 
         clearListView();
-        listView(s);
         scheduleView(s);
+
+        taskList.sort(Comparator.comparing(Task::getPriorityTask).reversed());
+        taskList.sort(Comparator.comparing(Task::getCreationDate));
+
+        listView(s);
 
         addTaskList.setOnMouseClicked(mouseEvent ->    addTask(s, 0));
 
@@ -174,6 +179,11 @@ public class TaskViewController implements Initializable {
             }else {
                 textArea.setPrefHeight(textArea.getPrefRowCount() * 35);
             }
+
+            for (int i = 0; i < textArea.getText().split("\n").length - 1; i++){
+                textArea.setPrefHeight(textArea.getPrefHeight() + 35);
+            }
+
             textArea.setStyle("-fx-background-radius: 15; -fx-background-color: " + s.getHexCode() + "; -fx-text-fill: white; -fx-font-size: 20; -fx-font-family: 'Roboto Light'");
 
             hBox.getChildren().add(textArea);
@@ -197,6 +207,24 @@ public class TaskViewController implements Initializable {
             mbOptions.setPrefSize(40, 40);
             mbOptions.setStyle("-fx-background-radius: 15; -fx-background-color:  #272730");
 
+            if (t.isFinished()){
+                MenuItem miUnfinish = new MenuItem("Marcar como NO finalizada");
+                if (t.isGroup())
+                    miUnfinish.setOnAction(actionEvent -> unfinishGroupTask(t, s));
+                else
+                    miUnfinish.setOnAction(actionEvent -> unfinishTask(t, s));
+
+                mbOptions.getItems().add(miUnfinish);
+            }else{
+                MenuItem miFinish = new MenuItem("Marcar como finalizada");
+                if (t.isGroup())
+                    miFinish.setOnAction(actionEvent -> finishGroupTask(t, s));
+                else
+                    miFinish.setOnAction(actionEvent -> finishTask(t, s));
+
+                mbOptions.getItems().add(miFinish);
+            }
+
             ImageView imageView = new ImageView();
             // URL url = new File("src/main/java/sample/windows/res/icons/mt_options_icon.png").toURI().toURL();
             imageView.setImage(new Image("windows/res/icons/mt_options_icon.png"));
@@ -211,6 +239,94 @@ public class TaskViewController implements Initializable {
 
             vBoxList.getChildren().add(hBox);
         }
+    }
+
+    private void finishTask(Task t, Schedule s) {
+
+        boolean success = Data.taskManager.markTaskAsFinished(t);
+        if (success){
+            getAllTasks(s);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Tarea marcada como finalizada correctamente");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Error al finalizar la tarea...");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }
+
+    }
+
+    private void finishGroupTask(Task t, Schedule s) {
+
+        boolean success = Data.taskManager.markGroupTaskAsFinished(t);
+        if (success){
+            getAllTasks(s);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Tarea marcada como finalizada correctamente");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Error al finalizar la tarea...");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }
+
+    }
+
+    private void unfinishTask(Task t, Schedule s) {
+
+        boolean success = Data.taskManager.markTaskAsUnfinished(t);
+        if (success){
+            getAllTasks(s);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Tarea desmarcada como finalizada correctamente");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Error al desfinalizar la tarea...");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }
+
+    }
+
+    private void unfinishGroupTask(Task t, Schedule s) {
+
+        boolean success = Data.taskManager.markGroupTaskAsUnfinished(t);
+        if (success){
+            getAllTasks(s);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Tarea desmarcada como finalizada correctamente");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("MultitaskAPP");
+            alert.setHeaderText("Error al desfinalizar la tarea...");
+            Data.setBlur();
+            alert.showAndWait();
+            Data.removeBlur();
+        }
+
     }
 
     private void scheduleView(Schedule s){
@@ -275,6 +391,10 @@ public class TaskViewController implements Initializable {
                         textArea.setPrefHeight(25);
                     }else {
                         textArea.setPrefHeight(textArea.getPrefRowCount() * 20);
+                    }
+
+                    for (int j = 0; j < textArea.getText().split("\n").length - 1; j++){
+                        textArea.setPrefHeight(textArea.getPrefHeight() + 20);
                     }
 
                     textArea.setOnMouseClicked(mouseEvent -> updateTask(t, s));

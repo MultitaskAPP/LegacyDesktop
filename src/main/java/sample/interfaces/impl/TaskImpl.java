@@ -285,4 +285,55 @@ public class TaskImpl implements ITask {
         int status = connAPI.getStatus();
         return status == 200;
     }
+
+    @Override
+    public boolean markTaskAsFinished(Task task) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", task.getIdTask());
+
+        ConnAPI connAPI = new ConnAPI("/api/tasks/finishTask", "PUT", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+    }
+
+    @Override
+    public boolean markTaskAsUnfinished(Task task) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", task.getIdTask());
+
+        ConnAPI connAPI = new ConnAPI("/api/tasks/unfinishTask", "PUT", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+    }
+
+    @Override
+    public boolean markGroupTaskAsFinished(Task task) {
+
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", task.getIdTask());
+
+        ConnAPI connAPI = new ConnAPI("/api/tasks/group/finishTask", "PUT", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+    }
+
+    @Override
+    public boolean markGroupTaskAsUnfinished(Task task) {
+        JSONObject requestJSON = new JSONObject();
+        requestJSON.put("id", task.getIdTask());
+
+        ConnAPI connAPI = new ConnAPI("/api/tasks/group/unfinishTask", "PUT", true);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        return connAPI.getStatus() == 200;
+    }
 }

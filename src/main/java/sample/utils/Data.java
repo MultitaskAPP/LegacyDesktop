@@ -12,12 +12,14 @@ import sample.models.Group;
 import sample.models.Notification;
 import sample.models.User;
 
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
 public class Data {
 
@@ -47,6 +49,8 @@ public class Data {
     public static ContactImpl contactManager = new ContactImpl();
     public static NotificationImpl notificationManager = new NotificationImpl();
 
+    public static TrayIcon trayIcon;
+
     public static void storeProperties(Properties properties){
         try(OutputStream outputStream = new FileOutputStream("config.properties")){
             properties.store(outputStream, null);
@@ -69,5 +73,20 @@ public class Data {
         mainStage.getScene().getRoot().setEffect(null);
         mainStage.getScene().getRoot().setDisable(false);
     }
+
+    public static void setTrayIcon(){
+        if (SystemTray.isSupported()){
+            try {
+                SystemTray systemTray = SystemTray.getSystemTray();
+                Image icon = Toolkit.getDefaultToolkit().getImage(Data.class.getClassLoader().getResource("windows/res/icons/multitask_icon.png"));
+                TrayIcon trayIcon = new TrayIcon(icon, "MultitaskAPP");
+                trayIcon.setImageAutoSize(true);
+                systemTray.add(trayIcon);
+            } catch (AWTException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 }

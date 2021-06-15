@@ -32,16 +32,7 @@ public class NotificationImpl implements INotification {
     @Override
     public void showNotification(Notification n) {
         if (SystemTray.isSupported()){
-            try {
-                SystemTray systemTray = SystemTray.getSystemTray();
-                Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("windows/res/icons/multitask_icon.png"));
-                TrayIcon trayIcon = new TrayIcon(icon, "MultitaskAPP");
-                trayIcon.setImageAutoSize(true);
-                systemTray.add(trayIcon);
-                trayIcon.displayMessage("MultitaskAPP", n.getTextNotification(), TrayIcon.MessageType.NONE);
-            } catch (AWTException e) {
-                e.printStackTrace();
-            }
+            Data.trayIcon.displayMessage("MultitaskAPP", n.getTextNotification(), TrayIcon.MessageType.NONE);
         }
     }
 }

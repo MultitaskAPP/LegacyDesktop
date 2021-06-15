@@ -85,6 +85,10 @@ public class NoteViewController implements Initializable {
                 textNote.setPrefHeight(textNote.getPrefRowCount() * 40);
             }
 
+            for (int i = 0; i < textNote.getText().split("\n").length - 1; i++){
+                textNote.setPrefHeight(textNote.getPrefHeight() + 40);
+            }
+
             if (n.isGroup()){
                 Group g = Data.groupManager.getGroupByID(n.getIdGroup());
                 vBoxNote.setStyle("-fx-background-radius: 30; -fx-background-color: " + g.getHexCode());

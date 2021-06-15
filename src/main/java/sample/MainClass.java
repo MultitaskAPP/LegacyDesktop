@@ -56,6 +56,8 @@ public class MainClass extends Application {
                 protected FXMLLoader call() throws Exception {
 
                     getProperties();
+                    Data.setTrayIcon();
+
                     FXMLLoader fxmlLoader1 = new FXMLLoader();
 
                     if (Data.properties.getProperty("tokenLogin") == null){
