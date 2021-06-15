@@ -101,8 +101,8 @@
                <children>
                   <FontAwesomeIcon fx:id="iconBirthday" fill="WHITE" iconName="CALENDAR_ALT" layoutX="24.0" layoutY="47.0" size="2.5em" />
                   <FontAwesomeIcon fx:id="iconLocation" fill="WHITE" iconName="LOCATION_ARROW" layoutX="24.0" layoutY="96.0" size="2.5em" />
-                  <FontAwesomeIcon fx:id="iconTlf" fill="WHITE" iconName="PHONE" layoutX="214.0" layoutY="47.0" size="2.5em" />
-                  <Label fx:id="tagBirthday" layoutX="68.0" layoutY="22.0" prefHeight="17.0" prefWidth="120.0" text="22/01/1998" textFill="WHITE">
+                  <FontAwesomeIcon fx:id="iconTlf" fill="WHITE" iconName="PHONE" layoutX="223.0" layoutY="47.0" size="2.5em" />
+                  <Label fx:id="tagBirthday" layoutX="68.0" layoutY="22.0" prefHeight="30.0" prefWidth="143.0" text="22/01/1998" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -112,7 +112,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="tagTlf" layoutX="251.0" layoutY="22.0" prefHeight="17.0" prefWidth="120.0" text="697878874" textFill="WHITE">
+                  <Label fx:id="tagTlf" layoutX="260.0" layoutY="21.0" prefHeight="30.0" prefWidth="143.0" text="697878874" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>

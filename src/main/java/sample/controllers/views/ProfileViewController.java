@@ -126,11 +126,11 @@ public class ProfileViewController implements Initializable {
 
         tagUsername.setText(Data.userData.getName() + " " + Data.userData.getFirstSurname() + " " + Data.userData.getLastSurname());
         tagEmail.setText(Data.userData.getEmail());
-        tagBirthday.setText(Data.userData.getBirthday().toLocalDate().toString());
-        tagTlf.setText(Integer.toString(Data.userData.getTlf()));
-        tagGroupsNumber.setText(Integer.toString(Data.arrayGroupsUser.size()));
-        tagLocation.setText(Data.userData.getAddress());
+        tagBirthday.setText(Data.userData.getBirthday().toLocalDate().toString().equals("0002-11-30") ? "No disponible" : Data.userData.getBirthday().toLocalDate().toString());
+        tagTlf.setText(Data.userData.getTlf() == 0 ? "No disponible" : Integer.toString(Data.userData.getTlf()));
+        tagLocation.setText(Data.userData.getAddress() == null ? "No disponible" : Data.userData.getAddress());
 
+        tagGroupsNumber.setText(Integer.toString(Data.arrayGroupsUser.size()));
         tagContactsNumber.setText(Integer.toString(Data.contactList.size()));
 
     }
@@ -181,7 +181,8 @@ public class ProfileViewController implements Initializable {
             }
         }else{
             Label tagFriendships = new Label("NO HAY SOLICITUDES DE AMISTAD PENDIENTES");
-            tagFriendships.setStyle("-fx-text-fill: white; -fx-font-size: 15");
+            tagFriendships.setPadding(new Insets(15));
+            tagFriendships.setStyle("-fx-text-fill: white; -fx-font-size: 15; -fx-background-radius: 30;-fx-background-color: #32323E");
             tagFriendships.setAlignment(Pos.CENTER);
             tagFriendships.setPrefSize(430, 35);
             vBoxLogRegister.getChildren().add(tagFriendships);
@@ -204,7 +205,8 @@ public class ProfileViewController implements Initializable {
             }
         }else{
             Label tagFriendships = new Label("NO HAY INVITACIONES DE GRUPOS PENDIENTES");
-            tagFriendships.setStyle("-fx-text-fill: white; -fx-font-size: 15");
+            tagFriendships.setPadding(new Insets(15));
+            tagFriendships.setStyle("-fx-text-fill: white; -fx-font-size: 15; -fx-background-radius: 30;-fx-background-color: #32323E");
             tagFriendships.setAlignment(Pos.CENTER);
             tagFriendships.setPrefSize(430, 35);
             vBoxLogRegister.getChildren().add(tagFriendships);
@@ -424,7 +426,7 @@ public class ProfileViewController implements Initializable {
                 if (Data.userManager.updateColour()){
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("MultitaskAPP");
-                    alert.setHeaderText("Color temático actualizado correctamente, la aplicacion debe ser reiniciada para poder visualizar los cambios");
+                    alert.setHeaderText("Color temático actualizado correctamente, es recomendable reiniciar la aplicacion para que los cambios se apliquen correctamente.");
                     Data.setBlur();
                     alert.showAndWait();
                     Data.removeBlur();

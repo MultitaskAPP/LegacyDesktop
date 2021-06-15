@@ -103,46 +103,51 @@ public class LoginController implements Initializable {
         if (tfEmail.getText().contains("@"))
             validated = true;
 
-        if (validated){
+        if (validated) {
             JSONObject requestJSON = new JSONObject();
             requestJSON.put("email", tfEmail.getText());
             requestJSON.put("pass", Encrypter.hashMD5(pfPassword.getText()));
-
-            ConnAPI connAPI = new ConnAPI("/api/login", "POST", false);
-            connAPI.setData(requestJSON);
-            connAPI.establishConn();
-
-            int status = connAPI.getStatus();
-            switch (status){
-                case 0:
-                    System.out.println("[DEBUG] - Error al contactar con la API");
-                    break;
-
-                case 200:
-                    JSONObject responseJSON = connAPI.getDataJSON();
-                    JSONArray arrayJSON = new JSONArray(responseJSON.getJSONArray("data"));
-                    Data.userData = Data.userManager.getUserData(arrayJSON.getJSONObject(0));
-                    Data.arrayGroupsUser = Data.groupManager.getAllGroups(Data.userData.getIdUser());
-                    Data.contactList = Data.contactManager.getAllContacts();
-                    storeLoginStatus();
-                    gotoMainWindow();
-                    break;
-
-                case 500:
-                    System.out.println("[ERROR] - Datos erroneos...");
-                    pfPassword.clear();
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("MultitaskAPP | DESKTOP");
-                    alert.setHeaderText("Login incorrecto...");
-                    alert.showAndWait();
-                    break;
-            }
+            apiLogin(requestJSON);
         }else {
             System.out.println("[DEBUG] - Datos no válidos...");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("MultitaskAPP | DESKTOP");
             alert.setHeaderText("Datos invalidos...");
             alert.showAndWait();
+        }
+
+    }
+
+    private void apiLogin(JSONObject requestJSON){
+
+        ConnAPI connAPI = new ConnAPI("/api/login", "POST", false);
+        connAPI.setData(requestJSON);
+        connAPI.establishConn();
+
+        int status = connAPI.getStatus();
+        switch (status){
+            case 0:
+                System.out.println("[DEBUG] - Error al contactar con la API");
+                break;
+
+            case 200:
+                JSONObject responseJSON = connAPI.getDataJSON();
+                JSONArray arrayJSON = new JSONArray(responseJSON.getJSONArray("data"));
+                Data.userData = Data.userManager.getUserData(arrayJSON.getJSONObject(0));
+                Data.arrayGroupsUser = Data.groupManager.getAllGroups(Data.userData.getIdUser());
+                Data.contactList = Data.contactManager.getAllContacts();
+                storeLoginStatus();
+                gotoMainWindow();
+                break;
+
+            case 500:
+                System.out.println("[ERROR] - Datos erroneos...");
+                pfPassword.clear();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("MultitaskAPP | DESKTOP");
+                alert.setHeaderText("Login incorrecto...");
+                alert.showAndWait();
+                break;
         }
     }
 
@@ -168,10 +173,14 @@ public class LoginController implements Initializable {
             registerData.put("name", rTfName.getText());
             registerData.put("email", rTfEmail.getText());
             registerData.put("password", Encrypter.hashMD5(rPfPassword1.getText()));
+
             if (!rTfSurname1.getText().isBlank())
                 registerData.put("firstSurname", rTfSurname1.getText());
+            else registerData.put("firstSurname", "");
+
             if (!rTfSurname2.getText().isBlank())
                 registerData.put("lastSurname", rTfSurname2.getText());
+            else registerData.put("lastSurname", "");
 
             // Llamada API para registrar el usuario
 
@@ -191,10 +200,10 @@ public class LoginController implements Initializable {
 
                 case 200:
                     System.out.println("[DEBUG] - Usuario registrado correctamente!");
-                    JSONObject result = responseJSON.getJSONObject("data");
-                    System.out.println(result);
-                    Data.userData = Data.userManager.getUserData(result);
-                    gotoMainWindow();
+                    JSONObject loginJSON = new JSONObject();
+                    loginJSON.put("email", rTfEmail.getText());
+                    loginJSON.put("pass", Encrypter.hashMD5(rPfPassword1.getText()));
+                    apiLogin(loginJSON);
                     break;
 
                 case 500:
