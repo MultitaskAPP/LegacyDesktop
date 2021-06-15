@@ -135,7 +135,6 @@ public class MainController implements Initializable {
     @FXML
     public void gotoDashboard(MouseEvent event) {
         try {
-            // URL url = new File("src/main/java/sample/windows/views/dashboardView.fxml").toURI().toURL();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("windows/views/dashboardView.fxml"));
             scenePane.getChildren().add(loader.load());

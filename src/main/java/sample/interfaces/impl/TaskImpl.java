@@ -250,7 +250,7 @@ public class TaskImpl implements ITask {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("data", task.toJSONObject());
 
-        ConnAPI connAPI = new ConnAPI("/api/tasks/group/updateOne", "PUT", true);
+        ConnAPI connAPI = new ConnAPI("/api/tasks/group/updateOne", "PUT", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -292,7 +292,7 @@ public class TaskImpl implements ITask {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("id", task.getIdTask());
 
-        ConnAPI connAPI = new ConnAPI("/api/tasks/finishTask", "PUT", true);
+        ConnAPI connAPI = new ConnAPI("/api/tasks/finishTask", "PUT", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -305,7 +305,7 @@ public class TaskImpl implements ITask {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("id", task.getIdTask());
 
-        ConnAPI connAPI = new ConnAPI("/api/tasks/unfinishTask", "PUT", true);
+        ConnAPI connAPI = new ConnAPI("/api/tasks/unfinishTask", "PUT", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -318,7 +318,7 @@ public class TaskImpl implements ITask {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("id", task.getIdTask());
 
-        ConnAPI connAPI = new ConnAPI("/api/tasks/group/finishTask", "PUT", true);
+        ConnAPI connAPI = new ConnAPI("/api/tasks/group/finishTask", "PUT", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
@@ -330,7 +330,7 @@ public class TaskImpl implements ITask {
         JSONObject requestJSON = new JSONObject();
         requestJSON.put("id", task.getIdTask());
 
-        ConnAPI connAPI = new ConnAPI("/api/tasks/group/unfinishTask", "PUT", true);
+        ConnAPI connAPI = new ConnAPI("/api/tasks/group/unfinishTask", "PUT", false);
         connAPI.setData(requestJSON);
         connAPI.establishConn();
 
