@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.json.JSONObject;
+import sample.controllers.views.ProfileViewController;
 import sample.models.SocialMedia;
 import sample.models.User;
 import sample.utils.Data;
@@ -34,7 +35,6 @@ public class ProfileEditViewController implements Initializable {
     @FXML    private Button btnUpdateProfile, btnAddSocialMedia;
     @FXML    private ComboBox<SocialMedia> cmbSocialMedia;
 
-    private ArrayList<SocialMedia> arraySocialMedia;
     private boolean hasChanges = false;
 
     @Override
@@ -55,7 +55,6 @@ public class ProfileEditViewController implements Initializable {
 
     }
 
-
     private void setData() {
 
         tfName.setText(Data.userData.getName());
@@ -65,8 +64,8 @@ public class ProfileEditViewController implements Initializable {
         tfAddress.setText(Data.userData.getAddress());
         datePicker.setValue(Data.userData.getBirthday().toLocalDate());
 
-        if(arraySocialMedia != null){
-            cmbSocialMedia.getItems().addAll(arraySocialMedia);
+        if(ProfileViewController.arraySocialMedia != null){
+            cmbSocialMedia.getItems().addAll(ProfileViewController.arraySocialMedia);
 
         }
 
@@ -76,7 +75,7 @@ public class ProfileEditViewController implements Initializable {
 
         if (Data.userData.getSocialMedia() != null){
             JSONObject socialMediaJSON = Data.userData.getSocialMedia();
-            for (SocialMedia socialMedia : arraySocialMedia) {
+            for (SocialMedia socialMedia : ProfileViewController.arraySocialMedia) {
                 if (socialMediaJSON.has(socialMedia.getName())){
                     cmbSocialMedia.getItems().remove(socialMedia);
                     vBoxSocialMedia.getChildren().add(socialMediaView(socialMedia, socialMediaJSON.getString(socialMedia.getName())));
@@ -191,9 +190,5 @@ public class ProfileEditViewController implements Initializable {
 
         return userObj;
 
-    }
-
-    public void setArraySocialMedia(ArrayList<SocialMedia> arraySocialMedia) {
-        this.arraySocialMedia = arraySocialMedia;
     }
 }

@@ -112,6 +112,7 @@ public class Schedule {
         scheduleJSON.put("idGroup", idGroup);
         scheduleJSON.put("listsSchedule", listsSchedules.toString());
         scheduleJSON.put("creationDate", creationDate);
+        scheduleJSON.put("colourSchedule", getHexCode());
 
         return scheduleJSON;
 

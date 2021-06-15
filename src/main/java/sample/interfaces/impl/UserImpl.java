@@ -34,7 +34,8 @@ public class UserImpl implements IUser {
             userObj.setAddress(rawData.getString("address"));
 
         if (!(rawData.isNull("socialMedia")))
-            userObj.setSocialMedia(new JSONObject(rawData.getString("socialMedia")));
+            if (!(rawData.getString("socialMedia").equalsIgnoreCase("undefined")))
+                userObj.setSocialMedia(new JSONObject(rawData.getString("socialMedia")));
 
         if (!(rawData.isNull("privacitySettings")))
             userObj.setPrivacitySettings(new JSONArray(rawData.getString("privacitySettings")));

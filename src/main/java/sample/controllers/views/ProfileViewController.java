@@ -59,7 +59,7 @@ public class ProfileViewController implements Initializable {
     @FXML    private VBox vBoxLogRegister;
     @FXML    private HBox hBoxSocialMedia;
 
-    private ArrayList<SocialMedia> arraySocialMedia;
+    public static ArrayList<SocialMedia> arraySocialMedia;
     private MainController mainController;
     private Color selectedColour;
 
@@ -79,20 +79,19 @@ public class ProfileViewController implements Initializable {
     public void setSocialMedia(HBox hBoxSocialMedia, JSONObject socialMediaJSON, boolean useColor) {
 
         hBoxSocialMedia.getChildren().removeAll();
+        arraySocialMedia = new ArrayList<>(
+                Arrays.asList(
+                        new SocialMedia("twitter", "https://twitter.com/#", "TWITTER", "#5CAAF8"),
+                        new SocialMedia("github", "https://github.com/#", "GITHUB", "#1D1D1D"),
+                        new SocialMedia("facebook", "https://facebook.com/#", "FACEBOOK_SQUARE", "#0335FF"),
+                        new SocialMedia("url", "#", "CHAIN", "#7FFE61"),
+                        new SocialMedia("instagram", "https://instagram.com/#", "INSTAGRAM", "#FF3EF2"),
+                        new SocialMedia("skype", "skype:#?chat", "SKYPE", "#0392FF"),
+                        new SocialMedia("youtube", "https://youtube.com/c/#", "YOUTUBE_PLAY", "#FF3E3E")
+                )
+        );
 
         if (socialMediaJSON != null){
-            arraySocialMedia = new ArrayList<>(
-                    Arrays.asList(
-                            new SocialMedia("twitter", "https://twitter.com/#", "TWITTER", "#5CAAF8"),
-                            new SocialMedia("github", "https://github.com/#", "GITHUB", "#1D1D1D"),
-                            new SocialMedia("facebook", "https://facebook.com/#", "FACEBOOK_SQUARE", "#0335FF"),
-                            new SocialMedia("url", "#", "CHAIN", "#7FFE61"),
-                            new SocialMedia("instagram", "https://instagram.com/#", "INSTAGRAM", "#FF3EF2"),
-                            new SocialMedia("skype", "skype:#?chat", "SKYPE", "#0392FF"),
-                            new SocialMedia("youtube", "https://youtube.com/c/#", "YOUTUBE_PLAY", "#FF3E3E")
-                    )
-            );
-
             for (SocialMedia socialMedia : arraySocialMedia) {
                 if (socialMediaJSON.has(socialMedia.getName())){
                     FontAwesomeIcon icon = socialMedia.getIcon();
@@ -106,8 +105,8 @@ public class ProfileViewController implements Initializable {
                     hBoxSocialMedia.getChildren().add(icon);
                 }
             }
-
         }
+
     }
 
     private void browseURL(String url){
@@ -475,7 +474,6 @@ public class ProfileViewController implements Initializable {
            fxmlLoader.setLocation(getClass().getClassLoader().getResource("windows/dialogs/profileEditView.fxml"));
            paneDialog.getChildren().add(fxmlLoader.load());
            ProfileEditViewController profileEditViewController = fxmlLoader.getController();
-           profileEditViewController.setArraySocialMedia(arraySocialMedia);
            profileEditViewController.preloadData();
            paneDialog.setDisable(false);
            paneDialog.setVisible(true);

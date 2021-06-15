@@ -94,6 +94,7 @@ public class DashboardViewController implements Initializable {
 
         listEvents.removeIf(e -> LocalDate.now().isAfter(e.getDateStart().toLocalDate()));
         listEvents.removeIf(e -> !e.getDateStart().toLocalDate().isBefore(LocalDate.now().plusDays(30)));
+        listEvents.sort(Comparator.comparing(Event::getDateStart));
 
         if (listEvents.size() > 0){
             if (listEvents.size() > 5){
@@ -153,6 +154,7 @@ public class DashboardViewController implements Initializable {
         taskList.addAll(tasksUser);
         taskList.addAll(tasksGroups);
         taskList.removeIf(Task::isFinished);
+        taskList.sort(Comparator.comparing(Task::getPriorityTask).reversed());
         taskList.sort(Comparator.comparing(Task::getCreationDate));
 
         if (taskList.size() > 0){
@@ -264,7 +266,7 @@ public class DashboardViewController implements Initializable {
         VBox vBoxDate = new VBox();
         vBoxDate.setPrefSize(75, 55);
         vBoxDate.setAlignment(Pos.CENTER);
-        vBoxDate.setStyle("-fx-background-color:  #32323E; -fx-background-radius: 20");
+        vBoxDate.setStyle("-fx-background-color:  #32323E; -fx-background-radius: 60");
 
         Label tagDate = new Label(e.getDateStart().toLocalDate().getDayOfMonth() + e.getDateStart().toLocalDate().getMonth().getDisplayName(TextStyle.NARROW, new Locale("es", "ES")));
 
@@ -312,10 +314,12 @@ public class DashboardViewController implements Initializable {
 
 
         if (t.isGroup()){
-            Schedule s = getSchedule(t.getIdSchedule(), true);
-            hBoxTask.setStyle("-fx-background-radius: 60; -fx-background-color: " + s.getHexCode());
+            Schedule s = getGroupSchedule(t.getIdSchedule());
+            Group g = Data.groupManager.getGroupByID(s.getIdGroup());
+            hBoxTask.setStyle("-fx-background-radius: 60; -fx-background-color: " + g.getHexCode());
         }else{
-            hBoxTask.setStyle("-fx-background-radius: 60; -fx-background-color: #272730");
+            Schedule s = getSchedule(t.getIdSchedule());
+            hBoxTask.setStyle("-fx-background-radius: 60; -fx-background-color: " + s.getHexCode());
         }
 
         Rectangle rectangle = new Rectangle(40, 40);
@@ -325,7 +329,7 @@ public class DashboardViewController implements Initializable {
 
         Image image = null;
         if (t.isGroup()){
-            Schedule s = getSchedule(t.getIdSchedule(), true);
+            Schedule s = getGroupSchedule(t.getIdSchedule());
             Group g = Data.groupManager.getGroupByID(s.getIdGroup());
             image = new Image(g.getAvatarGroup().getUrl(), 40, 40, true, false);
         }else{
@@ -345,22 +349,24 @@ public class DashboardViewController implements Initializable {
 
     }
 
-    private Schedule getSchedule(int idSchedule, boolean updateList){
-        if (scheduleList == null){
-            scheduleList = Data.scheduleManager.getAllSchedulesByGroup(Data.groupManager.getAllGroupsForSQLQuery());
-        }
+    private Schedule getSchedule(int idSchedule){
+        scheduleList = Data.scheduleManager.getAllSchedulesByUser(Data.userData.getIdUser());
 
         for (Schedule s : scheduleList) {
             if (s.getIdSchedule() == idSchedule)
                 return s;
         }
 
-        // Por si se ha añadido un SCHEDULE recientemente y no estaba en la lista, si no lo encuentra vuelve a actualizar
-        // la lista, si otra vez no lo encuentra entonces devuelve NULL.
+        return null;
 
-        if (updateList){
-            scheduleList = null;
-            getSchedule(idSchedule, false);
+    }
+
+    private Schedule getGroupSchedule(int idSchedule){
+        scheduleList = Data.scheduleManager.getAllSchedulesByGroup(Data.groupManager.getAllGroupsForSQLQuery());
+
+        for (Schedule s : scheduleList) {
+            if (s.getIdSchedule() == idSchedule)
+                return s;
         }
 
         return null;
